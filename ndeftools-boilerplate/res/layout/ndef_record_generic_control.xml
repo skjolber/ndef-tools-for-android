@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:textColor="#FFFFFF"
+     >
+
+    <TextView
+        android:id="@+id/label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/genericControl"
+        android:padding="3dip"
+        android:textColor="#FFFFFF"
+		android:textStyle="bold"
+         />
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="1" >
+
+        <TableRow>
+
+            <TextView
+                android:layout_column="1"
+                android:padding="3dip"
+                android:text="@string/genericControlConfigurationByte"
+				android:textColor="#FFFFFF"
+                 />
+
+            <TextView
+                android:gravity="left"
+                android:padding="3dip"
+        	    android:id="@+id/genericControlConfigurationByteValue"
+				android:textColor="#FFFFFF"
+                 />
+        </TableRow>
+        
+        
+        <TableRow android:id="@+id/genericControlTargetRow">
+
+            <TextView
+                android:layout_column="1"
+                android:padding="3dip"
+                android:text="@string/genericControlTarget"
+				android:textColor="#FFFFFF"
+                 />
+
+            <TextView
+                android:gravity="left"
+                android:padding="3dip"
+        	    android:id="@+id/genericControlTargetValue"
+				android:textColor="#FFFFFF"
+                 />
+        </TableRow>
+        
+        <TableRow android:id="@+id/genericControlActionRow">
+
+            <TextView
+                android:layout_column="1"
+                android:padding="3dip"
+                android:text="@string/genericControlAction"
+				android:textColor="#FFFFFF"
+				android:id="@+id/smartPosterTitleDescriptor"
+                />
+
+            <TextView
+                android:gravity="left"
+                android:padding="3dip"
+        	    android:id="@+id/genericControlActionValue"
+				android:textColor="#FFFFFF"
+            />
+        </TableRow>
+
+        <TableRow android:id="@+id/genericControlDataRow">
+
+            <TextView
+                android:layout_column="1"
+                android:padding="3dip"
+                android:text="@string/genericControlData"
+				android:textColor="#FFFFFF"
+                 />
+
+            <TextView
+                android:gravity="left"
+                android:padding="3dip"
+        	    android:id="@+id/genericControlDataValue"
+				android:textColor="#FFFFFF"
+                 />
+        </TableRow>
+
+
+    </TableLayout>
+
+</LinearLayout>

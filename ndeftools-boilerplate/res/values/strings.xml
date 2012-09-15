@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NDEF Tools boilerplate</string>
+
+    <string name="androidApplication">Android Application</string>
+    <string name="androidApplicationPackageName">Package name</string>
+
+    <string name="absoluteURI">Absolute URI</string>
+    
+    <string name="action">Action</string>
+    <string name="actionAction">Action</string>
+    
+    <string name="alternativeCarrier">Alternative Carrier</string>
+    <string name="alternativeCarrierCarrierPowerState">Carrier power state</string>
+    <string name="alternativeCarrierCarrierDataReference">Carrier data reference</string>
+    <string name="alternativeCarrierAuxiliaryDataReferences">Auxiliary data references</string>
+    
+    <string name="empty">Empty</string>
+    <string name="reserved">Reserved</string>
+    <string name="unchanged">Unchanged</string>
+
+    <string name="external">External</string>
+    <string name="domain">Domain</string>
+    <string name="type">Type</string>
+    <string name="data">Data</string>
+    <string name="dataSize">%d bytes</string>
+    
+    <string name="genericControl">Generic Control</string>
+    <string name="genericControlConfigurationByte">Configuration byte</string>
+    <string name="genericControlTarget">Target</string>
+    <string name="genericControlAction">Action</string>
+    <string name="genericControlData">Data</string>
+    <string name="genericControlDataRecords">%d data records</string>
+    
+    <string name="handoverCarrier">Handover Carrier</string>
+    <string name="handoverCarrierCarrierTypeFormat">Carrier type format</string>
+    <string name="handoverCarrierCarrierType">Carrier type</string>
+    <string name="handoverCarrierCarrierData">Carrier data</string>
+    <string name="handoverCarrierCarrierDataValue">%d bytes</string>
+    
+    <string name="handoverRequest">Handover Request</string>
+    <string name="handoverRequestMajorVersion">Major version</string>
+    <string name="handoverRequestMinorVersion">Minor version</string>
+    <string name="handoverRequestCollisionResolution">Collision resolution</string>
+    <string name="handoverRequestAlternativeCarriers">Alternative carriers</string>
+    
+    <string name="handoverSelect">Handover Select</string>
+    <string name="handoverSelectMajorVersion">Major version</string>
+    <string name="handoverSelectMinorVersion">Minor version</string>
+    <string name="handoverSelectAlternativeCarriers">Alternative carriers</string>
+    <string name="handoverSelectError">Error</string>
+
+    <string name="mimemedia">Mimemedia</string>
+    <string name="mimemediaMimetype">Mimetype</string>
+    <string name="mimemediaSize">Payload size</string>
+    
+    <string name="smartPoster">Smart Poster</string>
+    <string name="smartPosterTitle">Title</string>
+    <string name="smartPosterAction">Action</string>
+    <string name="smartPosterURI">URI</string>
+    
+    <string name="text">Text</string>
+    <string name="textMessage">Message</string>
+    <string name="textEncoding">Encoding</string>
+    <string name="textLocale">Locale</string>
+    
+    <string name="unknown">Unknown</string>
+    <string name="uri">URI</string>
+    
+    <string name="wellknownURI">Well-known URI</string>
+    
+    
+    <string name="nfcMessage">NFC enabled.</string>
+    <string name="noNfcMessage">NFC is not available.</string>
+    <string name="tagNotWritable">Tag is not writable.</string>
+        
+    <string name="ndefUnformattedWriteFailed">Write unformatted tag failed.</string>
+    <string name="ndefFormattedWriteFailed">Write formatted failed.</string>
+    <string name="readEmptyMessage">Read empty message.</string>
+    <string name="readNonNDEFMessage">Read non-NDEF message.</string>
+    <string name="readSingleNDEFMessage">Read single NDEF message.</string>
+    <string name="readMultipleNDEFMessage">Read multiple NDEF messages.</string>
+
+    <string name="wroteUnformattedTag">Wrote unfromatted tag.</string>
+    <string name="wroteFormattedTag">Wrote formatted tag.</string>
+    <string name="cannotWriteTechMessage">Cannot write tech or unformatted tag.</string>
+    <string name="tagTooSmallMessage">Message size %1$d bytes exceeds tag capacity of %2$d bytes.</string>
+
+    <string name="writer">Writer</string>
+    <string name="reader">Reader</string>
+    <string name="beamer">Beamer</string>
+    
+</resources>
