@@ -105,6 +105,10 @@ public class MimeRecord extends Record {
 			return false;
 		return true;
 	}
+
+	public void setData(byte[] data) {
+		this.data = data;
+	}
 	
 	
 }
