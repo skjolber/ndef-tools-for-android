@@ -33,7 +33,6 @@ import org.ndeftools.EmptyRecord;
 import org.ndeftools.MimeRecord;
 import org.ndeftools.Record;
 import org.ndeftools.UnknownRecord;
-import org.ndeftools.boilerplate.R;
 import org.ndeftools.externaltype.AndroidApplicationRecord;
 import org.ndeftools.externaltype.GenericExternalTypeRecord;
 import org.ndeftools.wellknown.Action;

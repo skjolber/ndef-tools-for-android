@@ -27,8 +27,6 @@
 package org.ndeftools.boilerplate;
 
 
-import org.ndeftools.boilerplate.R;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

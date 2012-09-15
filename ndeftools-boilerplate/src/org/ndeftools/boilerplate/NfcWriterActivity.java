@@ -29,7 +29,6 @@ package org.ndeftools.boilerplate;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
-import org.ndeftools.boilerplate.R;
 import org.ndeftools.util.NdefWriter;
 import org.ndeftools.util.NdefWriter.NdefWriterListener;
 

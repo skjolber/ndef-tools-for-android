@@ -2,13 +2,11 @@ package org.ndeftools.boilerplate;
 
 import java.lang.ref.WeakReference;
 
-import org.ndeftools.boilerplate.R;
 import org.ndeftools.wellknown.TextRecord;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
-import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcAdapter.CreateNdefMessageCallback;

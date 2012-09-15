@@ -30,7 +30,6 @@ import java.util.List;
 
 import org.ndeftools.Message;
 import org.ndeftools.Record;
-import org.ndeftools.boilerplate.R;
 import org.ndeftools.util.NdefReader;
 import org.ndeftools.util.NdefReader.NdefReaderListener;
 
