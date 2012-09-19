@@ -19,7 +19,10 @@
 
 package org.ndeftools.util;
 
+import org.ndeftools.Message;
+
 import android.content.Intent;
+import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.os.Parcelable;
@@ -27,7 +30,7 @@ import android.util.Log;
 
 /**
  * 
- * NFC tag reader of NDEF format.
+ * NFC reader of NDEF format helper.
  * 
  * @author Thomas Rorvik Skjolberg
  *
@@ -38,9 +41,11 @@ public class NdefReader {
 
 	public static interface NdefReaderListener {
 
-		void readNdefMessages(NdefMessage[] messages);
+		void readNdefMessage(Message message);
+
+		void readUnparsableNdefMessage(NdefMessage[] rawMessages, Exception e);
 		
-		void readNdefEmptyMessage();
+		void readEmptyNdefMessage();
 
 		void readNonNdefMessage();
 
@@ -69,11 +74,15 @@ public class NdefReader {
 		    }
 		    
 		    if(ndefMessages.length > 0) {
-				listener.readNdefMessages(ndefMessages);
-				
-				return true;
+				try {
+					listener.readNdefMessage(new Message(ndefMessages));
+					
+					return true;
+				} catch (FormatException e) {
+					listener.readUnparsableNdefMessage(ndefMessages, e);
+				}
 		    } else {
-		    	listener.readNdefEmptyMessage();
+		    	listener.readEmptyNdefMessage();
 		    }
 		} else  {
 			listener.readNonNdefMessage();

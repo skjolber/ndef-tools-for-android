@@ -70,7 +70,10 @@
     <string name="wellknownURI">Well-known URI</string>
     
     
-    <string name="nfcMessage">NFC enabled.</string>
+    <string name="nfcAvailableEnabled">NFC available and enabled.</string>
+    <string name="nfcAvailableDisabled">NFC available but disabled.</string>
+    <string name="nfcBeamAvailableEnabled">Beam enabled.</string>
+    <string name="nfcBeamAvailableDisabled">Beam disabled.</string>
     <string name="noNfcMessage">NFC is not available.</string>
     <string name="tagNotWritable">Tag is not writable.</string>
         
@@ -78,16 +81,17 @@
     <string name="ndefFormattedWriteFailed">Write formatted failed.</string>
     <string name="readEmptyMessage">Read empty message.</string>
     <string name="readNonNDEFMessage">Read non-NDEF message.</string>
-    <string name="readSingleNDEFMessage">Read single NDEF message.</string>
-    <string name="readMultipleNDEFMessage">Read multiple NDEF messages.</string>
+    <string name="readUnparsableNDEFMessage">Read NDEF message but was unable to parse.</string>
+    <string name="readSingleRecordNDEFMessage">Read single-record NDEF message.</string>
+    <string name="readMultipleRecordNDEFMessage">Read multi-record NDEF message.</string>
 
     <string name="wroteUnformattedTag">Wrote unfromatted tag.</string>
     <string name="wroteFormattedTag">Wrote formatted tag.</string>
     <string name="cannotWriteTechMessage">Cannot write tech or unformatted tag.</string>
     <string name="tagTooSmallMessage">Message size %1$d bytes exceeds tag capacity of %2$d bytes.</string>
 
-    <string name="writer">Writer</string>
+    <string name="writer">Tag writer</string>
     <string name="reader">Reader</string>
-    <string name="beamer">Beamer</string>
+    <string name="beamer">Beam writer</string>
     
 </resources>

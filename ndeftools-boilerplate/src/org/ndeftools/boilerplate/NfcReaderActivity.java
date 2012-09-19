@@ -19,15 +19,15 @@
 
 package org.ndeftools.boilerplate;
 
-import java.util.List;
-
 import org.ndeftools.Message;
+import org.ndeftools.MimeRecord;
 import org.ndeftools.Record;
+import org.ndeftools.externaltype.ExternalTypeRecord;
 import org.ndeftools.util.NdefReader;
 import org.ndeftools.util.NdefReader.NdefReaderListener;
+import org.ndeftools.wellknown.TextRecord;
 
 import android.content.Intent;
-import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,7 +39,7 @@ import android.widget.Toast;
 
 /**
  * 
- * Activity for reading NFC tags.
+ * Activity for reading NFC messages - both via a tag and via Beam
  * 
  * @author Thomas Rorvik Skjolberg
  *
@@ -51,7 +51,7 @@ public class NfcReaderActivity extends NfcDetectorActivity implements NdefReader
 
 	protected NdefReader reader;
 	
-	protected NdefMessage[] messages;
+	protected Message message;
 	
 	protected final int layout;  // for subclassing
 
@@ -71,11 +71,15 @@ public class NfcReaderActivity extends NfcDetectorActivity implements NdefReader
 	}
 	
 	@Override
-	protected void onNfcFeatureFound() {
+	protected void onNfcFeatureFound(boolean enabled) {
 		reader = new NdefReader();
 		reader.setListener(this);
 		
-        toast(getString(R.string.nfcMessage));
+		if(enabled) {
+			toast(getString(R.string.nfcAvailableEnabled));
+		} else {
+			toast(getString(R.string.nfcAvailableDisabled));
+		}
 	}
 
 	@Override
@@ -91,26 +95,24 @@ public class NfcReaderActivity extends NfcDetectorActivity implements NdefReader
 			// do something
 
 			// show in log
-			if(messages != null) {
-				// iterate through all records in all messages (usually only one message)
-				
-				Log.d(TAG, "Found " + messages.length + " NDEF messages");
+			if(message != null) {
+				// iterate through all records in message
+				Log.d(TAG, "Found " + message.size() + " NDEF records");
 
-				for(int i = 0; i < messages.length; i++) {
-
-					byte[] messagePayload = messages[0].toByteArray();
+				for(int k = 0; k < message.size(); k++) {
+					Record record = message.get(k);
 					
-					// parse to records - byte to POJO
-					try {
-						List<Record> records = new Message(messages[0]);
-	
-						Log.d(TAG, "Message " + i + " is of size " + messagePayload.length + " and contains " + records.size() + " records"); // note: after combined chunks, if any.
-	
-						for(int k = 0; k < records.size(); k++) {
-							Log.d(TAG, " Record " + k + " type " + records.get(k).getClass().getSimpleName());
-						}
-					} catch (FormatException e) {
-						Log.d(TAG, "Problem decoding message #" + i, e);
+					Log.d(TAG, "Record " + k + " type " + record.getClass().getSimpleName());
+					
+					// your own code here, for example:
+					if(record instanceof MimeRecord) {
+						// ..
+					} else if(record instanceof ExternalTypeRecord) {
+						// ..
+					} else if(record instanceof TextRecord) {
+						// ..
+					} else { // more else
+						// ..
 					}
 				}
 			}
@@ -123,21 +125,29 @@ public class NfcReaderActivity extends NfcDetectorActivity implements NdefReader
 			clearList();
 		}
 	}
-
+	
 	@Override
-	public void readNdefMessages(NdefMessage[] messages) {
-		if(messages.length > 1) {
-	        toast(getString(R.string.readMultipleNDEFMessage));
+	public void readUnparsableNdefMessage(NdefMessage[] rawMessages, Exception e) {
+		toast(getString(R.string.readUnparsableNDEFMessage) + ": " + e.toString());
+		
+		message = null;
+		
+		// Analyze raw message contents? In that case, parse record for record
+	}
+	
+	@Override
+	public void readNdefMessage(Message message) {
+		if(message.size() > 1) {
+	        toast(getString(R.string.readMultipleRecordNDEFMessage));
 		} else {
-	        toast(getString(R.string.readSingleNDEFMessage));
+	        toast(getString(R.string.readSingleRecordNDEFMessage));
 		}		
 		
-		// save message
-		this.messages = messages;
+		this.message = message;
 	}
 
 	@Override
-	public void readNdefEmptyMessage() {
+	public void readEmptyNdefMessage() {
         toast(getString(R.string.readEmptyMessage));
 	}
 
@@ -153,22 +163,13 @@ public class NfcReaderActivity extends NfcDetectorActivity implements NdefReader
 	}
 
 	private void showList() {
-		if(messages != null && messages.length > 0) {
+		if(message != null && !message.isEmpty()) {
 			
-			// display the first message
-			// parse to records
-			try {
-				List<Record> records = new Message(messages[0]);
-			
-				// show in gui
-				ArrayAdapter<? extends Object> adapter = new NdefRecordAdapter(this, records);
-				ListView listView = (ListView) findViewById(R.id.recordListView);
-				listView.setAdapter(adapter);
-				
-			} catch (FormatException e) {
-				Log.d(TAG, "Problem decoding first message", e);
-			}
-
+			// display the message
+			// show in gui
+			ArrayAdapter<? extends Object> adapter = new NdefRecordAdapter(this, message);
+			ListView listView = (ListView) findViewById(R.id.recordListView);
+			listView.setAdapter(adapter);
 		} else {
 			clearList();
 		}

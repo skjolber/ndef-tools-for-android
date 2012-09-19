@@ -20,7 +20,10 @@
 package org.ndeftools.boilerplate;
 
 import java.lang.ref.WeakReference;
+import java.nio.charset.Charset;
 
+import org.ndeftools.Message;
+import org.ndeftools.externaltype.GenericExternalTypeRecord;
 import org.ndeftools.wellknown.TextRecord;
 
 import android.annotation.TargetApi;
@@ -32,7 +35,6 @@ import android.nfc.NfcAdapter.CreateNdefMessageCallback;
 import android.nfc.NfcAdapter.OnNdefPushCompleteCallback;
 import android.nfc.NfcEvent;
 import android.os.Handler;
-import android.os.Message;
 import android.os.Vibrator;
 import android.util.Log;
 import android.widget.Toast;
@@ -47,18 +49,18 @@ import android.widget.Toast;
  */
 
 @TargetApi(14)
-public class NfcBeamerActivity extends NfcReaderActivity implements CreateNdefMessageCallback, OnNdefPushCompleteCallback {
+public class NfcBeamWriterActivity extends NfcReaderActivity implements CreateNdefMessageCallback, OnNdefPushCompleteCallback {
 
 	private static final int MESSAGE_SENT = 1;
 
-	private static final String TAG = NfcBeamerActivity.class.getSimpleName();
+	private static final String TAG = NfcBeamWriterActivity.class.getSimpleName();
 
-	public NfcBeamerActivity() {
+	public NfcBeamWriterActivity() {
 		super(R.layout.beamer);
 	}
 	
-	protected void onNfcFeatureFound() {
-		super.onNfcFeatureFound();
+	protected void onNfcFeatureFound(boolean enabled) {
+		super.onNfcFeatureFound(enabled);
 		
 		NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
 		
@@ -71,17 +73,28 @@ public class NfcBeamerActivity extends NfcReaderActivity implements CreateNdefMe
 		
 		// Register callback to listen for message-sent success
 		nfcAdapter.setOnNdefPushCompleteCallback(this, this);
+		
+		if(detector.isBeamEnabled()) {
+			toast(getString(R.string.nfcBeamAvailableEnabled));
+		} else {
+			toast(getString(R.string.nfcBeamAvailableDisabled));
+		}
 	}
 
 	@Override
 	public NdefMessage createNdefMessage(NfcEvent event) {
+		
 		Log.d(TAG, "Create message to be beamed");
 		
-		// create record to be pushed
-		TextRecord record = new TextRecord("This is my beam text record");
-
-		// encode one or more record to NdefMessage
-		return new NdefMessage(record.getNdefRecord());
+		// create message to be pushed, for example
+		Message message = new Message();
+		// add text record
+		message.add(new TextRecord("This is my beam text record"));
+		// add 'my' external type record
+		message.add(new GenericExternalTypeRecord("my.domain", "atype", "My data".getBytes(Charset.forName("UTF-8"))));
+					
+		// encode to NdefMessage, will be pushed via beam (now!) (unless there is a collision)
+		return message.getNdefMessage();
 	}
 
 	@Override
@@ -102,7 +115,7 @@ public class NfcBeamerActivity extends NfcReaderActivity implements CreateNdefMe
 		}
 
 		@Override
-		public void handleMessage(Message msg) {
+		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
 			case MESSAGE_SENT:
 				

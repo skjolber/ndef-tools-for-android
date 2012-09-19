@@ -19,6 +19,8 @@
 
 package org.ndeftools.util;
 
+import org.ndeftools.Message;
+
 import android.content.Context;
 import android.content.Intent;
 import android.nfc.NdefMessage;
@@ -37,9 +39,9 @@ import android.util.Log;
  */
 
 
-public class NdefWriter {
+public class NdefTagWriter {
 
-    private static final String TAG = NdefWriter.class.getSimpleName();
+    private static final String TAG = NdefTagWriter.class.getSimpleName();
     
     public static interface NdefWriterListener {
 
@@ -63,11 +65,15 @@ public class NdefWriter {
 	
 	protected NdefWriterListener listener;
 	
-	public NdefWriter(Context context) {
+	public NdefTagWriter(Context context) {
         mNfcAdapter = NfcAdapter.getDefaultAdapter(context);
 	}
+	
+	public boolean write(Message message, Intent intent) {
+		return write(message.getNdefMessage(), intent);
+	}
 
-	public boolean write(NdefMessage message, Intent intent) {
+	public boolean write(NdefMessage rawMessage, Intent intent) {
 		Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
 		
 		NdefFormatable format = NdefFormatable.get(tag);
@@ -75,7 +81,7 @@ public class NdefWriter {
 			Log.d(TAG, "Write unformatted tag");
 		    try {
 		        format.connect();
-		        format.format(message);
+		        format.format(rawMessage);
 		        
         		listener.wroteNdefUnformatted();
 
@@ -98,14 +104,14 @@ public class NdefWriter {
                         
             		    return false;
             		}
-            		if (ndef.getMaxSize() < message.toByteArray().length) {
-            			Log.d(TAG, "Tag size is too small, have " + ndef.getMaxSize() + ", need " + message.toByteArray().length);
+            		if (ndef.getMaxSize() < rawMessage.toByteArray().length) {
+            			Log.d(TAG, "Tag size is too small, have " + ndef.getMaxSize() + ", need " + rawMessage.toByteArray().length);
 
-            			listener.writeNdefTooSmall(message.toByteArray().length, ndef.getMaxSize());
+            			listener.writeNdefTooSmall(rawMessage.toByteArray().length, ndef.getMaxSize());
 
             		    return false;
             		}
-            		ndef.writeNdefMessage(message);
+            		ndef.writeNdefMessage(rawMessage);
             		
             		listener.wroteNdefFormatted();
             		

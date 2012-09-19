@@ -30,7 +30,7 @@ import android.util.Log;
 
 /**
  * 
- * Abstract activity for detecting NFC tags.
+ * Abstract activity for detecting incoming NFC messages.
  * 
  * @author Thomas Rorvik Skjolberg
  *
@@ -57,13 +57,19 @@ public abstract class NfcDetectorActivity extends Activity implements NfcDetecto
     		detector = new NfcDetector(this);
     		detector.setListener(this);
 
-    		onNfcFeatureFound();
+    		onNfcFeatureFound(detector.isEnabled());
     	}
     }
     
     protected abstract void onNfcFeatureNotFound();
     
-    protected abstract void onNfcFeatureFound();
+    /**
+     * Notify that NFC is available
+     * 
+     * @param enabled true if NFC is enabled
+     */
+    
+    protected abstract void onNfcFeatureFound(boolean enabled);
 
     @Override
     protected void onResume() {

@@ -29,7 +29,7 @@ import android.util.Log;
 
 /**
  * 
- * NFC detector for backing of activities.
+ * NFC (incoming) message detector for backing of activities.
  * 
  * @author Thomas Rorvik Skjolberg
  *
@@ -61,6 +61,14 @@ public class NfcDetector {
         nfcPendingIntent = PendingIntent.getActivity(context, 0, new Intent(context, context.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
 	}
 	
+	public boolean isEnabled() {
+		return nfcAdapter.isEnabled();
+	}
+
+	public boolean isBeamEnabled() {
+		return nfcAdapter.isNdefPushEnabled();
+	}
+
 	public void enableForeground() {
         if(!foreground) {
         	Log.d(TAG, "Enable nfc forground mode");

@@ -52,9 +52,9 @@ public class AndroidNfcActivity extends Activity {
     }
     
     public void writer(View view) {
-    	Log.d(TAG, "Show writer");
+    	Log.d(TAG, "Show tag writer");
     	
-    	Intent intent = new Intent(this, NfcWriterActivity.class);
+    	Intent intent = new Intent(this, NfcTagWriterActivity.class);
     	startActivity(intent);
     }
 
@@ -66,9 +66,9 @@ public class AndroidNfcActivity extends Activity {
     }
     
     public void beamer(View view) {
-    	Log.d(TAG, "Show beamer");
+    	Log.d(TAG, "Show beam writer");
     	
-    	Intent intent = new Intent(this, NfcBeamerActivity.class);
+    	Intent intent = new Intent(this, NfcBeamWriterActivity.class);
     	startActivity(intent);
     }
     

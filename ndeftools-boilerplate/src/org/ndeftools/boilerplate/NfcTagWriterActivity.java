@@ -22,8 +22,8 @@ package org.ndeftools.boilerplate;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
-import org.ndeftools.util.NdefWriter;
-import org.ndeftools.util.NdefWriter.NdefWriterListener;
+import org.ndeftools.util.NdefTagWriter;
+import org.ndeftools.util.NdefTagWriter.NdefWriterListener;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -43,17 +43,17 @@ import android.widget.Toast;
  */
 
 
-public class NfcWriterActivity extends NfcDetectorActivity implements NdefWriterListener {
+public class NfcTagWriterActivity extends NfcDetectorActivity implements NdefWriterListener {
 
-	protected NdefWriter writer;
+	protected NdefTagWriter writer;
 
 	protected final int layout; // for subclassing
 	
-	public NfcWriterActivity() {
+	public NfcTagWriterActivity() {
 		this(R.layout.writer);
 	}
 	
-	public NfcWriterActivity(int layout) {
+	public NfcTagWriterActivity(int layout) {
 		this.layout = layout;
 	}
 
@@ -66,11 +66,15 @@ public class NfcWriterActivity extends NfcDetectorActivity implements NdefWriter
 
 	
 	@Override
-	protected void onNfcFeatureFound() {
-		writer = new NdefWriter(this);
+	protected void onNfcFeatureFound(boolean enabled) {
+		writer = new NdefTagWriter(this);
 		writer.setListener(this);
 		
-        toast(getString(R.string.nfcMessage));
+		if(enabled) {
+			toast(getString(R.string.nfcAvailableEnabled));
+		} else {
+			toast(getString(R.string.nfcAvailableDisabled));
+		}
 	}
 
 	
