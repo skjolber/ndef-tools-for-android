@@ -23,6 +23,7 @@ import java.util.Arrays;
 
 import org.ndeftools.externaltype.ExternalTypeRecord;
 import org.ndeftools.wellknown.ActionRecord;
+import org.ndeftools.wellknown.GcActionRecord;
 import org.ndeftools.wellknown.GcDataRecord;
 import org.ndeftools.wellknown.GcTargetRecord;
 import org.ndeftools.wellknown.GenericControlRecord;
@@ -205,7 +206,7 @@ public abstract class Record {
         	}
         	case 'a' : {
         		
-        		return UriRecord.parseNdefRecord(ndefRecord);
+        		return GcActionRecord.parseNdefRecord(ndefRecord);
         	}
         	}
         	

@@ -45,7 +45,7 @@ public class GcActionRecord extends Record {
 		if ((payload[0] & GcActionRecord.NUMERIC_CODE) != 0) {
 			return new GcActionRecord(Action.getActionByValue(payload[1]));
 		} else {
-			return new GcActionRecord(Record.parse(payload, 1, payload.length));
+			return new GcActionRecord(Record.parse(payload, 1, payload.length - 1));
 		}
 		
 	}

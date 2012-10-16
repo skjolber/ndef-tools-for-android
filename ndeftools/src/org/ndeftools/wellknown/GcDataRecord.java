@@ -98,6 +98,10 @@ public class GcDataRecord extends Record {
 
 	@Override
 	public NdefRecord getNdefRecord() {
-		return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, type, id, new NdefMessage(records.toArray(new NdefRecord[records.size()])).toByteArray());
+		NdefRecord[] ndefRecords = new NdefRecord[records.size()];
+		for(int i = 0; i < records.size(); i++) {
+			ndefRecords[i] = records.get(i).getNdefRecord();
+		}
+		return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, type, id, new NdefMessage(ndefRecords).toByteArray());
 	}
 }
