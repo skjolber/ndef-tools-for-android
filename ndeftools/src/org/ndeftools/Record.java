@@ -42,6 +42,7 @@ import android.annotation.SuppressLint;
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
+import android.util.Log;
 
 /**
  * 
@@ -76,26 +77,26 @@ public abstract class Record {
     	// normalize message begin and message end messages
 
     	int count = offset;
-    	while(count < length) {
+    	while(count < offset + length) {
     		int headerCount = count;
     		int header = (ndefMessage[count++] & 0xff);
-    		if (count >= length) {
+    		if (count >= offset + length) {
     			return; // invalid, defer error to NdefMessage parsing
     		}
 
     		int typeLength = (ndefMessage[count++] & 0xff);
-    		if (count >= length) {
+    		if (count >= offset + length) {
     			return;  // invalid, defer error to NdefMessage parsing
     		}
 
     		int payloadLength;
     		if((header & FLAG_SR) != 0) {
     			payloadLength = (ndefMessage[count++] & 0xff);
-    			if (count >= length) {
+    			if (count >= offset + length) {
     				return;  // invalid, defer error to NdefMessage parsing
     			}
     		} else {
-    			if (count + 4 >= length) {
+    			if (count + 4 >= offset + length) {
     				return;  // invalid, defer error to NdefMessage parsing
     			}
     			payloadLength = (((ndefMessage[count] & 0xff) << 24) + ((ndefMessage[count + 1]  & 0xff) << 16) + ((ndefMessage[count + 2]  & 0xff) << 8) + ((ndefMessage[count+3]  & 0xff) << 0)); // strictly speaking this is a unsigned int
@@ -110,14 +111,18 @@ public abstract class Record {
     		}
 
     		// repair mb and me
-    		if(headerCount == 0) {
+    		if(headerCount == offset) {
     			// mb
     			header = header | FLAG_MB;
+    		} else {
+    			header = header & ~FLAG_MB;
     		}
 
-    		if(count == length) {
+    		if(count == offset + length) {
     			// me
     			header = header | FLAG_ME;
+    		} else {
+    			header = header & ~FLAG_ME;
     		}
 
 			ndefMessage[headerCount] = (byte)header;
