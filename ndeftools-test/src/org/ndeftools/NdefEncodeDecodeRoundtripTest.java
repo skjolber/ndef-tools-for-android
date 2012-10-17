@@ -17,11 +17,9 @@
  * 
  ****************************************************************************/
 
-package org.ndeftools.test;
+package org.ndeftools;
 
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import junit.framework.TestCase;
@@ -55,8 +53,6 @@ import org.ndeftools.wellknown.handover.HandoverCarrierRecord;
 import org.ndeftools.wellknown.handover.HandoverCarrierRecord.CarrierTypeFormat;
 import org.ndeftools.wellknown.handover.HandoverRequestRecord;
 import org.ndeftools.wellknown.handover.HandoverSelectRecord;
-import org.nfctools.ndef.NdefContext;
-import org.nfctools.ndef.NdefDecoder;
 
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
@@ -65,13 +61,15 @@ import android.util.Log;
 
 /**
  * 
- * Encode using ndeftools decode using nfctools
+ * Record data binding encode/decode roundtrip test.
+ * 
+ * This does not guarantee correctness to the spec but rather check that the implementation is consistant.
  * 
  * @author Thomas Rorvik Skjolberg (skjolber@gmail.com)
  * 
  */
 
-public class NFCToolsDecodeCompatibilityTest extends TestCase {
+public class NdefEncodeDecodeRoundtripTest extends TestCase {
 
 	private static AbsoluteUriRecord absoluteUriRecord = new AbsoluteUriRecord("http://absolute.url");
 	private static ActionRecord actionRecord = new ActionRecord(Action.SAVE_FOR_LATER);
@@ -106,13 +104,16 @@ public class NFCToolsDecodeCompatibilityTest extends TestCase {
 	private static GcDataRecord gcDataRecord = new GcDataRecord();
 	private static GcTargetRecord gcTargetRecord = new GcTargetRecord(new UriRecord("http://ndef.com"));
 	private static GenericControlRecord genericControlRecord = new GenericControlRecord(gcTargetRecord, (byte)0x0);
-
+	
+	
 	public static Record[] records = new Record[] { absoluteUriRecord, actionRecord, androidApplicationRecord,
 			emptyRecord, mimeRecord, textRecord, uriRecord, smartPosterRecord, unknownRecord,
 			collisionResolutionRecord, errorRecord,
 			alternativeCarrierRecord, handoverSelectRecord, handoverCarrierRecord, handoverRequestRecord,
 			
 			signatureRecordMarker, signatureRecord,
+			
+			unsupportedRecord,
 			
 			gcActionRecordAction, gcActionRecordRecord, gcDataRecord, gcTargetRecord, genericControlRecord
 			};
@@ -145,31 +146,37 @@ public class NFCToolsDecodeCompatibilityTest extends TestCase {
 		genericControlRecord.setAction(gcActionRecordAction);
 		genericControlRecord.setTarget(gcTargetRecord);
 		genericControlRecord.setData(gcDataRecord);
-
+		
 	}
 
-	public void testCompatibility() throws FormatException {
-		
-		NdefDecoder ndefMessageDecoder = NdefContext.getNdefDecoder();
-
+	public void testEncodeDecodeRoundtrip() throws Exception {
 		// individually
 		for (Record record : records) {
-			NdefMessage message = new NdefMessage(new NdefRecord[]{record.getNdefRecord()});
+			Record encodedDecodedRecord = Record.parse(record.getNdefRecord());
 			
-			byte[] ndefMessageBytes = message.toByteArray();
-			
-			try {
-				org.nfctools.ndef.Record decodeToRecord = ndefMessageDecoder.decodeToRecord(ndefMessageBytes);
-				
-				Log.d(getClass().getSimpleName(), "Found " + decodeToRecord.getClass().getSimpleName());
-
-			} catch(Exception e) {
-				Log.d(getClass().getSimpleName(), record.getClass().getSimpleName(), e);
-				
-				fail(record.getClass().getSimpleName());
+			if(!record.equals(encodedDecodedRecord)) {
+				fail(record.getClass().getName());
 			}
 		}
 
+		// as message
+		byte[] encoded = new Message(records).getNdefMessage().toByteArray();
+
+		Message decodeToRecords = new Message(new NdefMessage(encoded));
+		for(int i = 0; i < decodeToRecords.size(); i++) {
+			if(!records[i].equals(decodeToRecords.get(i))) {
+				fail(records[i].getClass().getName());
+			}
+		}
+		
+		// check byte level just to make sure
+		byte[] encodedDecodedEncoded = decodeToRecords.getNdefMessage().toByteArray();
+		
+		assertEquals(encoded.length, encodedDecodedEncoded.length);
+		for(int i = 0; i < encoded.length; i++) {
+			assertEquals(Integer.toString(i), encoded[i], encodedDecodedEncoded[i]);
+		}
+		
 	}
 	
 }

@@ -1,4 +1,4 @@
-package org.ndeftools.test;
+package org.ndeftools;
 
 import java.io.UnsupportedEncodingException;
 

@@ -33,6 +33,16 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>nfctools-api</name>
+			<type>2</type>
+			<locationURI>WORKSPACE_LOC/nfctools2/nfctools-api/src/main/java</locationURI>
+		</link>
+		<link>
+			<name>nfctools-ndef</name>
+			<type>2</type>
+			<locationURI>WORKSPACE_LOC/nfctools2/nfctools-ndef/src/main/java</locationURI>
+		</link>
+		<link>
 			<name>src-main</name>
 			<type>2</type>
 			<location>/home/thomas/workspaces/nfc/Diverse/nfctools-android/src</location>
