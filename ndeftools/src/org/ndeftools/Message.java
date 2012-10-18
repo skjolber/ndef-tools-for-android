@@ -41,7 +41,7 @@ public class Message extends ArrayList<Record> {
 	
 	private static final long serialVersionUID = 1L;
 
-	public static List<Record> parseNdefMessage(byte[] payload) throws FormatException {
+	public static Message parseNdefMessage(byte[] payload) throws FormatException {
 		return new Message(new NdefMessage(payload));
 	}
 	
