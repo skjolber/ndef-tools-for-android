@@ -24,16 +24,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import org.ndeftools.Message;
-import org.ndeftools.MimeRecord;
-import org.ndeftools.android.test.R;
 import org.ndeftools.externaltype.AndroidApplicationRecord;
-import org.ndeftools.wellknown.handover.AlternativeCarrierRecord;
-import org.ndeftools.wellknown.handover.CollisionResolutionRecord;
-import org.ndeftools.wellknown.handover.HandoverRequestRecord;
-import org.ndeftools.wellknown.handover.HandoverSelectRecord;
 
-import android.nfc.NdefMessage;
+import android.nfc16.NdefMessage;
 import android.test.AndroidTestCase;
 
 /**
@@ -44,6 +37,9 @@ import android.test.AndroidTestCase;
  */
 
 public class NormalizeTest extends AndroidTestCase {
+
+    private static final byte FLAG_MB = (byte) 0x80;
+    private static final byte FLAG_ME = (byte) 0x40;
 
 	public void testNFC16() throws Exception {
 		AndroidApplicationRecord a = new AndroidApplicationRecord();
@@ -64,8 +60,18 @@ public class NormalizeTest extends AndroidTestCase {
 
 		byte[] aBytes = bout.toByteArray();
 		for(int i = 0; i < aBytes.length; i++) {
+			if(i == 0) {
+				int header = (aBytesNormalized[0] & 0xff);
+				assertTrue((header & FLAG_MB) > 0);
+				assertTrue((header & FLAG_ME) > 0);
+			}
 			assertEquals(aBytes[i], aBytesNormalized[i]);
 		}
+		NdefMessage aMessage16 = new NdefMessage(aBytesNormalized);
+
+		Message aMessage = Message.parseNdefMessage(aBytesNormalized);
+
+		assertEquals(a, aMessage.get(0));
 		
 		// then two records, normalization should have effect on headers, i.e. first byte on each record
 		bout.write(b.getNdefRecord().toByteArray());
@@ -80,9 +86,26 @@ public class NormalizeTest extends AndroidTestCase {
 				assertEquals(abBytes[i], abBytesNormalized[i]);
 			} else {
 				assertFalse("Header at " + i + " is equal ", abBytes[i] == abBytesNormalized[i]);
+								
+				int header = (abBytesNormalized[i] & 0xff);
+				if(i == 0) {
+					assertTrue((header & FLAG_MB) > 0);
+					assertFalse((header & FLAG_ME) > 0);
+				} else if(i == aBytes.length) {
+					assertFalse((header & FLAG_MB) > 0);
+					assertTrue((header & FLAG_ME) > 0);
+				}
 			}
+			
+
 		}
+		NdefMessage abMessage16 = new NdefMessage(abBytesNormalized);
 		
+		Message abMessage = Message.parseNdefMessage(abBytesNormalized);
+		
+		assertEquals(a, abMessage.get(0));
+		assertEquals(b, abMessage.get(1));
+
 		// then three record, normalization should affect all three headers differently
 		bout.write(c.getNdefRecord().toByteArray());
 
@@ -96,38 +119,29 @@ public class NormalizeTest extends AndroidTestCase {
 				assertEquals(abcBytes[i], abcBytesNormalized[i]);
 			} else {
 				assertFalse("Header at " + i + " is equal ", abcBytes[i] == abcBytesNormalized[i]);
+				
+				int header = (abcBytesNormalized[i] & 0xff);
+				if(i == 0) {
+					assertTrue((header & FLAG_MB) > 0);
+					assertFalse((header & FLAG_ME) > 0);
+				} else if(i == aBytes.length) {
+					assertFalse((header & FLAG_MB) > 0);
+					assertFalse((header & FLAG_ME) > 0);
+				} else if(i == abBytes.length) {
+					assertFalse((header & FLAG_MB) > 0);
+					assertTrue((header & FLAG_ME) > 0);
+				}
+
 			}
 		}
+		NdefMessage abcMessage16 = new NdefMessage(abcBytesNormalized);
 
+		Message abcMessage = Message.parseNdefMessage(abcBytesNormalized);
+		
+		assertEquals(a, abcMessage.get(0));
+		assertEquals(b, abcMessage.get(1));
+		assertEquals(c, abcMessage.get(2));
 		
 	}
 
-	public byte[] getResource(int resource) throws IOException {
-		InputStream in = getContext().getResources().openRawResource(resource);
-
-		assertNotNull(in);
-
-		try {
-			ByteArrayOutputStream bout = new ByteArrayOutputStream();
-
-			byte[] buffer = new byte[1024];
-
-			int read;
-			do {
-				read = in.read(buffer);
-
-				if (read == -1) {
-					break;
-				}
-				else {
-					bout.write(buffer, 0, read);
-				}
-			} while (true);
-
-			return bout.toByteArray();
-		}
-		finally {
-			in.close();
-		}
-	}
 }
