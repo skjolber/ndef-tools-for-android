@@ -2,14 +2,10 @@ package org.ndeftools;
 
 import java.io.UnsupportedEncodingException;
 
-import org.ndeftools.Message;
-import org.ndeftools.MimeRecord;
-import org.ndeftools.Record;
 import org.ndeftools.externaltype.AndroidApplicationRecord;
 
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
-import android.test.AndroidTestCase;
 import android.util.Log;
 
 /**
@@ -24,7 +20,7 @@ public class ExamplesTest {
 
 	private static final String TAG = ExamplesTest.class.getSimpleName();
 	
-	public void testFrontpageExample() throws UnsupportedEncodingException, FormatException {
+	public void testFrontpageExample1() throws UnsupportedEncodingException, FormatException {
 		AndroidApplicationRecord androidApplicationRecord = new AndroidApplicationRecord();
 		androidApplicationRecord.setPackageName("org.ndeftools.boilerplate");
 		
@@ -32,9 +28,21 @@ public class ExamplesTest {
 		
 		mimeRecord.setMimeType("text/plain");
 		mimeRecord.setData("This is my data".getBytes("UTF-8"));
-		
+
+		Message message = new Message();
+		message.add(androidApplicationRecord);
+		message.add(mimeRecord);
 	}
-	
+
+	public void testFrontpageExample2() throws UnsupportedEncodingException, FormatException {
+		byte[] messageBytes = new byte[]{};
+		try {
+			Message message = Message.parseNdefMessage(messageBytes);
+		} catch(Exception e) {
+			// expected 
+		}
+	}
+
 	public void testFrontPageExample2() throws FormatException {
 		NdefMessage lowLevel = null;
 		

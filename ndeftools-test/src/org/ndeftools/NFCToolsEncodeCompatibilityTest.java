@@ -24,7 +24,6 @@ import junit.framework.TestCase;
 
 import org.nfctools.ndef.NdefConstants;
 import org.nfctools.ndef.NdefContext;
-import org.nfctools.ndef.NdefDecoder;
 import org.nfctools.ndef.NdefEncoder;
 import org.nfctools.ndef.Record;
 import org.nfctools.ndef.auri.AbsoluteUriRecord;

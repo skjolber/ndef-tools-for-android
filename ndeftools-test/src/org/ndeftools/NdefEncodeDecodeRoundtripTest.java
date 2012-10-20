@@ -24,13 +24,6 @@ import java.util.Locale;
 
 import junit.framework.TestCase;
 
-import org.ndeftools.AbsoluteUriRecord;
-import org.ndeftools.EmptyRecord;
-import org.ndeftools.Message;
-import org.ndeftools.MimeRecord;
-import org.ndeftools.Record;
-import org.ndeftools.UnknownRecord;
-import org.ndeftools.UnsupportedRecord;
 import org.ndeftools.externaltype.AndroidApplicationRecord;
 import org.ndeftools.wellknown.Action;
 import org.ndeftools.wellknown.ActionRecord;
@@ -54,10 +47,8 @@ import org.ndeftools.wellknown.handover.HandoverCarrierRecord.CarrierTypeFormat;
 import org.ndeftools.wellknown.handover.HandoverRequestRecord;
 import org.ndeftools.wellknown.handover.HandoverSelectRecord;
 
-import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
-import android.util.Log;
 
 /**
  * 

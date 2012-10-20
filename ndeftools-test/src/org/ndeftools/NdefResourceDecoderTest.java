@@ -22,15 +22,8 @@ package org.ndeftools;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
-import org.ndeftools.Message;
-import org.ndeftools.MimeRecord;
 import org.ndeftools.android.test.R;
-import org.ndeftools.wellknown.handover.AlternativeCarrierRecord;
-import org.ndeftools.wellknown.handover.CollisionResolutionRecord;
-import org.ndeftools.wellknown.handover.HandoverRequestRecord;
-import org.ndeftools.wellknown.handover.HandoverSelectRecord;
 
 import android.nfc.NdefMessage;
 import android.test.AndroidTestCase;

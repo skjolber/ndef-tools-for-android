@@ -20,19 +20,10 @@
 package org.ndeftools;
 
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import junit.framework.TestCase;
 
-import org.ndeftools.AbsoluteUriRecord;
-import org.ndeftools.EmptyRecord;
-import org.ndeftools.Message;
-import org.ndeftools.MimeRecord;
-import org.ndeftools.Record;
-import org.ndeftools.UnknownRecord;
-import org.ndeftools.UnsupportedRecord;
 import org.ndeftools.externaltype.AndroidApplicationRecord;
 import org.ndeftools.wellknown.Action;
 import org.ndeftools.wellknown.ActionRecord;

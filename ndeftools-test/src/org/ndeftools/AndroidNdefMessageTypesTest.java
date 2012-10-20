@@ -29,8 +29,6 @@ package org.ndeftools;
 
 import java.util.Arrays;
 
-import org.ndeftools.MimeRecord;
-import org.ndeftools.Record;
 import org.ndeftools.externaltype.AndroidApplicationRecord;
 import org.ndeftools.externaltype.GenericExternalTypeRecord;
 import org.ndeftools.wellknown.UriRecord;

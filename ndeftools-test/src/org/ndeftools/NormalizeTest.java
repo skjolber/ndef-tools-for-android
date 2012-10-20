@@ -20,9 +20,6 @@
 package org.ndeftools;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
 
 import org.ndeftools.externaltype.AndroidApplicationRecord;
 
