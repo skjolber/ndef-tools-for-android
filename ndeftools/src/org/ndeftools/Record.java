@@ -42,7 +42,6 @@ import android.annotation.SuppressLint;
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
-import android.util.Log;
 
 /**
  * 
