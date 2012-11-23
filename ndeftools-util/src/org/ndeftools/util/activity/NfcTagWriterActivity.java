@@ -48,11 +48,7 @@ public abstract class NfcTagWriterActivity extends NfcDetectorActivity {
 	@Override
 	public void nfcIntentDetected(Intent intent, String action) {
 		// then write
-		if(write(createNdefMessage(), intent)) {
-			// do something
-		} else {
-			// do nothing(?)
-		}
+		write(createNdefMessage(), intent);
 	}
 	
 	public boolean write(Message message, Intent intent) {
@@ -69,7 +65,7 @@ public abstract class NfcTagWriterActivity extends NfcDetectorActivity {
 		        format.connect();
 		        format.format(rawMessage);
 		        
-        		wrteNdefSuccess();
+        		writeNdefSuccess();
 
 		        return true;
 		    } catch (Exception e) {
@@ -100,7 +96,7 @@ public abstract class NfcTagWriterActivity extends NfcDetectorActivity {
             		}
             		ndef.writeNdefMessage(rawMessage);
             		
-            		wrteNdefSuccess();
+            		writeNdefSuccess();
             		
             		return true;
             	} catch (Exception e) {
@@ -174,6 +170,6 @@ public abstract class NfcTagWriterActivity extends NfcDetectorActivity {
 
 	protected abstract void writeNdefCannotWriteTech();
 
-	protected abstract void wrteNdefSuccess();
+	protected abstract void writeNdefSuccess();
 
 }
