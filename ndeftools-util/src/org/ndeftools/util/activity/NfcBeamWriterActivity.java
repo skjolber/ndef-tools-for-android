@@ -32,7 +32,7 @@ import android.util.Log;
 
 /**
  * 
- * 
+ * Beam writer activity. Attempts to beam message. Also reads tag and beam messages.
  * 
  * @author Thomas Rorvik Skjolberg
  *

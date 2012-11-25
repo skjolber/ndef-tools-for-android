@@ -21,6 +21,7 @@
 package org.ndeftools.boilerplate;
 
 
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -54,21 +55,21 @@ public class AndroidNfcActivity extends Activity {
     public void writer(View view) {
     	Log.d(TAG, "Show tag writer");
     	
-    	Intent intent = new Intent(this, NfcTagWriterActivity.class);
+    	Intent intent = new Intent(this, DefaultNfcTagWriterActivity.class);
     	startActivity(intent);
     }
 
     public void reader(View view) {
     	Log.d(TAG, "Show reader");
     	
-    	Intent intent = new Intent(this, NfcReaderActivity.class);
+    	Intent intent = new Intent(this, DefaultNfcReaderActivity.class);
     	startActivity(intent);
     }
     
     public void beamer(View view) {
     	Log.d(TAG, "Show beam writer");
     	
-    	Intent intent = new Intent(this, NfcBeamWriterActivity.class);
+    	Intent intent = new Intent(this, DefaultNfcBeamWriterActivity.class);
     	startActivity(intent);
     }
     

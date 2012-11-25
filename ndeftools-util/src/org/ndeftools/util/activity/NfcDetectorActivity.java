@@ -210,6 +210,12 @@ public abstract class NfcDetectorActivity extends Activity {
         }
     }
     
+    /**
+     * 
+     * Start detecting NDEF messages
+     * 
+     */
+    
     protected void startDetecting() {
     	if(!detecting) {
     		enableForeground();
@@ -217,7 +223,13 @@ public abstract class NfcDetectorActivity extends Activity {
     		detecting = true;
     	}
     }
-    
+
+    /**
+     * 
+     * Stop detecting NDEF messages
+     * 
+     */
+
     protected void stopDetecting() {
     	if(detecting) {
     		disableForeground();
@@ -293,6 +305,14 @@ public abstract class NfcDetectorActivity extends Activity {
 	 */
 	
     protected abstract void onNfcFeatureNotFound();
-    
 
+	public boolean isDetecting() {
+		return detecting;
+	}
+
+	public void setDetecting(boolean detecting) {
+		this.detecting = detecting;
+	}
+    
+    
 }
