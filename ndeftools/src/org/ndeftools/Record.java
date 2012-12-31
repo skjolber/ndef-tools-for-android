@@ -62,15 +62,23 @@ public abstract class Record {
 
 	/**
 	 * 
-	 * Create a message with correct message begin and message end flags, intended for cases with multiple
-	 * records within another record payload.
-	 * 
-	 */
+	 * Modify a sequence of records so that first message has message begin flag and the last message has message end flag.
+     *
+     * @param ndefMessage message to modify
+     */
 	
     protected static void normalizeMessageBeginEnd(byte[] ndefMessage) {
     	normalizeMessageBeginEnd(ndefMessage, 0, ndefMessage.length);
     }
 
+	/**
+	 * 
+	 * Modify a sequence of records so that first message has message begin flag and the last message has message end flag.
+	 * 
+     * @param ndefMessage message to modify
+     * @param offset start offset
+     * @param length number of bytes
+     */
 		
     protected static void normalizeMessageBeginEnd(byte[] ndefMessage, int offset, int length) {
     	// normalize message begin and message end messages
@@ -127,6 +135,14 @@ public abstract class Record {
 			ndefMessage[headerCount] = (byte)header;
     	}
     }
+    
+    /**
+     * Parse a byte-based {@link NdefRecord} into a high-level {@link Record}.
+     * 
+     * @param ndefRecord record to parse
+     * @return corresponding {@link Record} subclass - {@link UnsupportedRecord} is not known.
+     * @throws FormatException if known record type cannot be parsed
+     */
 
 	public static Record parse(NdefRecord ndefRecord) throws FormatException {
 		short tnf = ndefRecord.getTnf();
@@ -182,6 +198,14 @@ public abstract class Record {
 		return record;
 	}
 	
+	/**
+     * Parse a well-known byte-based {@link NdefRecord} into a well-known high-level {@link Record}.
+     * 
+     * @param ndefRecord record to parse
+     * @return corresponding {@link Record} subclass - or null if not known
+     * @throws FormatException if known record type cannot be parsed
+     */
+	
 	protected static Record parseWellKnown(NdefRecord ndefRecord) throws FormatException {
 		
         // lame type search among supported types
@@ -229,23 +253,27 @@ public abstract class Record {
         		if(type[1] == 'p') {
         			return SmartPosterRecord.parseNdefRecord(ndefRecord);
         		}
+        		break;
         	}
         	case 'G' : {
         		if(type[1] == 'c') {
         			return GenericControlRecord.parseNdefRecord(ndefRecord);
         		}
+        		break;
         	}
         	case 'a' : {
         		
         		if(type[1] == 'c') {
         			return AlternativeCarrierRecord.parseNdefRecord(ndefRecord);
         		}
+        		break;
         	}
         	case 'c' : {
         		
         		if(type[1] == 'r') {
         			return CollisionResolutionRecord.parseNdefRecord(ndefRecord);
         		}
+        		break;
         	}
         	case 'H' : {
         		if(type[1] == 'c') {
@@ -255,6 +283,7 @@ public abstract class Record {
         		} else if(type[1] == 'r') {
             		return HandoverRequestRecord.parseNdefRecord(ndefRecord);
             	}
+        		break;
         	}
         	}
         	
@@ -275,13 +304,34 @@ public abstract class Record {
         
 	}
 	
+	/**
+	 * Parse single record.
+	 * 
+     * @param record record to parse
+     * @return corresponding {@link Record} subclass - or null if not known
+     * @throws FormatException if known record type cannot be parsed
+	 * @throws IllegalArgumentException if zero or more than one record
+	 */
+	
 	protected static Record parse(byte[] record) throws FormatException {
 		NdefMessage message = new NdefMessage(record);
 		if(message.getRecords().length != 1) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Single record expected");
 		}
 		return Record.parse(message.getRecords()[0]);
 	}
+	
+	/**
+	 * Parse single record.
+	 * 
+     * @param record record to parse
+     * @param offset start offset
+     * @param length number of bytes
+     * @return corresponding {@link Record} subclass - or null if not known
+     * @throws FormatException if known record type cannot be parsed
+	 * @throws IllegalArgumentException if zero or more than one record
+	 */
+
 	
 	protected static Record parse(byte[] record, int offset, int length) throws FormatException {
 		byte[] recordsPayload = new byte[length];
@@ -292,21 +342,53 @@ public abstract class Record {
 	
 	protected byte[] id = null;
 
+	/**
+	 * Get the record id
+	 * 
+	 * @return
+	 */
+	
 	public byte[] getId() {
 		return id;
 	}
+	
+	/**
+	 * Set the record id
+	 * 
+	 * @param id
+	 */
 
 	public void setId(byte[] id) {
 		this.id = id;
 	}
 
+	/**
+	 * 
+	 * Set record id using string
+	 * 
+	 * @param key
+	 */
+	
 	public void setKey(String key) {
 		this.id = key.getBytes();
 	}
+	
+	/**
+	 * 
+	 * Get record id as string
+	 * 
+	 * @param key
+	 */
 
 	public String getKey() {
 		return id == null ? null : new String(id);
 	}
+
+	/**
+	 * Check whether record id is set.
+	 * 
+	 * @return true if id is not null and length > 0
+	 */
 
 	public boolean hasKey() {
 		return id != null && id.length > 0;
@@ -334,8 +416,20 @@ public abstract class Record {
 		return true;
 	}
 
+	/**
+	 * Convert record to its byte-based {@link NdefRecord} representation.
+	 * 
+	 * @return record in {@link NdefRecord} form.
+	 */
+	
 	public abstract NdefRecord getNdefRecord();
 
+	/**
+	 * Convert record to bytes. 
+	 * 
+	 * @return record in byte form as it was an {@link NdefMessage} with a single record.
+	 */
+	
 	public byte[] toByteArray() {
 		if (android.os.Build.VERSION.SDK_INT >= 16) {
 			return new NdefMessage(getNdefRecord()).toByteArray();
