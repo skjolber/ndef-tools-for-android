@@ -1,0 +1,24 @@
+<project basedir="." default="ndeftools" name="Generate API docs">
+
+    <property 
+        name="android-sdk-docs"
+        value="/home/thomas/android-sdks/docs/reference"/>
+
+    <target name="ndeftools" description="Generate javadoc for NDEF Tools for Android">
+        <property name="project.all.jars.path" value="/home/thomas/android-sdks/platforms/android-17/android.jar"/>
+    	
+        <javadoc 
+        	doctitle="NDEF Tools for Java"
+			destdir="/home/thomas/git/ndef-tools-for-android.wiki/javadoc/ndeftools/"
+			classpath="${project.all.jars.path}" 
+			packagenames="org.ndeftools.*"	
+ 	        stylesheetfile="/home/thomas/git/ndef-tools-for-android.wiki/javadoc/stylesheet.css"
+
+		>
+            <link offline="true"
+                  href="http://d.android.com/reference"
+                  packagelistLoc="/home/thomas/android-sdks/docs/reference" />
+            <fileset dir="src" includes="**/*.java" />
+        </javadoc>
+    </target>
+</project>

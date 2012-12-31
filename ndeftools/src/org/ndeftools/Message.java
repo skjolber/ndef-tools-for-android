@@ -111,7 +111,7 @@ public class Message extends ArrayList<Record> {
 	}
 	
 	/**
-	 * {@link Intent} constructor. Extracts {@link NdefMessage} using key {@link NfcAdapter.EXTRA_NDEF_MESSAGES}.
+	 * {@link Intent} constructor. Extracts {@link NdefMessage} using key {@link NfcAdapter#EXTRA_NDEF_MESSAGES}.
 	 * 
 	 * @param intent intent containing NDEF data
 	 * @throws FormatException if known record type cannot be parsed
@@ -122,9 +122,9 @@ public class Message extends ArrayList<Record> {
 	}
 	
 	/**
-	 * {@link Parcelable[]} constructor. If multiple messages, records are added in natural order.
+	 * {@link Parcelable} array constructor. If multiple messages, records are added in natural order.
 	 * 
-	 * @param ndefMessage
+	 * @param messages {@link NdefMessage}s in {@link Parcelable} array.
 	 * @throws FormatException if known record type cannot be parsed
 	 */
 	
@@ -161,7 +161,7 @@ public class Message extends ArrayList<Record> {
 	/**
 	 * {@link Record} array constructor.
 	 * 
-	 * @param list
+	 * @param records
 	 */
 	
 	public Message(Record[] records) {

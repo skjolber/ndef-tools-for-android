@@ -71,8 +71,6 @@ public class AndroidApplicationRecord extends ExternalTypeRecord {
 	/**
 	 * 
 	 * Set the package name.
-	 * 
-	 * @return
 	 */
 
 	public void setPackageName(String packageName) {
@@ -88,7 +86,7 @@ public class AndroidApplicationRecord extends ExternalTypeRecord {
 	 * 
 	 * Return the package name.
 	 * 
-	 * @return
+	 * @return java package identifier
 	 */
 	
 	public String getPackageName() {

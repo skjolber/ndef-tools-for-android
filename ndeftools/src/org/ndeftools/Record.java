@@ -345,7 +345,7 @@ public abstract class Record {
 	/**
 	 * Get the record id
 	 * 
-	 * @return
+	 * @return record id bytes
 	 */
 	
 	public byte[] getId() {
@@ -376,8 +376,6 @@ public abstract class Record {
 	/**
 	 * 
 	 * Get record id as string
-	 * 
-	 * @param key
 	 */
 
 	public String getKey() {

@@ -84,7 +84,7 @@ public abstract class ExternalTypeRecord extends Record {
 	/**
 	 * Get the domain type data.
 	 * 
-	 * @return
+	 * @return data bytes
 	 */
 	
 	public abstract byte[] getData();
