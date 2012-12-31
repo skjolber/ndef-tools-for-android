@@ -29,7 +29,7 @@ import org.ndeftools.Record;
 import android.nfc.NdefRecord;
 
 /**
- * 
+ * Alternative Carrier Record. <br/><br/>
  * 
  * The record references are established using the URI-based Payload Identification mechanism described in the NDEF
  * specification [NDEF]. The URI reference values SHALL be encoded as relative URIs with the virtual base defined as

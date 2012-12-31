@@ -31,7 +31,9 @@ import android.os.Parcelable;
 
 /**
  * 
- * High-level representation of a {@link NdefMessage}
+ * High-level representation of an {@link NdefMessage}. 
+ * 
+ * An NDEF message is just a list of NDEF records (with start flag in first record and stop flag in last record).
  * 
  * @author Thomas Rorvik Skjolberg (skjolber@gmail.com)
  * 
@@ -41,26 +43,64 @@ public class Message extends ArrayList<Record> {
 	
 	private static final long serialVersionUID = 1L;
 
+    /**
+     * Parse NDEF message bytes into a high-level {@link Message} representation.
+     * 
+     * @param payload record to parse
+	 * @return corresponding {@link Message} consisting of one or more {@link Record}s.
+     * @throws FormatException if known record type cannot be parsed
+	 */
+	
 	public static Message parseNdefMessage(byte[] payload) throws FormatException {
 		return new Message(new NdefMessage(payload));
 	}
 	
+    /**
+     * Parse NDEF message bytes into a high-level {@link Message} representation.
+     * 
+     * @param payload record to parse
+     * @param offset start offset
+     * @param length number of bytes
+	 * @return corresponding {@link Message} consisting of one or more {@link Record}s.
+     * @throws FormatException if known record type cannot be parsed
+	 */
+
 	public static Message parseNdefMessage(byte[] payload, int offset, int length) throws FormatException {
 		byte[] messagePayload = new byte[length];
 		System.arraycopy(payload, offset, messagePayload, 0, length);
 		
 		return new Message(new NdefMessage(messagePayload));
 	}
+	
+	/**
+	 * 
+	 * Default constructor.
+	 * 
+	 */
 
 	public Message() {
 		super();
 	}
 
+	/**
+	 * {@link NdefMessage} constructor.
+	 * 
+	 * @param ndefMessage
+	 * @throws FormatException if known record type cannot be parsed
+	 */
+	
 	public Message(NdefMessage ndefMessage) throws FormatException {
 		for(NdefRecord record : ndefMessage.getRecords()) {
 			add(Record.parse(record));
 		}
 	}
+
+	/**
+	 * Convert record to its byte-based {@link NdefMessage} representation. At least one record needs to be present.
+	 * 
+	 * @return record in {@link NdefMessage} form.
+	 * @throws IllegalArgumentException if zero records.
+	 */
 
 	public NdefMessage getNdefMessage() {
 		NdefRecord[] ndefRecords = new NdefRecord[size()];
@@ -70,14 +110,25 @@ public class Message extends ArrayList<Record> {
 		return new NdefMessage(ndefRecords);
 	}
 	
+	/**
+	 * {@link Intent} constructor. Extracts {@link NdefMessage} using key {@link NfcAdapter.EXTRA_NDEF_MESSAGES}.
+	 * 
+	 * @param intent intent containing NDEF data
+	 * @throws FormatException if known record type cannot be parsed
+	 */
+	
 	public Message(Intent intent) throws FormatException {
 		this(intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES));
 	}
 	
+	/**
+	 * {@link Parcelable[]} constructor. If multiple messages, records are added in natural order.
+	 * 
+	 * @param ndefMessage
+	 * @throws FormatException if known record type cannot be parsed
+	 */
+	
 	public Message(Parcelable[] messages) throws FormatException {
-		if(messages == null) {
-			throw new IllegalArgumentException("Message cannot be null");
-		}
 	    for (int i = 0; i < messages.length; i++) {
 	    	NdefMessage message = (NdefMessage) messages[i];
 	        
@@ -87,14 +138,32 @@ public class Message extends ArrayList<Record> {
 	    }
 	}
 
+	/**
+	 * {@link Record} list constructor.
+	 * 
+	 * @param list
+	 */
+	
 	public Message(List<Record> list) {
 		super(list);
 	}
 
+	/**
+	 * Default constructor with capacity.
+	 * 
+	 * @param capacity message list initial capacity
+	 */
+	
 	public Message(int capacity) {
 		super(capacity);
 	}
 
+	/**
+	 * {@link Record} array constructor.
+	 * 
+	 * @param list
+	 */
+	
 	public Message(Record[] records) {
 		for(Record record : records) {
 			add(record);

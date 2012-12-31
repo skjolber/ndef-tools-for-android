@@ -28,6 +28,16 @@ import android.nfc.FormatException;
 import android.nfc.NdefRecord;
 
 /**
+ * Smart Poster Record.<br/><br/>
+ * 
+ * The URI RTD specifies a way to mark different kinds of URIs and IRIs, but often you need a way to associate metadata with the URI. 
+ * The purpose of the Smart Poster RTD is to provide the necessary wrapper to fulfill the Smart Poster use case, as defined by the NFC Forum.
+ * In the Smart Poster use case, information about an object, event, etc, is somehow attached onto a physical object. 
+ * The typical example is a movie poster which contains a tag with the Smart Poster record. 
+ * When the user touches it with his NFC-enabled device (such as a cell phone or a PDA), a browser window opens and the device connects to the Internet to fetch that data. 
+ * Another possibility might be that the device (if it’s a cell phone) sends an SMS to a number defined on the tag to access some value-added service.
+ * 
+ * The design goal of the Smart Poster was to provide a simple way to access a remote service by using the touch paradigm.
  * 
  * @author Adrian Stabiszewski (as@nfctools.org)
  *

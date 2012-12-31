@@ -26,7 +26,7 @@ import android.nfc.NdefRecord;
 
 /**
  * 
- * Absolute URI Record
+ * Absolute URI Record<br/><br/>
  * 
  * @author Thomas Rorvik Skjolberg (skjolber@gmail.com)
  * 

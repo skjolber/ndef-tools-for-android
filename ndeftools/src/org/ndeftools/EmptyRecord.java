@@ -25,7 +25,7 @@ import android.nfc.NdefRecord;
 
 /**
  * 
- * Empty record.
+ * Empty record.<br/><br/>
  * 
  * @author Thomas Rorvik Skjolberg (skjolber@gmail.com)
  * 

@@ -27,6 +27,9 @@ import org.ndeftools.Record;
 import android.nfc.NdefRecord;
 
 /**
+ * Well-known text record. <br/><br/>
+ * 
+ * Contains text, locale and string encoding. To be used as a lightweight, general purpose text field with support for internationalization and language information.
  * 
  * @author Adrian Stabiszewski (as@nfctools.org)
  *

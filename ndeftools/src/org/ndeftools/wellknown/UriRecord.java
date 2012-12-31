@@ -29,6 +29,9 @@ import android.net.Uri;
 import android.nfc.NdefRecord;
 
 /**
+ * Well-known URI Record. <br/><br/>
+ * 
+ * Contains a single URI as defined by RFC 3986 - represented in a compact manner.
  * 
  * @author Adrian Stabiszewski (as@nfctools.org)
  *

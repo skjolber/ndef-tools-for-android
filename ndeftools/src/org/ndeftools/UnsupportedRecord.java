@@ -24,7 +24,6 @@ import java.util.Arrays;
 import android.nfc.NdefRecord;
 
 /**
- * 
  * A record which is not supported by this system and thus is handled on a byte-buffer level.
  * 
  * @author Thomas Rorvik Skjolberg (skjolber@gmail.com)

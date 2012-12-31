@@ -22,7 +22,10 @@ package org.ndeftools.externaltype;
 import java.nio.charset.Charset;
 
 /**
- * Android Application Record.
+ * Android Application Record. This is an Android-specific record type which attempts to launch the application specified by the package name. 
+ * If no such application exists on the device, Google Play is launched at the corresponding application page.
+ * 
+ * @see <a href="@linkplain http://developer.android.com/guide/topics/connectivity/nfc/nfc.html#aar">Android Application Records</a>
  * 
  * @author Thomas Rorvik Skjolberg (skjolber@gmail.com)
  * 
@@ -54,9 +57,23 @@ public class AndroidApplicationRecord extends ExternalTypeRecord {
 		return packageName != null;
 	}
 	
+	/**
+	 * 
+	 * Check whether the package name match standard java package name conventions.
+	 * 
+	 * @return true if matches
+	 */
+	
 	public boolean matchesNamingConvension() {
 		return packageName.matches(JAVA_PACKAGE_CONVENSION);
 	}
+
+	/**
+	 * 
+	 * Set the package name.
+	 * 
+	 * @return
+	 */
 
 	public void setPackageName(String packageName) {
 		this.packageName = packageName;
@@ -66,6 +83,13 @@ public class AndroidApplicationRecord extends ExternalTypeRecord {
 	public byte[] getData() {
 		return packageName.getBytes(Charset.forName("UTF_8"));
 	}
+	
+	/**
+	 * 
+	 * Return the package name.
+	 * 
+	 * @return
+	 */
 	
 	public String getPackageName() {
 		return packageName;

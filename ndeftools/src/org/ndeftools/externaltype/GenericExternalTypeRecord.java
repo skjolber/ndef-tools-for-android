@@ -20,6 +20,7 @@
 package org.ndeftools.externaltype;
 
 /**
+ * Generic {@link ExternalTypeRecord} for any domain, type and data.
  * 
  * @author Thomas Rorvik Skjolberg (skjolber@gmail.com)
  *

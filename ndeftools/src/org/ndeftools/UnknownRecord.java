@@ -24,7 +24,10 @@ import android.nfc.NdefRecord;
 
 
 /**
- * Unknown record.
+ * Unknown record<br/><br/>
+ * 
+ * This type is used to have a completely application- or context-specific custom NDEF record.
+ * As such, its content will (most likely) be unknown - to others.
  * 
  * @author Thomas Rorvik Skjolberg (skjolber@gmail.com)
  * 

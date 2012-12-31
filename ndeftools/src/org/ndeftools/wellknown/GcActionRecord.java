@@ -26,6 +26,7 @@ import android.nfc.FormatException;
 import android.nfc.NdefRecord;
 
 /**
+ * Generic Control Action Record.<br/><br/>
  * 
  * @author Adrian Stabiszewski (as@nfctools.org)
  *

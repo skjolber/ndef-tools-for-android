@@ -30,6 +30,21 @@ import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 
 /**
+ * Generic control record.<br/><br/>
+ * 
+ * The Generic Control Record Type Definition defines an NFC Forum Well Known Type on how
+ * to activate a specific application or to set a property in a destination device through NFC
+ * communication.<br/><br/>
+ *
+ * The purpose of the Generic Control RTD is to provide a way to request a specific action to an
+ * NFC Forum device (a destination device) from another NFC Forum device, a tag, or a card
+ * (source device) through NFC communication. A MIME type record in an NDEF message can
+ * provide access to an associated function; however, the association is defined solely in the
+ * destination device. It implies that a function to be accessed may differ from device to device
+ * when more than one function shares the same MIME type. To prevent such uncertainty, the
+ * Generic Control RTD allows the message issuer to specify specific functions to be accessed with
+ * the message. Moreover, the NDEF parser does not need to resolve the association of data and
+ * functions.
  * 
  * @author Adrian Stabiszewski (as@nfctools.org)
  *

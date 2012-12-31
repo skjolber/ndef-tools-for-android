@@ -30,6 +30,7 @@ import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 
 /**
+ * Handover Select Record<br/><br/>
  * 
  * The Handover Select Record identifies the alternative carriers that the Handover Selector device selected from the
  * list provided within the previous Handover Request Message. The Handover Selector MAY acknowledge zero, one, or more

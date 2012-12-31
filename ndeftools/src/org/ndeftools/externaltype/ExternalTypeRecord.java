@@ -28,7 +28,7 @@ import android.annotation.SuppressLint;
 import android.nfc.NdefRecord;
 
 /**
- * External type record.
+ * External type record.<br/><br/>
  * 
  * @author Thomas Rorvik Skjolberg (skjolber@gmail.com)
  *
@@ -64,11 +64,29 @@ public abstract class ExternalTypeRecord extends Record {
 	
 	public ExternalTypeRecord() {
 	}
+	
+	/**
+	 * Get the domain
+	 * 
+	 * @return domain
+	 */
 
 	public abstract String getDomain();
+	
+	/**
+	 * Get the type (relevant under the domain)
+	 * 
+	 * @return type
+	 */
 
 	public abstract String getType();
 
+	/**
+	 * Get the domain type data.
+	 * 
+	 * @return
+	 */
+	
 	public abstract byte[] getData();
 
 	@SuppressLint("NewApi")

@@ -25,8 +25,9 @@ import java.util.Arrays;
 import android.nfc.NdefRecord;
 
 /**
+ * Mime Record. <br/><br/>
  * 
- * Mime record for holding binary content.
+ * Mime record for holding mime-type'd binary content.
  * 
  * @author Thomas Rorvik Skjolberg (skjolber@gmail.com)
  *
