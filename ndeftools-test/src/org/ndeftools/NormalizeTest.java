@@ -27,7 +27,13 @@ import android.nfc16.NdefMessage;
 import android.test.AndroidTestCase;
 
 /**
- * Test various parse normalizations
+ * Test various parse normalizations. 
+ * 
+ * The spec is in my view not 100% clear on whether child records should be encoded individually, together or in groups.
+ * 
+ * The implementation target is to accept any of these, i.e. implementation read records until there is no more bytes, ignoring message start
+ * and message end flags. The Android NDEF Message parser however requires that flags are set correctly, without trailing bytes, and so 
+ * instead of creating our own parser for these cases, we normalize (fix) the flags so that the we can use the Android parser.
  * 
  * @author Thomas Rorvik Skjolberg (skjolber@gmail.com)
  * 

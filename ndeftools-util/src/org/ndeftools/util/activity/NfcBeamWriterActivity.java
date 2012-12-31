@@ -32,7 +32,11 @@ import android.util.Log;
 
 /**
  * 
- * Beam writer activity. Attempts to beam message. Also reads tag and beam messages.
+ * Abstract {@link Activity} for beaming (pushing) NDEF messages. Attempts to transmit NDEF message to another NFC-enabled device. <br/><br/>
+ * 
+ * This activity also reads incoming NDEF content from tag and beams.
+ * 
+ * @see <a href="@linkplain http://developer.android.com/guide/topics/connectivity/nfc/nfc.html#p2p">Beaming NDEF Messages to Other Devices</a>
  * 
  * @author Thomas Rorvik Skjolberg
  *

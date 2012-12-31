@@ -33,7 +33,7 @@ import android.util.Log;
 
 /**
  * 
- * Activity for writing NFC tags.
+ * Abstract {@link Activity} for writing NFC tags.
  * 
  * @author Thomas Rorvik Skjolberg
  *
@@ -158,16 +158,56 @@ public abstract class NfcTagWriterActivity extends NfcDetectorActivity {
 		
         return -1;
 	}
+	
+	/**
+	 * 
+	 * Create an NDEF message to be written when a tag is within range.
+	 * 
+	 * @return the message to be written
+	 */
 		
 	protected abstract NdefMessage createNdefMessage();
+	
+	/**
+	 * 
+	 * Writing NDEF message to tag failed.
+	 * 
+	 * @param e exception
+	 */
 
 	protected abstract void writeNdefFailed(Exception e);
-	
+
+	/**
+	 * 
+	 * Tag is not writable or write-protected.
+	 * 
+	 * @param e exception
+	 */
+
 	protected abstract void writeNdefNotWritable();
+
+	/**
+	 * 
+	 * Tag capacity is lower than NDEF message size.
+	 * 
+	 * @param e exception
+	 */
 
 	protected abstract void writeNdefTooSmall(int required, int capacity);
 
+	/**
+	 * 
+	 * Unable to write this type of tag.
+	 * 
+	 */
+	
 	protected abstract void writeNdefCannotWriteTech();
+
+	/**
+	 * 
+	 * Successfully wrote NDEF message to tag.
+	 * 
+	 */
 
 	protected abstract void writeNdefSuccess();
 

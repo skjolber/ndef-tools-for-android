@@ -31,11 +31,11 @@ import android.util.Log;
 
 /**
  * 
- * Abstract activity for detecting incoming NFC messages.
+ * Abstract {@link Activity} for detecting incoming NFC messages.<br/><br/>
  * 
- *  - detects whether NFC is available (if device has NFC chip)
- *  - detect whether NFC setting is on or off, and whether it changes from off to on or on to off
- *  - detect incoming data tags or beams
+ *  - detects whether NFC is available (if device has NFC chip).<br/>
+ *  - detect whether NFC setting is on or off, and whether it changes from off to on or on to off.<br/>
+ *  - detect incoming data tags or beams.<br/>
  * 
  * @author Thomas Rorvik Skjolberg
  *

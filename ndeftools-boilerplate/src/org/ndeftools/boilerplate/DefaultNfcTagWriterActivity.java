@@ -35,12 +35,13 @@ import android.widget.Toast;
 
 /**
  * 
- * Default implementation of {@link NfcTagWriterActivity}.
+ * Activity demonstrating the default implementation of the abstract tag writer activity. 
+ * 
+ * The activity uses a simple layout and displays some toast messages for various events.
  * 
  * @author Thomas Rorvik Skjolberg
  *
  */
-
 
 public class DefaultNfcTagWriterActivity extends NfcTagWriterActivity {
 
@@ -53,6 +54,13 @@ public class DefaultNfcTagWriterActivity extends NfcTagWriterActivity {
 		setDetecting(true);
 
 	}
+	
+	/**
+	 * 
+	 * Create an NDEF message to be written when a tag is within range.
+	 * 
+	 * @return the message to be written
+	 */
 	
 	@Override
 	protected NdefMessage createNdefMessage() {
@@ -68,40 +76,92 @@ public class DefaultNfcTagWriterActivity extends NfcTagWriterActivity {
 		return message.getNdefMessage();
 	}
 	
+	/**
+	 * 
+	 * Writing NDEF message to tag failed.
+	 * 
+	 * @param e exception
+	 */
+	
 	@Override
 	protected void writeNdefFailed(Exception e) {
         toast(getString(R.string.ndefWriteFailed, e.toString()));
 	}
+
+	/**
+	 * 
+	 * Tag is not writable or write-protected.
+	 * 
+	 * @param e exception
+	 */
 
 	@Override
 	public void writeNdefNotWritable() {
         toast(getString(R.string.tagNotWritable));
 	}
 
+	/**
+	 * 
+	 * Tag capacity is lower than NDEF message size.
+	 * 
+	 * @param e exception
+	 */
+
 	@Override
 	public void writeNdefTooSmall(int required, int capacity) {
 		toast(getString(R.string.tagTooSmallMessage,  required, capacity));
 	}
 
+
+	/**
+	 * 
+	 * Unable to write this type of tag.
+	 * 
+	 */
+	
 	@Override
 	public void writeNdefCannotWriteTech() {
         toast(getString(R.string.cannotWriteTechMessage));
 	}
 
+	/**
+	 * 
+	 * Successfully wrote NDEF message to tag.
+	 * 
+	 */
+	
 	@Override
 	protected void writeNdefSuccess() {
         toast(getString(R.string.ndefWriteSuccess));
 	}
 
+   /**
+     * 
+     * NFC feature was found and is currently enabled
+     * 
+     */
+	
 	@Override
 	protected void onNfcStateEnabled() {
 		toast(getString(R.string.nfcAvailableEnabled));
 	}
 
+    /**
+     * 
+     * NFC feature was found but is currently disabled
+     * 
+     */
+
 	@Override
 	protected void onNfcStateDisabled() {
 		toast(getString(R.string.nfcAvailableDisabled));
 	}
+
+	/**
+     * 
+     * NFC setting changed since last check. For example, the user enabled NFC in the wireless settings.
+     * 
+     */
 
 	@Override
 	protected void onNfcStateChange(boolean enabled) {
@@ -112,6 +172,12 @@ public class DefaultNfcTagWriterActivity extends NfcTagWriterActivity {
 		}
 	}
 
+	/**
+	 * 
+	 * This device does not have NFC hardware
+	 * 
+	 */
+	
 	@Override
 	protected void onNfcFeatureNotFound() {
 		toast(getString(R.string.noNfcMessage));

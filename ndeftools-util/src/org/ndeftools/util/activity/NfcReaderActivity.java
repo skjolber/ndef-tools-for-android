@@ -34,7 +34,7 @@ import android.util.Log;
 
 /**
  * 
- * Abstract Activity for reading NFC messages - both via a tag and via Beam
+ * Abstract {@link Activity} for reading NFC messages - both via a tag and via Beam (push)
  * 
  * @author Thomas Rorvik Skjolberg
  *
@@ -79,10 +79,29 @@ public abstract class NfcReaderActivity extends NfcDetectorActivity {
 		}
 	}
 	
+	/**
+	 * An NDEF message was read and parsed
+	 * 
+	 * @param message the message
+	 */
+	
 	protected abstract void readNdefMessage(Message message);
 
+	/**
+	 * An empty NDEF message was read.
+	 * 
+	 */
+	
 	protected abstract void readEmptyNdefMessage();
 
+	/**
+	 * 
+	 * Something was read via NFC, but it was not an NDEF message. 
+	 * 
+	 * Handling this situation is out of scope of this project.
+	 * 
+	 */
+	
 	protected abstract void readNonNdefMessage();
 
 }

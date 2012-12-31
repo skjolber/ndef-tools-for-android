@@ -30,7 +30,7 @@ import android.view.View;
 
 /**
  * 
- * Boilerplate activity selector
+ * Boilerplate activity selector.
  * 
  * @author Thomas Rorvik Skjolberg
  *

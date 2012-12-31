@@ -52,9 +52,9 @@ import android.nfc.NdefRecord;
 
 /**
  * 
- * Record data binding encode/decode roundtrip test.
+ * Record data binding encode/decode round-trip test.
  * 
- * This does not guarantee correctness to the spec but rather check that the implementation is consistant.
+ * This does not guarantee correctness to the specification but rather check that the implementation is consistent.
  * 
  * @author Thomas Rorvik Skjolberg (skjolber@gmail.com)
  * 
