@@ -23,6 +23,7 @@ import org.ndeftools.Message;
 import org.ndeftools.Record;
 import org.ndeftools.UnsupportedRecord;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;

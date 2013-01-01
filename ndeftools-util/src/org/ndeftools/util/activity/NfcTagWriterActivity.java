@@ -21,6 +21,7 @@ package org.ndeftools.util.activity;
 
 import org.ndeftools.Message;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -181,7 +182,6 @@ public abstract class NfcTagWriterActivity extends NfcDetectorActivity {
 	 * 
 	 * Tag is not writable or write-protected.
 	 * 
-	 * @param e exception
 	 */
 
 	protected abstract void writeNdefNotWritable();
@@ -190,7 +190,6 @@ public abstract class NfcTagWriterActivity extends NfcDetectorActivity {
 	 * 
 	 * Tag capacity is lower than NDEF message size.
 	 * 
-	 * @param e exception
 	 */
 
 	protected abstract void writeNdefTooSmall(int required, int capacity);

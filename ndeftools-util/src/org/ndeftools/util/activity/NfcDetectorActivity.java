@@ -75,8 +75,6 @@ public abstract class NfcDetectorActivity extends Activity {
 
     /**
      * Notify that NFC is available
-     * 
-     * @param enabled true if NFC is enabled
      */
     
     protected void onNfcFeatureFound() {    	
