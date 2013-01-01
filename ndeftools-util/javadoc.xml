@@ -20,7 +20,7 @@
                   packagelistLoc="/home/thomas/android-sdks/docs/reference" />
         	
             <link offline="true"
-            	href="http://wiki.nfc-eclipse-plugin.googlecode.com/git/javadoc/ndeftools"
+            	href="http://wiki.ndef-tools-for-android.googlecode.com/git/javadoc/ndeftools"
                   packagelistLoc="/home/thomas/git/ndef-tools-for-android.wiki/javadoc/ndeftools" />
         	
             <fileset dir="src" includes="**/*.java" />
