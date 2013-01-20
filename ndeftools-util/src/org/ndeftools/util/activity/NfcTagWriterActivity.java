@@ -19,6 +19,8 @@
 
 package org.ndeftools.util.activity;
 
+import java.io.IOException;
+
 import org.ndeftools.Message;
 
 import android.app.Activity;
@@ -70,6 +72,12 @@ public abstract class NfcTagWriterActivity extends NfcDetectorActivity {
 		        return true;
 		    } catch (Exception e) {
            		writeNdefFailed(e);
+		    } finally {
+            	try {
+					format.close();
+				} catch (IOException e) {
+					// ignore
+				}
 		    }
 			Log.d(TAG, "Cannot write unformatted tag");
 		} else {
@@ -101,6 +109,12 @@ public abstract class NfcTagWriterActivity extends NfcDetectorActivity {
             		return true;
             	} catch (Exception e) {
             		writeNdefFailed(e);
+	            } finally {
+	            	try {
+						ndef.close();
+					} catch (IOException e) {
+						// ignore
+					}
 	            }
             } else {
             	writeNdefCannotWriteTech();
