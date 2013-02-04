@@ -401,7 +401,7 @@ public class SignatureRecord extends Record {
 	@Override
 	public NdefRecord getNdefRecord() {
 		if(isStartMarker()) {
-			return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, type, id, new byte[]{0x01, 0x00});// version 1 and type 0
+			return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, type, id != null ? id : EMPTY, new byte[]{0x01, 0x00});// version 1 and type 0
 		} else {
 			try {
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -474,7 +474,7 @@ public class SignatureRecord extends Record {
 					baos.write(certificateUriBytes.length & 0xFF);
 					baos.write(certificateUriBytes);
 				}
-				return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, type, id, baos.toByteArray());
+				return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, type, id != null ? id : EMPTY, baos.toByteArray());
 			}
 			catch (IOException e) {
 				throw new RuntimeException(e);

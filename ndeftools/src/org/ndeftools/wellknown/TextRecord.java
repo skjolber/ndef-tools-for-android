@@ -192,6 +192,6 @@ public class TextRecord extends Record {
 		System.arraycopy(languageData, 0, payload, 1, languageData.length);
 		System.arraycopy(textData, 0, payload, 1 + languageData.length, textData.length);
 
-		return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, NdefRecord.RTD_TEXT, id, payload);
+		return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, NdefRecord.RTD_TEXT, id != null ? id : EMPTY, payload);
 	}
 }

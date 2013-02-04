@@ -31,11 +31,4 @@
 		<nature>com.android.ide.eclipse.adt.AndroidNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>src-main</name>
-			<type>2</type>
-			<location>/home/thomas/workspaces/nfc/Diverse/nfctools-android/src</location>
-		</link>
-	</linkedResources>
 </projectDescription>

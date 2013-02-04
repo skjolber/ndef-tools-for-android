@@ -102,6 +102,6 @@ public class GcTargetRecord extends Record {
 			throw new IllegalArgumentException("Expected target identifier");
 		}
 		
-		return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, type, id, targetIdentifier.toByteArray());
+		return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, type, id != null ? id : EMPTY, targetIdentifier.toByteArray());
 	}
 }

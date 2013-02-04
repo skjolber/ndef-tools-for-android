@@ -274,7 +274,7 @@ public class ErrorRecord extends Record {
 			}
 		}
 
-		return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, type, id, payload);
+		return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, type, id != null ? id : EMPTY, payload);
 		
 	}
 }

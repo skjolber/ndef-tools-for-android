@@ -328,6 +328,6 @@ public class HandoverCarrierRecord extends Record {
 			bout.write(carrierData, 0, carrierData.length);
 		}
 
-		return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, NdefRecord.RTD_HANDOVER_CARRIER, id, bout.toByteArray());
+		return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, NdefRecord.RTD_HANDOVER_CARRIER, id != null ? id : EMPTY, bout.toByteArray());
 	}
 }

@@ -246,6 +246,6 @@ public class HandoverRequestRecord extends Record {
 		payload[0] = (byte)((majorVersion << 4) | minorVersion);
 		System.arraycopy(subPayload, 0, payload, 1, subPayload.length);
 		
-		return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, NdefRecord.RTD_HANDOVER_REQUEST, id, payload);
+		return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, NdefRecord.RTD_HANDOVER_REQUEST, id != null ? id : EMPTY, payload);
 	}
 }

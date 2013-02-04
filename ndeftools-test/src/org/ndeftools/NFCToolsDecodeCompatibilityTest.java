@@ -145,7 +145,7 @@ public class NFCToolsDecodeCompatibilityTest extends TestCase {
 
 		// individually
 		for (Record record : records) {
-			NdefMessage message = new NdefMessage(new NdefRecord[]{record.getNdefRecord()});
+			NdefMessage message = new NdefMessage(record.getNdefRecord().toByteArray());
 			
 			byte[] ndefMessageBytes = message.toByteArray();
 			

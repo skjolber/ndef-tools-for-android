@@ -141,7 +141,7 @@ public class GcActionRecord extends Record {
 			throw new IllegalArgumentException("Expected action or action record.");
 		}
 		
-		return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, type, id, payload);
+		return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, type, id != null ? id : EMPTY, payload);
 	}
 	
 }

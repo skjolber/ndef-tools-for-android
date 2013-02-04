@@ -265,6 +265,6 @@ public class AlternativeCarrierRecord extends Record {
 		// reserved future use
 		bout.write(0);
 
-		return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, NdefRecord.RTD_ALTERNATIVE_CARRIER, id, bout.toByteArray());
+		return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, NdefRecord.RTD_ALTERNATIVE_CARRIER, id != null ? id : EMPTY, bout.toByteArray());
 	}
 }

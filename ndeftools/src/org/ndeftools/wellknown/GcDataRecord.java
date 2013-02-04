@@ -102,6 +102,6 @@ public class GcDataRecord extends Record {
 		for(int i = 0; i < records.size(); i++) {
 			ndefRecords[i] = records.get(i).getNdefRecord();
 		}
-		return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, type, id, new NdefMessage(ndefRecords).toByteArray());
+		return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, type, id != null ? id : EMPTY, new NdefMessage(ndefRecords).toByteArray());
 	}
 }

@@ -95,7 +95,7 @@ public class CollisionResolutionRecord extends Record {
 	public NdefRecord getNdefRecord() {
 		byte[] payload = new byte[] { (byte)((randomNumber >> 8) & 0xFF), (byte)(randomNumber & 0xFF) }; // msb, lsb
 
-		return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, type, id, payload);
+		return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, type, id != null ? id : EMPTY, payload);
 	}
 
 }

@@ -100,7 +100,7 @@ public abstract class ExternalTypeRecord extends Record {
 	}	
 	
 	@Deprecated
-    private static NdefRecord createExternal(String domain, String type, byte[] data) {
+    private NdefRecord createExternal(String domain, String type, byte[] data) {
         if (domain == null) throw new NullPointerException("domain is null");
         if (type == null) throw new NullPointerException("type is null");
 
@@ -117,7 +117,8 @@ public abstract class ExternalTypeRecord extends Record {
         b[byteDomain.length] = ':';
         System.arraycopy(byteType, 0, b, byteDomain.length + 1, byteType.length);
 
-        return new NdefRecord(NdefRecord.TNF_EXTERNAL_TYPE, b, null, data);
+        // external type id must be empty
+        return new NdefRecord(NdefRecord.TNF_EXTERNAL_TYPE, b, EMPTY, data != null ? data : EMPTY);
     }
 	
 }

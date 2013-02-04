@@ -88,7 +88,7 @@ public class ActionRecord extends Record {
 		if (!hasAction()) {
 			throw new IllegalArgumentException("Expected action");
 		}
-		return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, type, id, new byte[] {action.getValue()});
+		return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, type, id != null ? id : EMPTY, new byte[] {action.getValue()});
 	}
 
 }

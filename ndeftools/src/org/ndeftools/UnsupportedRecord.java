@@ -112,7 +112,7 @@ public class UnsupportedRecord extends Record {
 
 	@Override
 	public NdefRecord getNdefRecord() {
-		return new NdefRecord(tnf, type, id, payload);
+		return new NdefRecord(tnf, type != null ? type : EMPTY, id != null ? id : EMPTY, payload != null ? payload : EMPTY);
 	}
 
 }

@@ -173,7 +173,7 @@ public class SmartPosterRecord extends Record {
 			message.add(action);
 		}
 		
-		return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, NdefRecord.RTD_SMART_POSTER, id, message.getNdefMessage().toByteArray());
+		return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, NdefRecord.RTD_SMART_POSTER, id != null ? id : EMPTY, message.getNdefMessage().toByteArray());
 		
 	}
 }

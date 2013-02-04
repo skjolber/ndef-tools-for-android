@@ -94,6 +94,6 @@ public class AbsoluteUriRecord extends Record {
 			throw new IllegalArgumentException("Expected URI");
 		}
 		
-		return new NdefRecord(NdefRecord.TNF_ABSOLUTE_URI, AbsoluteUriRecord.TYPE, id, uri.getBytes(Charset.forName("US-ASCII")));
+		return new NdefRecord(NdefRecord.TNF_ABSOLUTE_URI, AbsoluteUriRecord.TYPE, id != null ? id : EMPTY, uri.getBytes(Charset.forName("US-ASCII")));
 	}
 }

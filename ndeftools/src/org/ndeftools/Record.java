@@ -54,6 +54,7 @@ import android.nfc.NdefRecord;
 @SuppressLint("NewApi")
 public abstract class Record {
 
+	protected byte[] EMPTY = new byte[]{};
 
     private static final byte FLAG_MB = (byte) 0x80;
     private static final byte FLAG_ME = (byte) 0x40;

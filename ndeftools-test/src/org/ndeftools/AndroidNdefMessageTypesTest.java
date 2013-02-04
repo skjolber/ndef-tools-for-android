@@ -41,18 +41,31 @@ import android.test.AndroidTestCase;
 @SuppressLint("NewApi")
 public class AndroidNdefMessageTypesTest extends AndroidTestCase {
 
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+	}
+	
 	public void testAndroidApplicationRecord() throws FormatException {
 		String packageName = getClass().getName();
-		NdefRecord ndefRecord = NdefRecord.createApplicationRecord(packageName);
 		
-		Record record = Record.parse(ndefRecord);
+		NdefRecord ndefRecord = android.nfc16.NdefRecord.createApplicationRecord(packageName);
+		
+		Record record = Record.parse(ndefRecord.toByteArray());
 		assertTrue(record instanceof AndroidApplicationRecord);
 		
 		AndroidApplicationRecord androidApplicationRecord = (AndroidApplicationRecord)record;
 		
 		assertEquals(packageName, androidApplicationRecord.getPackageName());
-		
-		assertEquals(ndefRecord, androidApplicationRecord.getNdefRecord());
+
+		NdefRecord ourNdefRecord = androidApplicationRecord.getNdefRecord();
+
+		assertTrue(Arrays.equals(ndefRecord.toByteArray(), ourNdefRecord.toByteArray()));
+
+		if (android.os.Build.VERSION.SDK_INT >= 16) {
+			assertEquals(ndefRecord, ourNdefRecord);
+		}
+
 	}
 	
 	public void testExternalTypeRecord() throws FormatException {
@@ -60,9 +73,9 @@ public class AndroidNdefMessageTypesTest extends AndroidTestCase {
 		String type = "type";
 		byte[] data = new byte[]{0x01};
 		
-		NdefRecord ndefRecord = NdefRecord.createExternal(domain, type, data);
+		NdefRecord ndefRecord = android.nfc16.NdefRecord.createExternal(domain, type, data);
 		
-		Record record = Record.parse(ndefRecord);
+		Record record = Record.parse(ndefRecord.toByteArray());
 		assertTrue(record instanceof GenericExternalTypeRecord);
 		
 		GenericExternalTypeRecord genericExternalTypeRecord = (GenericExternalTypeRecord)record;
@@ -71,15 +84,22 @@ public class AndroidNdefMessageTypesTest extends AndroidTestCase {
 		assertEquals(type, genericExternalTypeRecord.getType());
 		assertTrue(Arrays.equals(data, genericExternalTypeRecord.getData()));
 		
-		assertEquals(ndefRecord, genericExternalTypeRecord.getNdefRecord());
+		NdefRecord ourNdefRecord = genericExternalTypeRecord.getNdefRecord();
+
+		assertTrue(Arrays.equals(ndefRecord.toByteArray(), ourNdefRecord.toByteArray()));
+
+		if (android.os.Build.VERSION.SDK_INT >= 16) {
+			assertEquals(ndefRecord, ourNdefRecord);
+		}
+
 	}
 	
 	public void testMimeRecordBinary() throws FormatException {
 		String mimeType = "image/png";
 		byte[] mimeData = new byte[]{0x01, 0x02, 0x03};
-		NdefRecord ndefRecord = NdefRecord.createMime(mimeType, mimeData);
+		NdefRecord ndefRecord = android.nfc16.NdefRecord.createMime(mimeType, mimeData);
 		
-		Record record = Record.parse(ndefRecord);
+		Record record = Record.parse(ndefRecord.toByteArray());
 		assertTrue(record instanceof MimeRecord);
 		
 		MimeRecord binaryMimeRecord = (MimeRecord)record;
@@ -87,21 +107,35 @@ public class AndroidNdefMessageTypesTest extends AndroidTestCase {
 		assertEquals(mimeType, binaryMimeRecord.getMimeType());
 		assertTrue(Arrays.equals(mimeData, binaryMimeRecord.getData()));
 		
-		assertEquals(ndefRecord, binaryMimeRecord.getNdefRecord());
+		NdefRecord ourNdefRecord = binaryMimeRecord.getNdefRecord();
+
+		assertTrue(Arrays.equals(ndefRecord.toByteArray(), ourNdefRecord.toByteArray()));
+
+		if (android.os.Build.VERSION.SDK_INT >= 16) {
+			assertEquals(ndefRecord, ourNdefRecord);
+		}
+
 	}
 	
 	public void testMimeRecordText() throws FormatException {
 		String uri = "http://www.greenbird.com";
-		NdefRecord ndefRecord = NdefRecord.createUri(uri);
+		NdefRecord ndefRecord = android.nfc16.NdefRecord.createUri(uri);
 		
-		Record record = Record.parse(ndefRecord);
+		Record record = Record.parse(ndefRecord.toByteArray());
 		assertTrue(record instanceof UriRecord);
 		
 		UriRecord uriRecord = (UriRecord)record;
 		
 		assertEquals(uri, uriRecord.getUri().toString());
 		
-		assertEquals(ndefRecord, uriRecord.getNdefRecord());
+		NdefRecord ourNdefRecord = uriRecord.getNdefRecord();
+
+		assertTrue(Arrays.equals(ndefRecord.toByteArray(), ourNdefRecord.toByteArray()));
+
+		if (android.os.Build.VERSION.SDK_INT >= 16) {
+			assertEquals(ndefRecord, ourNdefRecord);
+		}
+
 	}
 
 }

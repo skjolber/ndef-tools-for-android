@@ -21,12 +21,15 @@ package org.ndeftools.wellknown;
 
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.Locale;
 
 import org.ndeftools.Record;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.net.Uri;
 import android.nfc.NdefRecord;
+import android.os.Build;
 
 /**
  * Well-known URI Record. <br/><br/>
@@ -39,6 +42,10 @@ import android.nfc.NdefRecord;
 
 
 public class UriRecord extends Record {
+
+	private static final short TNF_WELL_KNOWN = 0x01;
+
+    private static final byte[] RTD_URI = {0x55};   // "U"
 
 	@SuppressLint("NewApi")
 	public static UriRecord parseNdefRecord(NdefRecord ndefRecord) {
@@ -166,8 +173,43 @@ public class UriRecord extends Record {
 		if(!hasUri()) {
 			throw new IllegalArgumentException("Expected URI");
 		}
-
-		return NdefRecord.createUri(uri);
+		if (android.os.Build.VERSION.SDK_INT >= 14) {
+			return NdefRecord.createUri(uri);
+		} else {
+			return createUri(uri);
+		}
 	}
 
+    @SuppressLint("NewApi")
+	public static android.nfc.NdefRecord createUri(Uri uri) {
+        if (uri == null) throw new NullPointerException("uri is null");
+
+        uri = normalizeScheme(uri);
+        String uriString = uri.toString();
+        if (uriString.length() == 0) throw new IllegalArgumentException("uri is empty");
+
+        byte prefix = 0;
+        for (int i = 1; i < URI_PREFIX_MAP.length; i++) {
+            if (uriString.startsWith(URI_PREFIX_MAP[i])) {
+                prefix = (byte) i;
+                uriString = uriString.substring(URI_PREFIX_MAP[i].length());
+                break;
+            }
+        }
+        byte[] uriBytes = uriString.getBytes(Charset.forName("UTF-8"));
+        byte[] recordBytes = new byte[uriBytes.length + 1];
+        recordBytes[0] = prefix;
+        System.arraycopy(uriBytes, 0, recordBytes, 1, uriBytes.length);
+        
+		return new android.nfc.NdefRecord(TNF_WELL_KNOWN, RTD_URI, new byte[]{}, recordBytes);
+    }
+
+    public static Uri normalizeScheme(Uri uri) {
+        String scheme = uri.getScheme();
+        if (scheme == null) return uri;  // give up
+        String lowerScheme = scheme.toLowerCase(Locale.US);
+        if (scheme.equals(lowerScheme)) return uri;  // no change
+
+        return uri.buildUpon().scheme(lowerScheme).build();
+    }
 }

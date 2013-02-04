@@ -71,7 +71,7 @@ public class MimeRecord extends Record {
 		}
 
 		// the android api normalizes the content type, I dont see why you would want that
-		return new NdefRecord(NdefRecord.TNF_MIME_MEDIA, mimeType.getBytes( Charset.forName("US_ASCII")), id, data);
+		return new NdefRecord(NdefRecord.TNF_MIME_MEDIA, mimeType.getBytes( Charset.forName("US_ASCII")), id != null ? id : EMPTY, data != null ? data : EMPTY);
 	}
 
 	public byte[] getData() {

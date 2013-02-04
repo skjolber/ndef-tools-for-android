@@ -79,6 +79,6 @@ public class UnknownRecord extends Record {
 
 	@Override
 	public NdefRecord getNdefRecord() {
-		return new NdefRecord(NdefRecord.TNF_UNKNOWN, null, id, payload);
+		return new NdefRecord(NdefRecord.TNF_UNKNOWN, EMPTY, id != null ? id : EMPTY, payload != null ? payload : EMPTY);
 	}
 }

@@ -51,6 +51,6 @@ public class EmptyRecord extends Record {
 	
 	@Override
 	public NdefRecord getNdefRecord() {
-		return new NdefRecord(NdefRecord.TNF_EMPTY, null, id, null);
+		return new NdefRecord(NdefRecord.TNF_EMPTY, EMPTY, id != null ? id : EMPTY, EMPTY);
 	}
 }

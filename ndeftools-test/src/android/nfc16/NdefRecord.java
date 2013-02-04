@@ -16,14 +16,19 @@
 
 package android.nfc16;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.nfc.FormatException;
 import android.os.Parcel;
 import android.os.Parcelable;
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Represents an immutable NDEF Record.
@@ -81,6 +86,7 @@ import java.util.List;
  * @see NfcAdapter#ACTION_NDEF_DISCOVERED
  * @see NdefMessage
  */
+@SuppressLint("NewApi")
 public final class NdefRecord implements Parcelable {
     /**
      * Indicates the record is empty.<p>
@@ -225,6 +231,49 @@ public final class NdefRecord implements Parcelable {
     private static final byte FLAG_SR = (byte) 0x10;
     private static final byte FLAG_IL = (byte) 0x08;
 
+    /**
+     * NFC Forum "URI Record Type Definition"<p>
+     * This is a mapping of "URI Identifier Codes" to URI string prefixes,
+     * per section 3.2.2 of the NFC Forum URI Record Type Definition document.
+     */
+    private static final String[] URI_PREFIX_MAP = new String[] {
+            "", // 0x00
+            "http://www.", // 0x01
+            "https://www.", // 0x02
+            "http://", // 0x03
+            "https://", // 0x04
+            "tel:", // 0x05
+            "mailto:", // 0x06
+            "ftp://anonymous:anonymous@", // 0x07
+            "ftp://ftp.", // 0x08
+            "ftps://", // 0x09
+            "sftp://", // 0x0A
+            "smb://", // 0x0B
+            "nfs://", // 0x0C
+            "ftp://", // 0x0D
+            "dav://", // 0x0E
+            "news:", // 0x0F
+            "telnet://", // 0x10
+            "imap:", // 0x11
+            "rtsp://", // 0x12
+            "urn:", // 0x13
+            "pop:", // 0x14
+            "sip:", // 0x15
+            "sips:", // 0x16
+            "tftp:", // 0x17
+            "btspp://", // 0x18
+            "btl2cap://", // 0x19
+            "btgoep://", // 0x1A
+            "tcpobex://", // 0x1B
+            "irdaobex://", // 0x1C
+            "file://", // 0x1D
+            "urn:epc:id:", // 0x1E
+            "urn:epc:tag:", // 0x1F
+            "urn:epc:pat:", // 0x20
+            "urn:epc:raw:", // 0x21
+            "urn:epc:", // 0x22
+    };
+
     private static final int MAX_PAYLOAD_SIZE = 10 * (1 << 20);  // 10 MB payload limit
 
     private static final byte[] EMPTY_BYTE_ARRAY = new byte[0];
@@ -233,6 +282,240 @@ public final class NdefRecord implements Parcelable {
     private final byte[] mType;
     private final byte[] mId;
     private final byte[] mPayload;
+
+    /**
+     * Create a new Android Application Record (AAR).
+     * <p>
+     * This record indicates to other Android devices the package
+     * that should be used to handle the entire NDEF message.
+     * You can embed this record anywhere into your message
+     * to ensure that the intended package receives the message.
+     * <p>
+     * When an Android device dispatches an {@link NdefMessage}
+     * containing one or more Android application records,
+     * the applications contained in those records will be the
+     * preferred target for the {@link NfcAdapter#ACTION_NDEF_DISCOVERED}
+     * intent, in the order in which they appear in the message.
+     * This dispatch behavior was first added to Android in
+     * Ice Cream Sandwich.
+     * <p>
+     * If none of the applications have a are installed on the device,
+     * a Market link will be opened to the first application.
+     * <p>
+     * Note that Android application records do not overrule
+     * applications that have called
+     * {@link NfcAdapter#enableForegroundDispatch}.
+     *
+     * @param packageName Android package name
+     * @return Android application NDEF record
+     */
+    public static android.nfc.NdefRecord createApplicationRecord(String packageName) {
+        if (packageName == null) throw new NullPointerException("packageName is null");
+        if (packageName.length() == 0) throw new IllegalArgumentException("packageName is empty");
+
+		if (android.os.Build.VERSION.SDK_INT >= 16) {
+	        return new android.nfc.NdefRecord(TNF_EXTERNAL_TYPE, RTD_ANDROID_APP, null,
+	                packageName.getBytes(Charset.forName("UTF-8")));
+		} else {
+	        return new android.nfc.NdefRecord(TNF_EXTERNAL_TYPE, RTD_ANDROID_APP, new byte[]{},
+	                packageName.getBytes(Charset.forName("UTF-8")));
+		}
+    }
+
+    /**
+     * Create a new NDEF Record containing a URI.<p>
+     * Use this method to encode a URI (or URL) into an NDEF Record.<p>
+     * Uses the well known URI type representation: {@link #TNF_WELL_KNOWN}
+     * and {@link #RTD_URI}. This is the most efficient encoding
+     * of a URI into NDEF.<p>
+     * The uri parameter will be normalized with
+     * {@link Uri#normalizeScheme} to set the scheme to lower case to
+     * follow Android best practices for intent filtering.
+     * However the unchecked exception
+     * {@link IllegalArgumentException} may be thrown if the uri
+     * parameter has serious problems, for example if it is empty, so always
+     * catch this exception if you are passing user-generated data into this
+     * method.<p>
+     *
+     * Reference specification: NFCForum-TS-RTD_URI_1.0
+     *
+     * @param uri URI to encode.
+     * @return an NDEF Record containing the URI
+     * @throws IllegalArugmentException if the uri is empty or invalid
+     */
+    @SuppressLint("NewApi")
+	public static android.nfc.NdefRecord createUri(Uri uri) {
+        if (uri == null) throw new NullPointerException("uri is null");
+
+        uri = normalizeScheme(uri);
+        String uriString = uri.toString();
+        if (uriString.length() == 0) throw new IllegalArgumentException("uri is empty");
+
+        byte prefix = 0;
+        for (int i = 1; i < URI_PREFIX_MAP.length; i++) {
+            if (uriString.startsWith(URI_PREFIX_MAP[i])) {
+                prefix = (byte) i;
+                uriString = uriString.substring(URI_PREFIX_MAP[i].length());
+                break;
+            }
+        }
+        byte[] uriBytes = uriString.getBytes(Charset.forName("UTF-8"));
+        byte[] recordBytes = new byte[uriBytes.length + 1];
+        recordBytes[0] = prefix;
+        System.arraycopy(uriBytes, 0, recordBytes, 1, uriBytes.length);
+        
+		if (android.os.Build.VERSION.SDK_INT >= 16) {
+			return new android.nfc.NdefRecord(TNF_WELL_KNOWN, RTD_URI, null, recordBytes);
+		} else {
+			return new android.nfc.NdefRecord(TNF_WELL_KNOWN, RTD_URI, new byte[]{}, recordBytes);
+		}
+    }
+
+    public static Uri normalizeScheme(Uri uri) {
+        String scheme = uri.getScheme();
+        if (scheme == null) return uri;  // give up
+        String lowerScheme = scheme.toLowerCase(Locale.US);
+        if (scheme.equals(lowerScheme)) return uri;  // no change
+
+        return uri.buildUpon().scheme(lowerScheme).build();
+    }
+    /**
+     * Create a new NDEF Record containing a URI.<p>
+     * Use this method to encode a URI (or URL) into an NDEF Record.<p>
+     * Uses the well known URI type representation: {@link #TNF_WELL_KNOWN}
+     * and {@link #RTD_URI}. This is the most efficient encoding
+     * of a URI into NDEF.<p>
+      * The uriString parameter will be normalized with
+     * {@link Uri#normalizeScheme} to set the scheme to lower case to
+     * follow Android best practices for intent filtering.
+     * However the unchecked exception
+     * {@link IllegalArgumentException} may be thrown if the uriString
+     * parameter has serious problems, for example if it is empty, so always
+     * catch this exception if you are passing user-generated data into this
+     * method.<p>
+     *
+     * Reference specification: NFCForum-TS-RTD_URI_1.0
+     *
+     * @param uriString string URI to encode.
+     * @return an NDEF Record containing the URI
+     * @throws IllegalArugmentException if the uriString is empty or invalid
+     */
+    public static android.nfc.NdefRecord createUri(String uriString) {
+        return createUri(Uri.parse(uriString));
+    }
+
+    /**
+     * Create a new NDEF Record containing MIME data.<p>
+     * Use this method to encode MIME-typed data into an NDEF Record,
+     * such as "text/plain", or "image/jpeg".<p>
+     * The mimeType parameter will be normalized with
+     * {@link Intent#normalizeMimeType} to follow Android best
+     * practices for intent filtering, for example to force lower-case.
+     * However the unchecked exception
+     * {@link IllegalArgumentException} may be thrown
+     * if the mimeType parameter has serious problems,
+     * for example if it is empty, so always catch this
+     * exception if you are passing user-generated data into this method.
+     * <p>
+     * For efficiency, This method might not make an internal copy of the
+     * mimeData byte array, so take care not
+     * to modify the mimeData byte array while still using the returned
+     * NdefRecord.
+     *
+     * @param mimeType a valid MIME type
+     * @param mimeData MIME data as bytes
+     * @return an NDEF Record containing the MIME-typed data
+     * @throws IllegalArugmentException if the mimeType is empty or invalid
+     *
+     */
+    @SuppressLint("NewApi")
+	public static android.nfc.NdefRecord createMime(String mimeType, byte[] mimeData) {
+        if (mimeType == null) throw new NullPointerException("mimeType is null");
+
+        // We only do basic MIME type validation: trying to follow the
+        // RFCs strictly only ends in tears, since there are lots of MIME
+        // types in common use that are not strictly valid as per RFC rules
+        mimeType = normalizeMimeType(mimeType);
+        if (mimeType.length() == 0) throw new IllegalArgumentException("mimeType is empty");
+        int slashIndex = mimeType.indexOf('/');
+        if (slashIndex == 0) throw new IllegalArgumentException("mimeType must have major type");
+        if (slashIndex == mimeType.length() - 1) {
+            throw new IllegalArgumentException("mimeType must have minor type");
+        }
+        // missing '/' is allowed
+
+        // MIME RFCs suggest ASCII encoding for content-type
+        byte[] typeBytes = mimeType.getBytes(Charset.forName("US_ASCII"));
+        
+		if (android.os.Build.VERSION.SDK_INT >= 16) {
+			return new android.nfc.NdefRecord(TNF_MIME_MEDIA, typeBytes, null, mimeData);
+		} else {
+			return new android.nfc.NdefRecord(TNF_MIME_MEDIA, typeBytes, new byte[]{}, mimeData);
+		}
+    }
+
+    public static String normalizeMimeType(String type) {
+        if (type == null) {
+            return null;
+        }
+
+        type = type.trim().toLowerCase(Locale.US);
+
+        final int semicolonIndex = type.indexOf(';');
+        if (semicolonIndex != -1) {
+            type = type.substring(0, semicolonIndex);
+        }
+        return type;
+    }
+    /**
+     * Create a new NDEF Record containing external (application-specific) data.<p>
+     * Use this method to encode application specific data into an NDEF Record.
+     * The data is typed by a domain name (usually your Android package name) and
+     * a domain-specific type. This data is packaged into a "NFC Forum External
+     * Type" NDEF Record.<p>
+     * NFC Forum requires that the domain and type used in an external record
+     * are treated as case insensitive, however Android intent filtering is
+     * always case sensitive. So this method will force the domain and type to
+     * lower-case before creating the NDEF Record.<p>
+     * The unchecked exception {@link IllegalArgumentException} will be thrown
+     * if the domain and type have serious problems, for example if either field
+     * is empty, so always catch this
+     * exception if you are passing user-generated data into this method.<p>
+     * There are no such restrictions on the payload data.<p>
+     * For efficiency, This method might not make an internal copy of the
+     * data byte array, so take care not
+     * to modify the data byte array while still using the returned
+     * NdefRecord.
+     *
+     * Reference specification: NFCForum-TS-RTD_1.0
+     * @param domain domain-name of issuing organization
+     * @param type domain-specific type of data
+     * @param data payload as bytes
+     * @throws IllegalArugmentException if either domain or type are empty or invalid
+     */
+    public static android.nfc.NdefRecord createExternal(String domain, String type, byte[] data) {
+        if (domain == null) throw new NullPointerException("domain is null");
+        if (type == null) throw new NullPointerException("type is null");
+
+        domain = domain.trim().toLowerCase(Locale.US);
+        type = type.trim().toLowerCase(Locale.US);
+
+        if (domain.length() == 0) throw new IllegalArgumentException("domain is empty");
+        if (type.length() == 0) throw new IllegalArgumentException("type is empty");
+
+        byte[] byteDomain = domain.getBytes(Charset.forName("UTF-8"));
+        byte[] byteType = type.getBytes(Charset.forName("UTF-8"));
+        byte[] b = new byte[byteDomain.length + 1 + byteType.length];
+        System.arraycopy(byteDomain, 0, b, 0, byteDomain.length);
+        b[byteDomain.length] = ':';
+        System.arraycopy(byteType, 0, b, byteDomain.length + 1, byteType.length);
+
+		if (android.os.Build.VERSION.SDK_INT >= 16) {
+			return new android.nfc.NdefRecord(TNF_EXTERNAL_TYPE, b, null, data);
+		} else {
+			return new android.nfc.NdefRecord(TNF_EXTERNAL_TYPE, b, new byte[]{}, data);
+		}
+    }
 
     /**
      * Construct an NDEF Record from its component fields.<p>
@@ -381,7 +664,28 @@ public final class NdefRecord implements Parcelable {
         writeToByteBuffer(buffer, true, true);
         return buffer.array();
     }
- 
+
+   
+    /**
+     * Return complete URI of {@link #TNF_WELL_KNOWN}, {@link #RTD_URI} records.
+     * @return complete URI, or null if invalid
+     */
+    private Uri parseWktUri() {
+        if (mPayload.length < 2) {
+            return null;
+        }
+
+        // payload[0] contains the URI Identifier Code, as per
+        // NFC Forum "URI Record Type Definition" section 3.2.2.
+        int prefixIndex = (mPayload[0] & (byte)0xFF);
+        if (prefixIndex < 0 || prefixIndex >= URI_PREFIX_MAP.length) {
+            return null;
+        }
+        String prefix = URI_PREFIX_MAP[prefixIndex];
+        String suffix = new String(Arrays.copyOfRange(mPayload, 1, mPayload.length),
+                Charset.forName("UTF-8"));
+        return Uri.parse(prefix + suffix);
+    }
 
     /**
      * Main record parsing method.<p>
@@ -494,7 +798,7 @@ public final class NdefRecord implements Parcelable {
                 }
             }
         } catch (BufferUnderflowException e) {
-            throw new FormatException("expected more data", e);
+            throw new FormatException("expected more data");
         }
         return records.toArray(new NdefRecord[records.size()]);
     }
@@ -644,17 +948,18 @@ public final class NdefRecord implements Parcelable {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (!(obj instanceof NdefRecord)) return false;
+        
         NdefRecord other = (NdefRecord) obj;
-        if (!Arrays.equals(mId, other.mId)) return false;
-        if (!Arrays.equals(mPayload, other.mPayload)) return false;
-        if (mTnf != other.mTnf) return false;
-        return Arrays.equals(mType, other.mType);
+        if (!Arrays.equals(mId, other.getId())) return false;
+        if (!Arrays.equals(mPayload, other.getPayload())) return false;
+        if (mTnf != other.getTnf()) return false;
+        return Arrays.equals(mType, other.getType());
     }
 
     @Override
     public String toString() {
-        StringBuilder b = new StringBuilder(String.format("NdefRecord tnf=%X", mTnf));
+        StringBuilder b = new StringBuilder(String.format(getClass().getName() + " tnf=%X", mTnf));
         if (mType.length > 0) b.append(" type=").append(bytesToString(mType));
         if (mId.length > 0) b.append(" id=").append(bytesToString(mId));
         if (mPayload.length > 0) b.append(" payload=").append(bytesToString(mPayload));

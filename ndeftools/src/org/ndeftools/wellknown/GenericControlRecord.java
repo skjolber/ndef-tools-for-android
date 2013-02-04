@@ -237,7 +237,7 @@ public class GenericControlRecord extends Record {
 		payload[0] = configurationByte;
 		System.arraycopy(array, 0, payload, 1, array.length);
 		
-		return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, type, id, payload);
+		return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, type, id != null ? id : EMPTY, payload);
 	}
 
 }
