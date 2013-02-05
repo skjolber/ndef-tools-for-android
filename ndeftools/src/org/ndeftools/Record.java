@@ -51,7 +51,6 @@ import android.nfc.NdefRecord;
  *
  */
 
-@SuppressLint("NewApi")
 public abstract class Record {
 
 	protected byte[] EMPTY = new byte[]{};
@@ -428,7 +427,7 @@ public abstract class Record {
 	 * 
 	 * @return record in byte form as it was an {@link NdefMessage} with a single record.
 	 */
-	
+	@SuppressLint("NewApi")
 	public byte[] toByteArray() {
 		if (android.os.Build.VERSION.SDK_INT >= 16) {
 			return new NdefMessage(getNdefRecord()).toByteArray();
