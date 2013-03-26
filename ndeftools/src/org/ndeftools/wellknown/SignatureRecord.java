@@ -63,7 +63,7 @@ public class SignatureRecord extends Record {
 		
 		if(signatureUriPresent || type != SignatureType.NOT_PRESENT) {
 			
-			int size = (short)((payload[index++] << 8) + (payload[index++] << 0)); // unsigned short
+			int size = ((payload[index++] & 0xFF) << 8) + ((payload[index++] & 0xFF) << 0); // unsigned short
 			
 			if(size > 0) {
 				byte[] signatureOrUri = new byte[size];
@@ -85,7 +85,7 @@ public class SignatureRecord extends Record {
 			int numberOfCertificates = certificateHeader & 0xF;
 
 			for(int i = 0; i < numberOfCertificates; i++) {
-				int certificateSize = (short)((payload[index++] << 8) + (payload[index++] << 0)); // unsigned short
+				int certificateSize = ((payload[index++] & 0xFF)  << 8) + ((payload[index++] & 0xFF) << 0); // unsigned short
 
 				byte[] certificate = new byte[certificateSize];
 				System.arraycopy(payload, index, certificate, 0, certificateSize);
@@ -96,7 +96,7 @@ public class SignatureRecord extends Record {
 			}
 			
 			if((certificateHeader & 0x80) != 0) { // has certificate uri
-				int certificateUriSize = (short)((payload[index++] << 8) + (payload[index++] << 0)); // unsigned short
+				int certificateUriSize = ((payload[index++] & 0xFF) << 8) + ((payload[index++] & 0xFF) << 0); // unsigned short
 
 				byte[] certificateUri = new byte[certificateUriSize];
 				System.arraycopy(payload, index, certificateUri, 0, certificateUriSize);

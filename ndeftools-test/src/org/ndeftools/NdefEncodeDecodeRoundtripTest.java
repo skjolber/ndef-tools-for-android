@@ -19,6 +19,7 @@
 
 package org.ndeftools;
 
+import java.io.ByteArrayOutputStream;
 import java.nio.charset.Charset;
 import java.util.Locale;
 
@@ -47,6 +48,7 @@ import org.ndeftools.wellknown.handover.HandoverCarrierRecord.CarrierTypeFormat;
 import org.ndeftools.wellknown.handover.HandoverRequestRecord;
 import org.ndeftools.wellknown.handover.HandoverSelectRecord;
 
+import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 
@@ -85,7 +87,7 @@ public class NdefEncodeDecodeRoundtripTest extends TestCase {
 
 	private static HandoverRequestRecord handoverRequestRecord = new HandoverRequestRecord(new CollisionResolutionRecord((short)321));
 
-	private static SignatureRecord signatureRecord = new SignatureRecord(SignatureRecord.SignatureType.NOT_PRESENT, new byte[]{0x00, 0x01, 0x10, 0x11}, CertificateFormat.X_509, "http://certificate.uri");
+	private static SignatureRecord signatureRecord = new SignatureRecord(SignatureRecord.SignatureType.RSASSA_PKCS1_v1_5_WITH_SHA_1, new byte[]{0x00, 0x01, 0x10, 0x11}, CertificateFormat.X_509, "http://certificate.uri");
 	private static SignatureRecord signatureRecordMarker = new SignatureRecord(SignatureRecord.SignatureType.NOT_PRESENT);
 	
 	private static UnsupportedRecord unsupportedRecord = new UnsupportedRecord(NdefRecord.TNF_WELL_KNOWN, "abc".getBytes(), "id".getBytes(), "DEF".getBytes());
@@ -168,6 +170,25 @@ public class NdefEncodeDecodeRoundtripTest extends TestCase {
 			assertEquals(Integer.toString(i), encoded[i], encodedDecodedEncoded[i]);
 		}
 		
+	}
+	
+	public void testSignatureRecordRoundtrip() throws FormatException {
+		ByteArrayOutputStream bout = new ByteArrayOutputStream();
+		for(int i = 0; i < 0xFF; i += Byte.MAX_VALUE + 2) {
+			bout.write(i);
+
+			SignatureRecord sr1 = new SignatureRecord(SignatureRecord.SignatureType.RSASSA_PSS_SHA_1, bout.toByteArray(), CertificateFormat.X_509, "http://certificate.uri");
+			
+			bout.write(i);
+			
+			sr1.add(bout.toByteArray());
+			
+			SignatureRecord sr2 = SignatureRecord.parseNdefRecord(sr1.getNdefRecord());
+
+			if(!sr1.equals(sr2)) {
+				fail("Fail for " + i);
+			}
+		}
 	}
 	
 }
