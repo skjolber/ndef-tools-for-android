@@ -38,7 +38,7 @@ import android.view.View;
 
 public class AndroidNfcActivity extends Activity {
 	
-    private static final String TAG = AndroidNfcActivity.class.getSimpleName();
+    private static final String TAG = AndroidNfcActivity.class.getName();
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
