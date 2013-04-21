@@ -110,8 +110,8 @@ public abstract class ExternalTypeRecord extends Record {
         if (domain.length() == 0) throw new IllegalArgumentException("domain is empty");
         if (type.length() == 0) throw new IllegalArgumentException("type is empty");
 
-        byte[] byteDomain = domain.getBytes(Charset.forName("UTF_8"));
-        byte[] byteType = type.getBytes(Charset.forName("UTF_8"));
+        byte[] byteDomain = domain.getBytes(Charset.forName("UTF-8"));
+        byte[] byteType = type.getBytes(Charset.forName("UTF-8"));
         byte[] b = new byte[byteDomain.length + 1 + byteType.length];
         System.arraycopy(byteDomain, 0, b, 0, byteDomain.length);
         b[byteDomain.length] = ':';

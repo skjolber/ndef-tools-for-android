@@ -79,7 +79,7 @@ public class AndroidApplicationRecord extends ExternalTypeRecord {
 	
 	@Override
 	public byte[] getData() {
-		return packageName.getBytes(Charset.forName("UTF_8"));
+		return packageName.getBytes(Charset.forName("UTF-8"));
 	}
 	
 	/**
