@@ -16,15 +16,9 @@
 
 package android.content;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Locale;
-import java.util.Set;
-import android.annotation.SdkConstant.SdkConstantType;
+
+import android.net.Uri;
 import android.nfc.NdefMessage;
 
 /**
