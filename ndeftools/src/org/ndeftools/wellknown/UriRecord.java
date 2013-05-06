@@ -26,10 +26,8 @@ import java.util.Locale;
 import org.ndeftools.Record;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.net.Uri;
 import android.nfc.NdefRecord;
-import android.os.Build;
 
 /**
  * Well-known URI Record. <br/><br/>
