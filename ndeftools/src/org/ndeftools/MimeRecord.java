@@ -36,7 +36,7 @@ import android.nfc.NdefRecord;
 public class MimeRecord extends Record {
 
 	public static MimeRecord parse(NdefRecord ndefRecord) {
-		String contentType = new String(ndefRecord.getType(), Charset.forName("US_ASCII")); // http://www.ietf.org/rfc/rfc2046.txt
+		String contentType = new String(ndefRecord.getType(), Charset.forName("US-ASCII")); // http://www.ietf.org/rfc/rfc2046.txt
 		
 		return new MimeRecord(contentType, ndefRecord.getPayload());
 	}
@@ -71,7 +71,7 @@ public class MimeRecord extends Record {
 		}
 
 		// the android api normalizes the content type, I dont see why you would want that
-		return new NdefRecord(NdefRecord.TNF_MIME_MEDIA, mimeType.getBytes( Charset.forName("US_ASCII")), id != null ? id : EMPTY, data != null ? data : EMPTY);
+		return new NdefRecord(NdefRecord.TNF_MIME_MEDIA, mimeType.getBytes(Charset.forName("US-ASCII")), id != null ? id : EMPTY, data != null ? data : EMPTY);
 	}
 
 	public byte[] getData() {
