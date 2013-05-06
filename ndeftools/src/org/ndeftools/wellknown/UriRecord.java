@@ -71,9 +71,7 @@ public class UriRecord extends Record {
 		}
 	}
 
-	public static final Charset DEFAULT_URI_CHARSET = Charset.forName("UTF-8");
-
-	   /**
+   /**
      * NFC Forum "URI Record Type Definition"<p>
      * This is a mapping of "URI Identifier Codes" to URI string prefixes,
      * per section 3.2.2 of the NFC Forum URI Record Type Definition document.
@@ -169,6 +167,7 @@ public class UriRecord extends Record {
 	}
 
 	@Override
+    @SuppressLint("NewApi")
 	public NdefRecord getNdefRecord() {
 		if(!hasUri()) {
 			throw new IllegalArgumentException("Expected URI");
@@ -181,12 +180,13 @@ public class UriRecord extends Record {
 	}
 
     @SuppressLint("NewApi")
-	public static android.nfc.NdefRecord createUri(Uri uri) {
-        if (uri == null) throw new NullPointerException("uri is null");
+	@Deprecated
+	protected static android.nfc.NdefRecord createUri(Uri uri) {
+        if (uri == null) throw new NullPointerException("Uri is null");
 
         uri = normalizeScheme(uri);
         String uriString = uri.toString();
-        if (uriString.length() == 0) throw new IllegalArgumentException("uri is empty");
+        if (uriString.length() == 0) throw new IllegalArgumentException("Uri is empty");
 
         byte prefix = 0;
         for (int i = 1; i < URI_PREFIX_MAP.length; i++) {
@@ -203,8 +203,9 @@ public class UriRecord extends Record {
         
 		return new android.nfc.NdefRecord(TNF_WELL_KNOWN, RTD_URI, new byte[]{}, recordBytes);
     }
-
-    public static Uri normalizeScheme(Uri uri) {
+    
+    @Deprecated
+    protected static Uri normalizeScheme(Uri uri) {
         String scheme = uri.getScheme();
         if (scheme == null) return uri;  // give up
         String lowerScheme = scheme.toLowerCase(Locale.US);
