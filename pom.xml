@@ -18,6 +18,7 @@
         <module>ndeftools</module>
         <module>ndeftools-util</module>
         <module>ndeftools-boilerplate</module>
+        <module>ndeftools-jse</module>
         <!--
         <module>ndeftools-test</module>
         -->

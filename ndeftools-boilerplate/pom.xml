@@ -12,6 +12,7 @@
         <groupId>org.ndeftools</groupId>
         <artifactId>parent</artifactId>
         <version>1.2.3</version>
+		<relativePath>../pom.xml</relativePath>
     </parent>
 
     <dependencies>
