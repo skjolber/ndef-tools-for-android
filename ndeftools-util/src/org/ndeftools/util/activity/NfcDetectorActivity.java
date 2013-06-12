@@ -50,7 +50,6 @@ public abstract class NfcDetectorActivity extends Activity {
      * changed.
      * <p>For example, NFC has been turned on or off.
      * <p>Always contains the extra field {@link #EXTRA_STATE}
-     * @hide
      */
 	
 	public static final String ACTION_ADAPTER_STATE_CHANGED = "android.nfc.action.ADAPTER_STATE_CHANGED";
@@ -62,7 +61,6 @@ public abstract class NfcDetectorActivity extends Activity {
      * {@link #STATE_TURNING_ON},
      * {@link #STATE_ON},
      * {@link #STATE_TURNING_OFF},
-     * @hide
      */
 	
     public static final String EXTRA_ADAPTER_STATE = "android.nfc.extra.ADAPTER_STATE";
