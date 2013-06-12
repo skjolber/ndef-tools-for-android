@@ -21,6 +21,8 @@ package org.ndeftools.util.activity;
 
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -43,7 +45,36 @@ import android.util.Log;
 
 public abstract class NfcDetectorActivity extends Activity {
 	
+	/**
+     * Broadcast Action: The state of the local NFC adapter has been
+     * changed.
+     * <p>For example, NFC has been turned on or off.
+     * <p>Always contains the extra field {@link #EXTRA_STATE}
+     * @hide
+     */
+	
+	public static final String ACTION_ADAPTER_STATE_CHANGED = "android.nfc.action.ADAPTER_STATE_CHANGED";
+	
+    /**
+     * Used as an int extra field in {@link #ACTION_STATE_CHANGED}
+     * intents to request the current power state. Possible values are:
+     * {@link #STATE_OFF},
+     * {@link #STATE_TURNING_ON},
+     * {@link #STATE_ON},
+     * {@link #STATE_TURNING_OFF},
+     * @hide
+     */
+	
+    public static final String EXTRA_ADAPTER_STATE = "android.nfc.extra.ADAPTER_STATE";
+    
+    public static final int STATE_OFF = 1;
+    public static final int STATE_TURNING_ON = 2;
+    public static final int STATE_ON = 3;
+    public static final int STATE_TURNING_OFF = 4;
+    
     private static final String TAG = NfcDetectorActivity.class.getName();
+    
+    private static IntentFilter nfcStateChangeIntentFilter = new IntentFilter(ACTION_ADAPTER_STATE_CHANGED);
     
 	protected NfcAdapter nfcAdapter;
 	protected IntentFilter[] writeTagFilters;
@@ -53,6 +84,8 @@ public abstract class NfcDetectorActivity extends Activity {
 	protected boolean intentProcessed = false;
 	protected boolean nfcEnabled = false;
 	
+	protected BroadcastReceiver nfcStateChangeBroadcastReceiver;
+
 	protected boolean detecting = false;
 	
     @Override
@@ -96,6 +129,16 @@ public abstract class NfcDetectorActivity extends Activity {
         IntentFilter ndefDetected = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
         IntentFilter techDetected = new IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED);
         writeTagFilters = new IntentFilter[] {ndefDetected, tagDetected, techDetected};
+        
+        nfcStateChangeBroadcastReceiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				int state = intent.getIntExtra(EXTRA_ADAPTER_STATE, -1);
+				if(state == STATE_OFF || state == STATE_ON) {
+					detectNfcStateChanges();
+				}
+			}
+		};
 	}
 	
 	/**
@@ -145,6 +188,9 @@ public abstract class NfcDetectorActivity extends Activity {
     		}
     		
     		detectNfcStateChanges();
+    		
+    		// for quicksettings
+    		startDetectingNfcStateChanges();
     	}
     	
 		if(!intentProcessed) {
@@ -170,12 +216,25 @@ public abstract class NfcDetectorActivity extends Activity {
      */
     
     protected void detectNfcStateChanges() {
+    	Log.d(TAG, "Detect NFC state changes while previously " + (nfcEnabled ? "enabled" : "disabled"));
+    	
 		boolean enabled = nfcAdapter.isEnabled();
 		if(nfcEnabled != enabled) {
+			Log.d(TAG, "NFC state change detected; NFC is now " + (enabled ? "enabled" : "disabled"));
 			onNfcStateChange(enabled);
 			
 			nfcEnabled = enabled;
+		} else {
+			Log.d(TAG, "NFC state remains " + (enabled ? "enabled" : "disabled"));
 		}
+	}
+    
+    public void startDetectingNfcStateChanges() {
+		registerReceiver(nfcStateChangeBroadcastReceiver, nfcStateChangeIntentFilter);
+	}
+
+    public void stopDetectingNfcStateChanges() {
+		registerReceiver(nfcStateChangeBroadcastReceiver, nfcStateChangeIntentFilter);
 	}
 	  
     @Override
@@ -184,6 +243,9 @@ public abstract class NfcDetectorActivity extends Activity {
     	
     	if(nfcAdapter != null) {
     		disableForeground();
+    		
+    		// for quicksettings
+    		stopDetectingNfcStateChanges();
     	}
     }
     
