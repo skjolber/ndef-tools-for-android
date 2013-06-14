@@ -133,7 +133,11 @@ public abstract class NfcDetectorActivity extends Activity {
 			public void onReceive(Context context, Intent intent) {
 				int state = intent.getIntExtra(EXTRA_ADAPTER_STATE, -1);
 				if(state == STATE_OFF || state == STATE_ON) {
-					detectNfcStateChanges();
+					runOnUiThread(new Runnable() {
+					    public void run() {
+					    	detectNfcStateChanges();
+					    }
+					});
 				}
 			}
 		};
@@ -232,7 +236,7 @@ public abstract class NfcDetectorActivity extends Activity {
 	}
 
     public void stopDetectingNfcStateChanges() {
-		registerReceiver(nfcStateChangeBroadcastReceiver, nfcStateChangeIntentFilter);
+		unregisterReceiver(nfcStateChangeBroadcastReceiver);
 	}
 	  
     @Override
