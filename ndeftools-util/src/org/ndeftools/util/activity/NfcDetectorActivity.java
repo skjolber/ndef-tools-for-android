@@ -131,10 +131,17 @@ public abstract class NfcDetectorActivity extends Activity {
         nfcStateChangeBroadcastReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				int state = intent.getIntExtra(EXTRA_ADAPTER_STATE, -1);
+				final int state = intent.getIntExtra(EXTRA_ADAPTER_STATE, -1);
 				if(state == STATE_OFF || state == STATE_ON) {
+					
 					runOnUiThread(new Runnable() {
 					    public void run() {
+							if(state == STATE_ON) {
+								if(detecting) {
+									enableForeground();
+								}
+							} 
+
 					    	detectNfcStateChanges();
 					    }
 					});
