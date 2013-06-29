@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:text="@string/unknown"
 		android:padding="3dip"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/ndefText"
 		android:textStyle="bold"
 	/>
 

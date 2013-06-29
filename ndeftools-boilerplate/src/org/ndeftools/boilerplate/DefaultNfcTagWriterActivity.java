@@ -24,12 +24,16 @@ import java.util.Locale;
 
 import org.ndeftools.Message;
 import org.ndeftools.boilerplate.R;
+import org.ndeftools.externaltype.AndroidApplicationRecord;
 import org.ndeftools.util.activity.NfcTagWriterActivity;
 import org.ndeftools.wellknown.TextRecord;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.nfc.NdefMessage;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.widget.EditText;
 import android.widget.Toast;
 
 
@@ -64,17 +68,41 @@ public class DefaultNfcTagWriterActivity extends NfcTagWriterActivity {
 	
 	@Override
 	protected NdefMessage createNdefMessage() {
-		Message message = new Message();
 		
+		// compose our own message
+		Message message = new Message();
+
+		// add an Android Application Record so that this app is launches if a tag is scanned :-)
+		AndroidApplicationRecord androidApplicationRecord = new AndroidApplicationRecord();
+		androidApplicationRecord.setPackageName(getPlayIdentifier());
+		message.add(androidApplicationRecord);
+
+		// add a Text Record with the message which is entered
+		EditText text = (EditText) findViewById(R.id.text);		
 		TextRecord textRecord = new TextRecord();
-		textRecord.setText("This is my text");
+		textRecord.setText(text.getText().toString());
 		textRecord.setEncoding(Charset.forName("UTF-8"));
 		textRecord.setLocale(Locale.ENGLISH);
-		
 		message.add(textRecord);
 		
 		return message.getNdefMessage();
 	}
+	
+	/**
+	 * Get Google Play application identifier
+	 * 
+	 * @return
+	 */
+	
+	private String getPlayIdentifier() {
+        PackageInfo pi;
+        try {
+            pi = getPackageManager().getPackageInfo(getPackageName(), 0);
+            return pi.applicationInfo.packageName;
+        } catch (final NameNotFoundException e) {
+            return getClass().getPackage().getName();
+        }
+    }
 	
 	/**
 	 * 

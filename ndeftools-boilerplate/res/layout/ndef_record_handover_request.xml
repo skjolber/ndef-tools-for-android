@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:text="@string/handoverRequest"
 		android:padding="3dip"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/ndefText"
 		android:textStyle="bold"
 	/>
 
@@ -26,14 +26,14 @@
                 android:layout_column="1"
                 android:padding="3dip"
                 android:text="@string/handoverRequestMajorVersion"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                 />
 
             <TextView
                 android:gravity="left"
                 android:padding="3dip"
         	    android:id="@+id/handoverRequestMajorVersionValue"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
             />
         </TableRow>
 
@@ -43,14 +43,14 @@
                 android:layout_column="1"
                 android:padding="3dip"
                 android:text="@string/handoverRequestMinorVersion"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                  />
 
             <TextView
                 android:gravity="left"
                 android:padding="3dip"
         	    android:id="@+id/handoverRequestMinorVersionValue"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                  />
         </TableRow>
 
@@ -60,14 +60,14 @@
                 android:layout_column="1"
                 android:padding="3dip"
                 android:text="@string/handoverRequestCollisionResolution"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                  />
 
             <TextView
                 android:gravity="left"
                 android:padding="3dip"
         	    android:id="@+id/handoverRequestCollisionResolutionValue"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                  />
         </TableRow>
 
@@ -77,14 +77,14 @@
                 android:layout_column="1"
                 android:padding="3dip"
                 android:text="@string/handoverRequestAlternativeCarriers"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                  />
 
             <TextView
                 android:gravity="left"
                 android:padding="3dip"
         	    android:id="@+id/handoverRequestAlternativeCarriersValue"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                  />
         </TableRow>
         

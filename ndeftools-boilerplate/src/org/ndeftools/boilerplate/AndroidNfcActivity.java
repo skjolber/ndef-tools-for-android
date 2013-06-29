@@ -50,6 +50,8 @@ public class AndroidNfcActivity extends Activity {
             View view = findViewById(R.id.beamer);
             view.setVisibility(View.VISIBLE);
         }
+		
+		setTitle(R.string.app_name_description);
     }
     
     public void writer(View view) {

@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:text="@string/absoluteURI"
 		android:padding="3dip"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/ndefText"
 		android:textStyle="bold"
 	/>
     
@@ -26,14 +26,14 @@
                 android:layout_column="1"
                 android:padding="3dip"
                 android:text="@string/uri"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                 />
 
             <TextView
                 android:gravity="left"
                 android:padding="3dip"
         	    android:id="@+id/uriValue"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
             />
         </TableRow>
      

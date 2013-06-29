@@ -29,6 +29,7 @@ import org.ndeftools.wellknown.TextRecord;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -78,25 +79,23 @@ public class DefaultNfcReaderActivity extends NfcReaderActivity {
 		// process message
 		
 		// show in log
-		if(message != null) {
-			// iterate through all records in message
-			Log.d(TAG, "Found " + message.size() + " NDEF records");
+		// iterate through all records in message
+		Log.d(TAG, "Found " + message.size() + " NDEF records");
 
-			for(int k = 0; k < message.size(); k++) {
-				Record record = message.get(k);
-				
-				Log.d(TAG, "Record " + k + " type " + record.getClass().getSimpleName());
-				
-				// your own code here, for example:
-				if(record instanceof MimeRecord) {
-					// ..
-				} else if(record instanceof ExternalTypeRecord) {
-					// ..
-				} else if(record instanceof TextRecord) {
-					// ..
-				} else { // more else
-					// ..
-				}
+		for(int k = 0; k < message.size(); k++) {
+			Record record = message.get(k);
+			
+			Log.d(TAG, "Record " + k + " type " + record.getClass().getSimpleName());
+			
+			// your own code here, for example:
+			if(record instanceof MimeRecord) {
+				// ..
+			} else if(record instanceof ExternalTypeRecord) {
+				// ..
+			} else if(record instanceof TextRecord) {
+				// ..
+			} else { // more else
+				// ..
 			}
 		}
 		
@@ -113,6 +112,8 @@ public class DefaultNfcReaderActivity extends NfcReaderActivity {
 	@Override
 	protected void readEmptyNdefMessage() {
 		 toast(getString(R.string.readEmptyMessage));
+		 
+		 clearList();
 	}
 
 	/**
@@ -126,6 +127,8 @@ public class DefaultNfcReaderActivity extends NfcReaderActivity {
 	@Override
 	protected void readNonNdefMessage() {
 		toast(getString(R.string.readNonNDEFMessage));
+		
+		hideList();
 	}
 
    /**
@@ -183,16 +186,23 @@ public class DefaultNfcReaderActivity extends NfcReaderActivity {
 	 */
 	
 	private void showList() {
-		if(message != null && !message.isEmpty()) {
-			
-			// display the message
-			// show in gui
-			ArrayAdapter<? extends Object> adapter = new NdefRecordAdapter(this, message);
-			ListView listView = (ListView) findViewById(R.id.recordListView);
-			listView.setAdapter(adapter);
-		} else {
-			clearList();
-		}
+		// display the message
+		// show in gui
+		ArrayAdapter<? extends Object> adapter = new NdefRecordAdapter(this, message);
+		ListView listView = (ListView) findViewById(R.id.recordListView);
+		listView.setAdapter(adapter);
+		listView.setVisibility(View.VISIBLE);
+	}
+	
+	/**
+	 * 
+	 * Hide the NDEF records list.
+	 * 
+	 */
+	
+	public void hideList() {
+		ListView listView = (ListView) findViewById(R.id.recordListView);
+		listView.setVisibility(View.GONE);
 	}
 	
 	/**
@@ -204,6 +214,7 @@ public class DefaultNfcReaderActivity extends NfcReaderActivity {
 	private void clearList() {
 		ListView listView = (ListView) findViewById(R.id.recordListView);
 		listView.setAdapter(null);
+		listView.setVisibility(View.VISIBLE);
 	}
 
 	public void toast(String message) {

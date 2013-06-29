@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:text="@string/alternativeCarrier"
 		android:padding="3dip"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/ndefText"
 		android:textStyle="bold"
 	/>
 
@@ -26,14 +26,14 @@
                 android:layout_column="1"
                 android:padding="3dip"
                 android:text="@string/alternativeCarrierCarrierPowerState"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                 />
 
             <TextView
                 android:gravity="left"
                 android:padding="3dip"
         	    android:id="@+id/alternativeCarrierCarrierPowerStateValue"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
             />
         </TableRow>
 
@@ -43,14 +43,14 @@
                 android:layout_column="1"
                 android:padding="3dip"
                 android:text="@string/alternativeCarrierCarrierDataReference"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                  />
 
             <TextView
                 android:gravity="left"
                 android:padding="3dip"
         	    android:id="@+id/alternativeCarrierCarrierDataReferenceValue"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                  />
         </TableRow>
 
@@ -60,14 +60,14 @@
                 android:layout_column="1"
                 android:padding="3dip"
                 android:text="@string/alternativeCarrierAuxiliaryDataReferences"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                  />
 
             <TextView
                 android:gravity="left"
                 android:padding="3dip"
         	    android:id="@+id/alternativeCarrierAuxiliaryDataReferencesValue"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                  />
         </TableRow>
     </TableLayout>

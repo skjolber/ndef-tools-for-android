@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:text="@string/handoverCarrier"
 		android:padding="3dip"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/ndefText"
 		android:textStyle="bold"
 	/>
 
@@ -26,14 +26,14 @@
                 android:layout_column="1"
                 android:padding="3dip"
                 android:text="@string/handoverCarrierCarrierTypeFormat"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                 />
 
             <TextView
                 android:gravity="left"
                 android:padding="3dip"
         	    android:id="@+id/handoverCarrierCarrierTypeFormatValue"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
             />
         </TableRow>
 
@@ -43,14 +43,14 @@
                 android:layout_column="1"
                 android:padding="3dip"
                 android:text="@string/handoverCarrierCarrierType"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                  />
 
             <TextView
                 android:gravity="left"
                 android:padding="3dip"
         	    android:id="@+id/handoverCarrierCarrierTypeValue"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                  />
         </TableRow>
 
@@ -60,14 +60,14 @@
                 android:layout_column="1"
                 android:padding="3dip"
                 android:text="@string/handoverCarrierCarrierData"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                  />
 
             <TextView
                 android:gravity="left"
                 android:padding="3dip"
         	    android:id="@+id/handoverCarrierCarrierDataValue"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                  />
         </TableRow>
     </TableLayout>

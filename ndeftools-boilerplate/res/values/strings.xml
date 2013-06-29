@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">NDEF Tools boilerplate</string>
-
+    <string name="app_name">NDEF Tools for Android</string>
+    <string name="app_name_description">NDEF Tools for Android boilerplate</string>
+    
     <string name="androidApplication">Android Application</string>
     <string name="androidApplicationPackageName">Package name</string>
 
@@ -97,8 +98,21 @@
     <string name="cannotWriteTechMessage">Cannot write tech or unformatted tag.</string>
     <string name="tagTooSmallMessage">Message size %1$d bytes exceeds tag capacity of %2$d bytes.</string>
 
-    <string name="writer">Tag writer</string>
-    <string name="reader">Reader</string>
-    <string name="beamer">Beam writer</string>
+    <string name="introductionTitle">NDEF Tools for Android boilerplate demo</string>
+    <string name="introductionDescription">A working NFC-capable app built using data-binding and abstract activities from the NDEF Tools for Android project.</string>
+    
+    <string name="writer">NFC tag writer</string>
+    <string name="writerTitle">NFC tag writer demo</string>
+    <string name="writerDescription">This activity writes a simple NDEF message containing an Android Application Record and a Text Record from the below text input to tags. </string>
+    <string name="writerHint">Your Text Record-text here</string>
+    <string name="writerScanHint">(Scan tag to write at any time.)</string>
+    
+    <string name="reader">NFC tag and Beam (push) reader</string>
+    <string name="readerTitle">NFC tag and Beam (push) reader demo</string>
+    <string name="readerDescription">This activity reads and displays the contents of any incoming NFC message in the NDEF format.</string>
+    
+    <string name="beamer">NFC Beam (push) writer</string>
+    <string name="beamerTitle">NFC Beam (push) writer demo</string>
+    <string name="beamerDescription">This activity beams (pushes) an Android Application Record to any other device, as well as detecting incoming messages in the NDEF format.\n\nNote that most phones require that the sender manually taps on the screen to do the actual payload data transmit part of the beam (push) messaging.</string>
     
 </resources>

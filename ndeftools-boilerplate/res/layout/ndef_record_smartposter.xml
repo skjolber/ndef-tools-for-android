@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:textColor="#FFFFFF"
+    android:textColor="@color/ndefText"
      >
 
     <TextView
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="@string/smartPoster"
         android:padding="3dip"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/ndefText"
 		android:textStyle="bold"
          />
 
@@ -27,7 +27,7 @@
                 android:layout_column="1"
                 android:padding="3dip"
                 android:text="@string/smartPosterTitle"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
 				android:id="@+id/smartPosterTitleDescriptor"
                 />
 
@@ -35,7 +35,7 @@
                 android:gravity="left"
                 android:padding="3dip"
         	    android:id="@+id/smartPosterTitleValue"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
             />
         </TableRow>
 
@@ -45,14 +45,14 @@
                 android:layout_column="1"
                 android:padding="3dip"
                 android:text="@string/smartPosterURI"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                  />
 
             <TextView
                 android:gravity="left"
                 android:padding="3dip"
         	    android:id="@+id/smartPosterURIValue"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                  />
         </TableRow>
 
@@ -62,14 +62,14 @@
                 android:layout_column="1"
                 android:padding="3dip"
                 android:text="@string/smartPosterAction"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                  />
 
             <TextView
                 android:gravity="left"
                 android:padding="3dip"
         	    android:id="@+id/smartPosterActionValue"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                  />
         </TableRow>
     </TableLayout>

@@ -10,7 +10,7 @@
         android:layout_width="0dip"
         android:layout_height="wrap_content"
 		android:padding="3dip"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/ndefText"
 		android:textStyle="bold"
 		android:layout_weight="1"
 	/>
@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 		android:padding="3dip"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/ndefText"
 	/>
     
 </LinearLayout>

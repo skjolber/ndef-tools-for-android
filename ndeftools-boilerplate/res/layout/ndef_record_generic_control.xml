@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:textColor="#FFFFFF"
+    android:textColor="@color/ndefText"
      >
 
     <TextView
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="@string/genericControl"
         android:padding="3dip"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/ndefText"
 		android:textStyle="bold"
          />
 
@@ -27,14 +27,14 @@
                 android:layout_column="1"
                 android:padding="3dip"
                 android:text="@string/genericControlConfigurationByte"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                  />
 
             <TextView
                 android:gravity="left"
                 android:padding="3dip"
         	    android:id="@+id/genericControlConfigurationByteValue"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                  />
         </TableRow>
         
@@ -45,14 +45,14 @@
                 android:layout_column="1"
                 android:padding="3dip"
                 android:text="@string/genericControlTarget"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                  />
 
             <TextView
                 android:gravity="left"
                 android:padding="3dip"
         	    android:id="@+id/genericControlTargetValue"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                  />
         </TableRow>
         
@@ -62,7 +62,7 @@
                 android:layout_column="1"
                 android:padding="3dip"
                 android:text="@string/genericControlAction"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
 				android:id="@+id/smartPosterTitleDescriptor"
                 />
 
@@ -70,7 +70,7 @@
                 android:gravity="left"
                 android:padding="3dip"
         	    android:id="@+id/genericControlActionValue"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
             />
         </TableRow>
 
@@ -80,14 +80,14 @@
                 android:layout_column="1"
                 android:padding="3dip"
                 android:text="@string/genericControlData"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                  />
 
             <TextView
                 android:gravity="left"
                 android:padding="3dip"
         	    android:id="@+id/genericControlDataValue"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                  />
         </TableRow>
 

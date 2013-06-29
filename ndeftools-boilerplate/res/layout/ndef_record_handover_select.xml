@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:text="@string/handoverSelect"
 		android:padding="3dip"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/ndefText"
 		android:textStyle="bold"
 	/>
 
@@ -26,14 +26,14 @@
                 android:layout_column="1"
                 android:padding="3dip"
                 android:text="@string/handoverSelectMajorVersion"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                 />
 
             <TextView
                 android:gravity="left"
                 android:padding="3dip"
         	    android:id="@+id/handoverSelectMajorVersionValue"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
             />
         </TableRow>
 
@@ -43,14 +43,14 @@
                 android:layout_column="1"
                 android:padding="3dip"
                 android:text="@string/handoverSelectMinorVersion"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                  />
 
             <TextView
                 android:gravity="left"
                 android:padding="3dip"
         	    android:id="@+id/handoverSelectMinorVersionValue"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                  />
         </TableRow>
         
@@ -61,14 +61,14 @@
                 android:layout_column="1"
                 android:padding="3dip"
                 android:text="@string/handoverSelectAlternativeCarriers"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                  />
 
             <TextView
                 android:gravity="left"
                 android:padding="3dip"
         	    android:id="@+id/handoverSelectAlternativeCarriersValue"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                  />
         </TableRow>
 
@@ -78,14 +78,14 @@
                 android:layout_column="1"
                 android:padding="3dip"
                 android:text="@string/handoverSelectError"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                  />
 
             <TextView
                 android:gravity="left"
                 android:padding="3dip"
         	    android:id="@+id/handoverSelectErrorValue"
-				android:textColor="#FFFFFF"
+				android:textColor="@color/ndefText"
                  />
         </TableRow>
 
