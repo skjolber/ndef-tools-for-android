@@ -92,7 +92,7 @@ public class NdefRecordAdapter extends ArrayAdapter<Record> {
 
 			if(externalType.hasData()) {
 				TextView textView = (TextView) view.findViewById(R.id.dataValue);
-				textView.setText(context.getString(R.string.genericControlDataRecords, externalType.getData().length));
+				textView.setText(context.getString(R.string.dataSize, externalType.getData().length));
 			}
 			
 
