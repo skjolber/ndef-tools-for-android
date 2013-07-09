@@ -3,14 +3,19 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<!-- generated using https://github.com/akquinet/android-archetypes -->
-
-    <groupId>org.ndeftools</groupId>
+    <groupId>com.google.code.ndef-tools-for-android</groupId>
     <artifactId>parent</artifactId>
-    <packaging>pom</packaging>
     <version>1.2.3</version>
+    <packaging>pom</packaging>
 
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
+  
     <name>NDEF Tools for Android - Parent</name>
-    <description>Android library for.</description>
+    <description>Android library for NDEF and NFC use in Android</description>
     <url>http://code.google.com/p/ndef-tools-for-android/</url>
     <inceptionYear>2012</inceptionYear>
 
@@ -25,11 +30,16 @@
     </modules>
 
     <scm>
-        <url>http://code.google.com/p/ndef-tools-for-android/</url>
         <connection>scm:git:https://code.google.com/p/ndef-tools-for-android/</connection>
         <developerConnection>scm:git:https://code.google.com/p/ndef-tools-for-android/</developerConnection>
-    </scm>
-
+        <url>http://code.google.com/p/ndef-tools-for-android/source/browse</url>
+    </scm>   
+  
+    <issueManagement>
+        <system>Google Code</system>
+        <url>http://code.google.com/p/ndef-tools-for-android/issues/list</url>
+    </issueManagement> 
+ 
     <developers>
         <developer>
             <name>Thomas Rorvik Skjolberg</name>
@@ -56,11 +66,6 @@
         <url>http://www.linkedin.com/profile/view?id=5714283</url>
     </organization>
 
-    <issueManagement>
-        <system>Goole code issues</system>
-        <url>http://code.google.com/p/ndef-tools-for-android/issues/list</url>
-    </issueManagement>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -84,24 +89,38 @@
 		</dependencies>
 	</dependencyManagement>
 
-
     <build>
         <pluginManagement>
             <plugins>
                 <plugin>
                     <groupId>com.jayway.maven.plugins.android.generation2</groupId>
                     <artifactId>android-maven-plugin</artifactId>
-                    <version>3.5.3</version>
+                    <version>3.6.0</version>
 
                     <configuration>
                         <sdk>
                             <platform>16</platform>
                         </sdk>
+		                <manifest>
+		                    <debuggable>true</debuggable>
+		                </manifest>
                         <undeployBeforeDeploy>true</undeployBeforeDeploy>
                     </configuration>
                 </plugin>
-        
-            </plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-gpg-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>sign-artifacts</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>sign</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
         </pluginManagement>
     </build>
 
