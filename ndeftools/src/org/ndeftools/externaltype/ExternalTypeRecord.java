@@ -30,11 +30,50 @@ import android.nfc.NdefRecord;
 /**
  * External type record.<br/><br/>
  * 
+ * Note: Support for custom external types can be added via the {@link ExternalTypeRecordParser} interface, or by overloading this class.
+ * 
  * @author Thomas Rorvik Skjolberg (skjolber@gmail.com)
  *
  */
 
 public abstract class ExternalTypeRecord extends Record {
+
+	/**
+	 * 
+	 * Interface which simplifies adding your own External Type records.
+	 * 
+	 */
+	
+	public static interface ExternalTypeRecordParser {
+		/**
+		 * Can the parser handle this domain and type?
+		 * @param domain external type domain
+		 * @param type external type type
+		 * @return true if the parser can parse external type payloads from this domain and type into {@link Record}s.
+		 */
+		boolean canParse(String domain, String type);
+		
+		/**
+		 * Parse an External Type record payload.
+		 * 
+		 * @param domain
+		 * @param type
+		 * @param payload
+		 * @return a newly created {@link ExternalTypeRecord}.
+		 */
+		ExternalTypeRecord parse(String domain, String type, byte[] payload); 
+	}
+	
+	/** for plugging in custom external types */
+	private static ExternalTypeRecordParser pluginExternalTypeParser;
+	
+	public static ExternalTypeRecordParser getPluginExternalTypeParser() {
+		return pluginExternalTypeParser;
+	}
+
+	public static void setPluginExternalTypeParser(ExternalTypeRecordParser pluginExternalTypeParser) {
+		ExternalTypeRecord.pluginExternalTypeParser = pluginExternalTypeParser;
+	}
 
 	public static ExternalTypeRecord parse(NdefRecord ndefRecord) {
 		String domainType = new String(ndefRecord.getType(), Charset.forName("UTF-8"));
@@ -57,6 +96,17 @@ public abstract class ExternalTypeRecord extends Record {
 
 		if(domain.equals(AndroidApplicationRecord.DOMAIN) && type.equals(AndroidApplicationRecord.TYPE)) {
 			return new AndroidApplicationRecord(ndefRecord.getPayload());
+		}
+		
+		// see if there is a custom parser
+		if(pluginExternalTypeParser != null) {
+			if(pluginExternalTypeParser.canParse(domain, type)) {
+				ExternalTypeRecord record = pluginExternalTypeParser.parse(domain, type, ndefRecord.getPayload());
+				if(record == null) {
+					throw new IllegalArgumentException("External Type record " + domainType + " cannot be null");
+				}
+				return record;
+			}
 		}
 		
 		return new GenericExternalTypeRecord(domain, type, ndefRecord.getPayload());
