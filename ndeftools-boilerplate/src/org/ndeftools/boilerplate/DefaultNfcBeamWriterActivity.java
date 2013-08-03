@@ -60,9 +60,7 @@ public class DefaultNfcBeamWriterActivity extends NfcBeamWriterActivity {
 		
 		setContentView(R.layout.beamer);
 		
-		setDetecting(true);
-		
-		startPushing();
+		setDetecting(true); // will start detecting NFC actions once onResume() is called.
 	}
 
 	/**
@@ -95,7 +93,7 @@ public class DefaultNfcBeamWriterActivity extends NfcBeamWriterActivity {
 	 */
 
 	@Override
-	protected void onNdefPushCompleteMessage() {
+	protected void onNdefPushCompleted() {
 		// make toast
 		toast(R.string.nfcBeamed);
 		
@@ -239,4 +237,10 @@ public class DefaultNfcBeamWriterActivity extends NfcBeamWriterActivity {
 		toast(getString(R.string.readNonNDEFMessage));
 	}
 	
+	@Override
+	protected void onNfcFeatureFound() {
+		super.onNfcFeatureFound();
+		
+		startPushing();
+	}
 }

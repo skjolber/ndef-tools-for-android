@@ -161,37 +161,14 @@ public abstract class NfcBeamWriterActivity extends NfcReaderActivity implements
 	public void onNdefPushComplete(NfcEvent nfcEvent) {
 		Log.d(TAG, "Ndef push completed");
 		
-		// A handler is needed to send messages to the activity when this
-		// callback occurs, because it happens from a binder thread
-		new NfcHandler(this).obtainMessage(MESSAGE_SENT).sendToTarget();
+		runOnUiThread(new Runnable() {
+			public void run() {
+				onNdefPushCompleted();
+			}	
+		});
 	}
-
-	/** This handler receives a message from onNdefPushComplete */
-	private static class NfcHandler extends Handler {
-		private WeakReference<NfcBeamWriterActivity> activityReference;
-		
-		public NfcHandler(NfcBeamWriterActivity activity) {
-			this.activityReference = new WeakReference<NfcBeamWriterActivity>(activity);
-		}
-
-		@Override
-		public void handleMessage(android.os.Message msg) {
-			switch (msg.what) {
-			case MESSAGE_SENT:
-				
-				NfcBeamWriterActivity activity = activityReference.get();
-				if(activity != null) {
-					// make toast
-					activity.onNdefPushCompleteMessage();
-					
-					break;
-				}
-			}
-		}
-		
-	};	
 	
-	protected abstract void onNdefPushCompleteMessage();
+	protected abstract void onNdefPushCompleted();
 
 	/**
 	 * 
