@@ -86,11 +86,16 @@ public abstract class NfcDetectorActivity extends Activity {
 
 	protected boolean detecting = false;
 	
+	/** NXP chips support Mifare Classic, others do not. */
+	protected boolean nxpMifareClassic;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     	Log.d(TAG, "onCreate");
 
+    	nxpMifareClassic = hasMifareClassic();
+    	 
     	// Check for available NFC Adapter
     	PackageManager pm = getPackageManager();
     	if(!pm.hasSystemFeature(PackageManager.FEATURE_NFC)) {
@@ -103,6 +108,10 @@ public abstract class NfcDetectorActivity extends Activity {
     		onNfcFeatureFound();
     	}
     }
+
+	private boolean hasMifareClassic() {
+		return getPackageManager().hasSystemFeature("com.nxp.mifare");
+	}
 
     /**
      * Notify that NFC is available
