@@ -24,8 +24,7 @@ import junit.framework.TestCase;
 
 import org.nfctools.ndef.NdefConstants;
 import org.nfctools.ndef.NdefContext;
-import org.nfctools.ndef.NdefEncoder;
-import org.nfctools.ndef.Record;
+import org.nfctools.ndef.NdefMessageEncoder;
 import org.nfctools.ndef.auri.AbsoluteUriRecord;
 import org.nfctools.ndef.empty.EmptyRecord;
 import org.nfctools.ndef.ext.AndroidApplicationRecord;
@@ -55,6 +54,7 @@ import org.nfctools.ndef.wkt.records.SignatureRecord.SignatureType;
 import org.nfctools.ndef.wkt.records.SmartPosterRecord;
 import org.nfctools.ndef.wkt.records.TextRecord;
 import org.nfctools.ndef.wkt.records.UriRecord;
+import org.nfctools.ndef.Record;
 
 import android.util.Log;
 
@@ -139,7 +139,7 @@ public class NFCToolsEncodeCompatibilityTest extends TestCase {
 		handoverSelectRecord.setError(new ErrorRecord(ErrorReason.PermanenteMemoryConstraints, new Long(1L)));
 		
 		// add some certificates to signature
-		signatureRecord.addCertificate(new byte[]{0x00, 0x10, 0x11});
+		signatureRecord.add(new byte[]{0x00, 0x10, 0x11});
 		signatureRecord.setSignatureType(SignatureType.RSASSA_PSS_SHA_1);
 		signatureRecord.setSignature(new byte[]{0x01, 0x11, 0x12});
 		
@@ -155,11 +155,11 @@ public class NFCToolsEncodeCompatibilityTest extends TestCase {
 
 	public void testCompatibility() throws Exception {
 		
-		NdefEncoder ndefMessageEncoder = NdefContext.getNdefEncoder();
+		NdefMessageEncoder ndefMessageEncoder = NdefContext.getNdefMessageEncoder();
 
 		// individually
 		for (Record record : records) {
-			byte[] ndefMessageBytes = ndefMessageEncoder.encode(record);
+			byte[] ndefMessageBytes = ndefMessageEncoder.encodeSingle(record);
 			
 			try {
 				List<org.ndeftools.Record> list = org.ndeftools.Message.parseNdefMessage(ndefMessageBytes);

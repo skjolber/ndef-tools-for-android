@@ -47,7 +47,7 @@ import org.ndeftools.wellknown.handover.HandoverCarrierRecord.CarrierTypeFormat;
 import org.ndeftools.wellknown.handover.HandoverRequestRecord;
 import org.ndeftools.wellknown.handover.HandoverSelectRecord;
 import org.nfctools.ndef.NdefContext;
-import org.nfctools.ndef.NdefDecoder;
+import org.nfctools.ndef.NdefMessageDecoder;
 
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
@@ -141,8 +141,8 @@ public class NFCToolsDecodeCompatibilityTest extends TestCase {
 
 	public void testCompatibility() throws FormatException {
 		
-		NdefDecoder ndefMessageDecoder = NdefContext.getNdefDecoder();
-
+		NdefMessageDecoder ndefMessageDecoder = NdefContext.getNdefMessageDecoder();
+		
 		// individually
 		for (Record record : records) {
 			NdefMessage message = new NdefMessage(record.getNdefRecord().toByteArray());
