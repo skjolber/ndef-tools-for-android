@@ -29,12 +29,11 @@ package org.ndeftools.externaltype;
 public class GenericExternalTypeRecord extends ExternalTypeRecord {
 
 	private byte[] data;
+	private String domain;
+	private String type;
 
 	public GenericExternalTypeRecord() {
 	}
-
-	private String domain;
-	private String type;
 
 	public GenericExternalTypeRecord(String domain, String type) {
 		this.domain = domain;
