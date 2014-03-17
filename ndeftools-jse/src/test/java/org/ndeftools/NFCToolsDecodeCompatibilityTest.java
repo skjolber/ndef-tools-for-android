@@ -22,8 +22,7 @@ package org.ndeftools;
 import java.nio.charset.Charset;
 import java.util.Locale;
 
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.ndeftools.externaltype.AndroidApplicationRecord;
 import org.ndeftools.wellknown.Action;
 import org.ndeftools.wellknown.ActionRecord;
@@ -52,7 +51,7 @@ import org.nfctools.ndef.NdefMessageDecoder;
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
-import android.util.Log;
+import static org.junit.Assert.*;
 
 /**
  * 
@@ -62,7 +61,7 @@ import android.util.Log;
  * 
  */
 
-public class NFCToolsDecodeCompatibilityTest extends TestCase {
+public class NFCToolsDecodeCompatibilityTest {
 
 	private static AbsoluteUriRecord absoluteUriRecord = new AbsoluteUriRecord("http://absolute.url");
 	private static ActionRecord actionRecord = new ActionRecord(Action.SAVE_FOR_LATER);
@@ -139,6 +138,7 @@ public class NFCToolsDecodeCompatibilityTest extends TestCase {
 
 	}
 
+    @Test
 	public void testCompatibility() throws FormatException {
 		
 		NdefMessageDecoder ndefMessageDecoder = NdefContext.getNdefMessageDecoder();
@@ -152,10 +152,10 @@ public class NFCToolsDecodeCompatibilityTest extends TestCase {
 			try {
 				org.nfctools.ndef.Record decodeToRecord = ndefMessageDecoder.decodeToRecord(ndefMessageBytes);
 				
-				Log.d(getClass().getSimpleName(), "Found " + decodeToRecord.getClass().getSimpleName());
+				System.out.println(getClass().getSimpleName()+ ": Found " + decodeToRecord.getClass().getSimpleName());
 
 			} catch(Exception e) {
-				Log.d(getClass().getSimpleName(), record.getClass().getSimpleName(), e);
+				e.printStackTrace();
 				
 				fail(record.getClass().getSimpleName());
 			}

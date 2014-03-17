@@ -6,7 +6,6 @@ import org.ndeftools.externaltype.AndroidApplicationRecord;
 
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
-import android.util.Log;
 
 /**
  * 
@@ -50,7 +49,7 @@ public class ExamplesTest {
 		for(int i = 0; i < highLevel.size(); i++) {
 			Record record = highLevel.get(i);
 			
-			Log.d(TAG, "Record #" + i + " is of class " + record.getClass().getSimpleName());
+			System.out.println(TAG + ": Record #" + i + " is of class " + record.getClass().getSimpleName());
 		}
 	}
 	

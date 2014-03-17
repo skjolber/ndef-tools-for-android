@@ -24,14 +24,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import org.ndeftools.android.test.R;
 import org.ndeftools.wellknown.handover.AlternativeCarrierRecord;
 import org.ndeftools.wellknown.handover.CollisionResolutionRecord;
 import org.ndeftools.wellknown.handover.HandoverRequestRecord;
 import org.ndeftools.wellknown.handover.HandoverSelectRecord;
 
 import android.nfc.NdefMessage;
-import android.test.AndroidTestCase;
+
+import static org.junit.Assert.*;
 
 /**
  * Test various example handover messages.
@@ -40,10 +40,10 @@ import android.test.AndroidTestCase;
  * 
  */
 
-public class HandoverDecoderTest extends AndroidTestCase {
+public class HandoverDecoderTest {
 
 	public void testBluetoothHandoverRequest12() throws Exception {
-		byte[] messageBytes = getResource(R.raw.bluetooth_handover_request);
+		byte[] messageBytes = getResource("bluetooth_handover_request.bin");
 
 		Message message = new Message(new NdefMessage(messageBytes));
 		assertEquals(2, message.size());
@@ -68,7 +68,7 @@ public class HandoverDecoderTest extends AndroidTestCase {
 	}
 
 	public void testBluetoothHandoverSelect12() throws Exception {
-		byte[] messageBytes = getResource(R.raw.bluetooth_handover_select);
+		byte[] messageBytes = getResource("bluetooth_handover_select.bin");
 
 		Message message = new Message(new NdefMessage(messageBytes));
 		assertEquals(2, message.size());
@@ -93,7 +93,7 @@ public class HandoverDecoderTest extends AndroidTestCase {
 	}
 
 	public void testBluetoothHandoverSelectTag12() throws Exception {
-		byte[] messageBytes = getResource(R.raw.bluetooth_handover_select_tag);
+		byte[] messageBytes = getResource("bluetooth_handover_select_tag.bin");
 
 		Message message = new Message(new NdefMessage(messageBytes));
 
@@ -119,8 +119,8 @@ public class HandoverDecoderTest extends AndroidTestCase {
 		assertEquals("0", bluetooth.getKey());
 	}
 
-	public byte[] getResource(int resource) throws IOException {
-		InputStream in = getContext().getResources().openRawResource(resource);
+	public byte[] getResource(String resource) throws IOException {
+		InputStream in = getClass().getResourceAsStream(resource);
 
 		assertNotNull(in);
 

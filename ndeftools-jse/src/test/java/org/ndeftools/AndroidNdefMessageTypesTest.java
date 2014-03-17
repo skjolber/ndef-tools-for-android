@@ -36,15 +36,10 @@ import org.ndeftools.wellknown.UriRecord;
 import android.annotation.SuppressLint;
 import android.nfc.FormatException;
 import android.nfc.NdefRecord;
-import android.test.AndroidTestCase;
 
-@SuppressLint("NewApi")
-public class AndroidNdefMessageTypesTest extends AndroidTestCase {
+import static org.junit.Assert.*;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-	}
+public class AndroidNdefMessageTypesTest {
 	
 	public void testAndroidApplicationRecord() throws FormatException {
 		String packageName = getClass().getName();

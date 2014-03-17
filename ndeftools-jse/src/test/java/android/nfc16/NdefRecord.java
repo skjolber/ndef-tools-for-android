@@ -20,7 +20,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.nfc.FormatException;
-import android.os.Parcel;
 import android.os.Parcelable;
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
@@ -889,45 +888,6 @@ public final class NdefRecord implements Parcelable {
 
         return length;
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(mTnf);
-        dest.writeInt(mType.length);
-        dest.writeByteArray(mType);
-        dest.writeInt(mId.length);
-        dest.writeByteArray(mId);
-        dest.writeInt(mPayload.length);
-        dest.writeByteArray(mPayload);
-    }
-
-    public static final Parcelable.Creator<NdefRecord> CREATOR =
-            new Parcelable.Creator<NdefRecord>() {
-        @Override
-        public NdefRecord createFromParcel(Parcel in) {
-            short tnf = (short)in.readInt();
-            int typeLength = in.readInt();
-            byte[] type = new byte[typeLength];
-            in.readByteArray(type);
-            int idLength = in.readInt();
-            byte[] id = new byte[idLength];
-            in.readByteArray(id);
-            int payloadLength = in.readInt();
-            byte[] payload = new byte[payloadLength];
-            in.readByteArray(payload);
-
-            return new NdefRecord(tnf, type, id, payload);
-        }
-        @Override
-        public NdefRecord[] newArray(int size) {
-            return new NdefRecord[size];
-        }
-    };
 
     @Override
     public int hashCode() {

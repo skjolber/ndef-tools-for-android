@@ -21,10 +21,11 @@ package org.ndeftools;
 
 import java.io.ByteArrayOutputStream;
 
+import org.junit.Test;
 import org.ndeftools.externaltype.AndroidApplicationRecord;
 
 import android.nfc16.NdefMessage;
-import android.test.AndroidTestCase;
+import static org.junit.Assert.*;
 
 /**
  * Test various parse normalizations. 
@@ -39,11 +40,12 @@ import android.test.AndroidTestCase;
  * 
  */
 
-public class NormalizeTest extends AndroidTestCase {
+public class NormalizeTest {
 
     private static final byte FLAG_MB = (byte) 0x80;
     private static final byte FLAG_ME = (byte) 0x40;
 
+    @Test
 	public void testNFC16() throws Exception {
 		AndroidApplicationRecord a = new AndroidApplicationRecord();
 		a.setPackageName("a");

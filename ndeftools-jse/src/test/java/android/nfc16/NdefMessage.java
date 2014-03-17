@@ -20,7 +20,6 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 import android.nfc.FormatException;
-import android.os.Parcel;
 import android.os.Parcelable;
 
 
@@ -205,32 +204,6 @@ public final class NdefMessage implements Parcelable {
 
         return buffer.array();
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(mRecords.length);
-        dest.writeTypedArray(mRecords, flags);
-    }
-
-    public static final Parcelable.Creator<NdefMessage> CREATOR =
-            new Parcelable.Creator<NdefMessage>() {
-        @Override
-        public NdefMessage createFromParcel(Parcel in) {
-            int recordsLength = in.readInt();
-            NdefRecord[] records = new NdefRecord[recordsLength];
-            in.readTypedArray(records, NdefRecord.CREATOR);
-            return new NdefMessage(records);
-        }
-        @Override
-        public NdefMessage[] newArray(int size) {
-            return new NdefMessage[size];
-        }
-    };
 
     @Override
     public int hashCode() {

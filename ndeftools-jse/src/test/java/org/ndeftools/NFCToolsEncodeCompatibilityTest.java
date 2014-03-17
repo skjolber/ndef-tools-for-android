@@ -20,8 +20,9 @@ import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Locale;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
+import org.junit.Test;
 import org.nfctools.ndef.NdefConstants;
 import org.nfctools.ndef.NdefContext;
 import org.nfctools.ndef.NdefMessageEncoder;
@@ -56,8 +57,6 @@ import org.nfctools.ndef.wkt.records.TextRecord;
 import org.nfctools.ndef.wkt.records.UriRecord;
 import org.nfctools.ndef.Record;
 
-import android.util.Log;
-
 
 /**
  * 
@@ -67,7 +66,7 @@ import android.util.Log;
  * 
  */
 
-public class NFCToolsEncodeCompatibilityTest extends TestCase {
+public class NFCToolsEncodeCompatibilityTest {
 
 	private static AbsoluteUriRecord absoluteUriRecord = new AbsoluteUriRecord("http://absolute.url");
 	private static ActionRecord actionRecord = new ActionRecord(Action.SAVE_FOR_LATER);
@@ -153,6 +152,7 @@ public class NFCToolsEncodeCompatibilityTest extends TestCase {
 
 	}
 
+    @Test
 	public void testCompatibility() throws Exception {
 		
 		NdefMessageEncoder ndefMessageEncoder = NdefContext.getNdefMessageEncoder();
@@ -168,7 +168,7 @@ public class NFCToolsEncodeCompatibilityTest extends TestCase {
 					fail("Expected list size 1, not " + list.size());
 				}
 			} catch(Exception e) {
-				Log.d(getClass().getSimpleName(), record.getClass().getSimpleName(), e);
+				e.printStackTrace();
 				
 				fail(record.getClass().getSimpleName());
 			}

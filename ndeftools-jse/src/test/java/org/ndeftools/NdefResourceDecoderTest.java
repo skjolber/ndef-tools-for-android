@@ -23,10 +23,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.ndeftools.android.test.R;
-
 import android.nfc.NdefMessage;
-import android.test.AndroidTestCase;
+import static org.junit.Assert.*;
 
 /**
  * Test various example handover messages.
@@ -35,10 +33,10 @@ import android.test.AndroidTestCase;
  * 
  */
 
-public class NdefResourceDecoderTest extends AndroidTestCase {
+public class NdefResourceDecoderTest {
 
 	public void testGenericControlRecord() throws Exception {
-		byte[] messageBytes = getResource(R.raw.generic_control_record);
+		byte[] messageBytes = getResource("raw.generic_control_record.bin");
 
 		Message message = new Message(new NdefMessage(messageBytes));
 		assertEquals(1, message.size());
@@ -46,8 +44,8 @@ public class NdefResourceDecoderTest extends AndroidTestCase {
 		
 	}
 
-	public byte[] getResource(int resource) throws IOException {
-		InputStream in = getContext().getResources().openRawResource(resource);
+	public byte[] getResource(String resource) throws IOException {
+		InputStream in = getClass().getResourceAsStream(resource);
 
 		assertNotNull(in);
 
