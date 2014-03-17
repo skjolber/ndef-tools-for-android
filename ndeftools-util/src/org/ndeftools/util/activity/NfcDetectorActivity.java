@@ -98,14 +98,14 @@ public abstract class NfcDetectorActivity extends Activity {
     	 
     	// Check for available NFC Adapter
     	PackageManager pm = getPackageManager();
-    	if(!pm.hasSystemFeature(PackageManager.FEATURE_NFC)) {
-        	Log.d(TAG, "NFC feature not found");
-
-    		onNfcFeatureNotFound();
-    	} else {
+    	if(pm.hasSystemFeature(PackageManager.FEATURE_NFC) && NfcAdapter.getDefaultAdapter(this) != null) {
         	Log.d(TAG, "NFC feature found");
 
     		onNfcFeatureFound();
+    	} else {
+        	Log.d(TAG, "NFC feature not found");
+
+    		onNfcFeatureNotFound();
     	}
     }
 
