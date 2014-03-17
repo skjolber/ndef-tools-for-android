@@ -10,7 +10,7 @@
     <parent>
         <groupId>com.google.code.ndef-tools-for-android</groupId>
         <artifactId>parent</artifactId>
-        <version>1.2.4</version>
+        <version>1.2.5-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -24,14 +24,14 @@
         <dependency>
             <groupId>com.google.code.ndef-tools-for-android</groupId>
             <artifactId>ndeftools-util</artifactId>
-            <version>1.2.4</version>
+            <version>1.2.5-SNAPSHOT</version>
             <type>jar</type>
         </dependency>
 
         <dependency>
             <groupId>com.google.code.ndef-tools-for-android</groupId>
             <artifactId>ndeftools</artifactId>
-            <version>1.2.4</version>
+            <version>1.2.5-SNAPSHOT</version>
             <type>jar</type>
         </dependency>
     </dependencies>
