@@ -217,5 +217,10 @@ public class DefaultNfcTagWriterActivity extends NfcTagWriterActivity {
 		toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL, 0, 0);
 		toast.show();
 	}
+
+	@Override
+	protected void onTagLost() {
+		toast(getString(R.string.tagLost));
+	}
 	
 }

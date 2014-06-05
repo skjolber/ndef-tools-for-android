@@ -114,5 +114,8 @@
     <string name="beamer">NFC Beam (push) writer</string>
     <string name="beamerTitle">NFC Beam (push) writer demo</string>
     <string name="beamerDescription">This activity beams (pushes) an Android Application Record to any other device, as well as detecting incoming messages in the NDEF format.\n\nNote that most phones require that the sender manually taps on the screen to do the actual payload data transmit part of the beam (push) messaging.</string>
+
+    <string name="tagLost">Tag lost</string>
+    
     
 </resources>

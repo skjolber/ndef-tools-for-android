@@ -19,6 +19,8 @@
 
 package org.ndeftools.util.activity;
 
+import java.io.IOException;
+
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -27,6 +29,15 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.nfc.NfcAdapter;
+import android.nfc.Tag;
+import android.nfc.tech.IsoDep;
+import android.nfc.tech.MifareClassic;
+import android.nfc.tech.MifareUltralight;
+import android.nfc.tech.NfcA;
+import android.nfc.tech.NfcB;
+import android.nfc.tech.NfcF;
+import android.nfc.tech.NfcV;
+import android.nfc.tech.TagTechnology;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -70,6 +81,11 @@ public abstract class NfcDetectorActivity extends Activity {
     public static final int STATE_ON = 3;
     public static final int STATE_TURNING_OFF = 4;
     
+    private static final String ACTION_NFC_SETTINGS = "android.settings.NFC_SETTINGS";
+    
+    /** this action seems never to be emitted, but is here for future use */
+    private static final String ACTION_TAG_LEFT_FIELD = "android.nfc.action.TAG_LOST";
+    
     private static final String TAG = NfcDetectorActivity.class.getName();
     
     private static IntentFilter nfcStateChangeIntentFilter = new IntentFilter(ACTION_ADAPTER_STATE_CHANGED);
@@ -88,7 +104,7 @@ public abstract class NfcDetectorActivity extends Activity {
 	
 	/** NXP chips support Mifare Classic, others do not. */
 	protected boolean nxpMifareClassic;
-	
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +123,7 @@ public abstract class NfcDetectorActivity extends Activity {
 
     		onNfcFeatureNotFound();
     	}
+    	
     }
 
 	private boolean hasMifareClassic() {
@@ -135,7 +152,9 @@ public abstract class NfcDetectorActivity extends Activity {
         IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
         IntentFilter ndefDetected = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
         IntentFilter techDetected = new IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED);
-        writeTagFilters = new IntentFilter[] {ndefDetected, tagDetected, techDetected};
+        IntentFilter tagLost = new IntentFilter(ACTION_TAG_LEFT_FIELD);
+        
+        writeTagFilters = new IntentFilter[] {ndefDetected, tagDetected, techDetected, tagLost};
         
         nfcStateChangeBroadcastReceiver = new BroadcastReceiver() {
 			@Override
@@ -347,6 +366,10 @@ public abstract class NfcDetectorActivity extends Activity {
         	Log.d(TAG, "Process TECH discovered action");
 
         	nfcIntentDetected(intent, NfcAdapter.ACTION_TECH_DISCOVERED);
+        } else  if (ACTION_TAG_LEFT_FIELD.equals(intent.getAction())) {
+        	Log.d(TAG, "Process tag lost action");
+        	
+        	onTagLost(); // NOTE: This seems not to work as expected
         } else {
         	Log.d(TAG, "Ignore action " + intent.getAction());
         }
@@ -354,14 +377,14 @@ public abstract class NfcDetectorActivity extends Activity {
 	
 	/**
 	 * 
-	 * Launch an activity for nfc (or wireless) settings, so that the user might enable or disable nfc
+	 * Launch an activity for NFC (or wireless) settings, so that the user might enable or disable nfc
 	 * 
 	 */
 
 	
 	protected void startNfcSettingsActivity() {
 		if (android.os.Build.VERSION.SDK_INT >= 16) {
-			startActivity(new Intent(android.provider.Settings.ACTION_NFC_SETTINGS));
+			startActivity(new Intent(ACTION_NFC_SETTINGS)); // android.provider.Settings.ACTION_NFC_SETTINGS
 		} else {
 			startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
 		}
@@ -391,6 +414,8 @@ public abstract class NfcDetectorActivity extends Activity {
 	public void setDetecting(boolean detecting) {
 		this.detecting = detecting;
 	}
-    
-    
+	
+	protected abstract void onTagLost();
+
+
 }

@@ -223,4 +223,9 @@ public class DefaultNfcReaderActivity extends NfcReaderActivity {
 		toast.show();
 	}
 
+	@Override
+	protected void onTagLost() {
+		toast(getString(R.string.tagLost));
+	}
+
 }

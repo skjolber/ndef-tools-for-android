@@ -243,4 +243,10 @@ public class DefaultNfcBeamWriterActivity extends NfcBeamWriterActivity {
 		
 		startPushing();
 	}
+	
+	@Override
+	protected void onTagLost() {
+		toast(getString(R.string.tagLost));
+	}
+
 }
