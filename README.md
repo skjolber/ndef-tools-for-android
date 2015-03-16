@@ -16,44 +16,54 @@ The most important features are
 In other words, this projects helps you to handle __dynamic NDEF content__ at runtime.
 # NDEF object representation library #
 So a [Message](https://github.com/skjolber/ndef-tools-for-android/blob/master/ndeftools/src/org/ndeftools/Message.java) consists of a list of [Records](https://github.com/skjolber/ndef-tools-for-android/blob/master/ndeftools/src/org/ndeftools/Record.java) in the NDEF standard. Browse the [source](https://github.com/skjolber/ndef-tools-for-android/tree/master/ndeftools/src/org/ndeftools) for an overview.
+
 ## Creating new NDEF records ##
 Compose an [Android Application Record](http://developer.android.com/guide/topics/connectivity/nfc/nfc.html#aar):
-```
+
+```java
 AndroidApplicationRecord aar = new AndroidApplicationRecord();
 aar.setPackageName("org.ndeftools.boilerplate");
 ```
+
 Compose a Mime Record
-```
+```java
 MimeRecord mimeRecord = new MimeRecord();
 mimeRecord.setMimeType("text/plain");
 mimeRecord.setData("This is my data".getBytes("UTF-8"));
 ```
+
 ## Create new NDEF message ##
 From above, simply
-```
+
+```java
 Message message = new Message(); //  org.ndeftools.Message
 message.add(androidApplicationRecord);
 message.add(mimeRecord);
 ```
 or from bytes
-```
+
+```java
 byte[] messageBytes = ...; // get your bytes
 Message message = Message.parseNdefMessage(messageBytes);
 ```
+
 ## Converting to and from native Android [NdefMessage](http://developer.android.com/reference/android/nfc/NdefMessage.html) ##
 Use
-```
+
+```java
 NdefMessage lowLevel = ...; // get from existing code
 Message highLevel = new Message(lowLevel);
 // read from high-level records
 ```
 or
-```
+
+```java
 Message highLevel = ...// compose high-level records
 NdefMessage lowLevel = highLevel.getNdefMessage();
 // .. pass low-level NdefMessage to existing code
 ```
-# NFC utility library #
+
+# NFC utility module #
 The [utility module](https://github.com/skjolber/ndef-tools-for-android/tree/master/ndeftools-util) adds support for interacting with NFC from Android activities. Default implementations are provided in the [boilerplate module](https://github.com/skjolber/ndef-tools-for-android/tree/master/ndeftools-boilerplate), for [reading](https://github.com/skjolber/ndef-tools-for-android/blob/master/ndeftools-boilerplate/src/org/ndeftools/boilerplate/DefaultNfcReaderActivity.java) and [writing](https://github.com/skjolber/ndef-tools-for-android/blob/master/ndeftools-boilerplate/src/org/ndeftools/boilerplate/DefaultNfcTagWriterActivity.java) and [beaming](https://github.com/skjolber/ndef-tools-for-android/blob/master/ndeftools-boilerplate/src/org/ndeftools/boilerplate/DefaultNfcBeamWriterActivity.java).
 
 __A working demo is available in [Google Play](https://play.google.com/store/apps/details?id=org.ndeftools.boilerplate), search for keywords 'ndef tools demo'.__ Browse the [source](https://github.com/skjolber/ndef-tools-for-android/tree/master/ndeftools-util/src/org/ndeftools/util/activity) for further details.
@@ -63,6 +73,7 @@ If you are familiar with the Android SDK NFCDemo, there is a [reworked version](
 
 # Getting started / tutorial #
 Visit the [getting started overview page](https://github.com/skjolber/ndef-tools-for-android/blob/wiki/GettingStartedAndroid.md) or try the beginner [Android Tutorial](https://github.com/skjolber/ndef-tools-for-android/blob/wiki/AndroidTutorial.md). Alternatively try a [tutorial-like workshop](https://github.com/skjolber/Fagmote/tree/master/Android/Near%20Field%20Communications) (solution included).
+
 # NFC Eclipse plugin #
 For a graphical NDEF editor, try [NFC Eclipse plugin](https://github.com/skjolber/nfc-eclipse-plugin). It creates __static NDEF content__, and so is good for getting to know the NDEF format. Recommended for developers new to NFC.
 
