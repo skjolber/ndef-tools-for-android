@@ -1,4 +1,4 @@
-[![](http://wiki.nfc-eclipse-plugin.googlecode.com/git/images/NFC_Forum_N-Mark_single-color.jpg)](http://http://www.nfc-forum.org)
+[![](https://raw.githubusercontent.com/skjolber/nfc-eclipse-plugin/wiki/images/NFC_Forum_N-Mark_single-color.jpg)](http://http://www.nfc-forum.org)
 
 # NFC forum #
 This project relates to the following documents from the [NFC Forum](http://www.nfc-forum.org):

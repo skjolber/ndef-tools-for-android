@@ -29,29 +29,38 @@ From version 2.3.3, NFC functionality has been included in Android. Some changes
 # Getting started #
 The Android NFC API is specified [here](http://developer.android.com/guide/topics/nfc/nfc.html). **However I'd recommend you do the [Android Tutorial](AndroidTutorial.md) first.**
 
-Note that the emulator does not currently support NFC, so you will need an actual NFC device. **Getting some [tags](http://rapidnfc.com/r/1372) or even an NFC terminal for experimentation is recommended, preferably sooner than later**.
+Note that the emulator does not currently support NFC, so you will need an actual NFC device. **Getting some [tags](http://rapidnfc.com/r/1372) or even an NFC terminal for experimentation is recommended**.
 
 # Eclipse plugin #
 The [NFC Eclipse plugin](https://code.google.com/p/nfc-eclipse-plugin) is a file-based tool for composing NDEF messages. It is ideal for creating <b>static</b> NDEF messages, storing them on [tags](http://rapidnfc.com/r/1372), and doing some experimentation.
 
-The plugin supports [most](https://code.google.com/p/nfc-eclipse-plugin/wiki/Specifications) of the known NDEF Record types.
+The plugin supports [most](Specifications.md) of the known NDEF Record types.
 
 ## Hands-on workshop ##
 For a more challenging learning curve, check out [this](https://github.com/skjolber/Fagmote/tree/master/Android/Near%20Field%20Communications) entry-level workshop.
 
 ## Example Android project ##
-In addition to classes for parsing NDEF messages, there is a [boilerplate](http://code.google.com/p/ndef-tools-for-android/downloads/detail?name=ndeftools-all-src-1.2.zip) Eclipse project for Android included with this site which handles read and write from within Android activities.
+In addition to classes for parsing NDEF messages, there is a [boilerplate](https://github.com/skjolber/ndef-tools-for-android/tree/master/ndeftools-boilerplate) Eclipse project for Android included with this site which handles read and write from within Android activities.
 
 # Maven artifact #
 This project can be imported as a Maven artifact:
-```
+
+```xml
 <dependency>
   <groupId>com.google.code.ndef-tools-for-android</groupId>
   <artifactId>ndeftools</artifactId>
   <version>1.2.4</version>
 </dependency>
 ```
-See the [Maven](Maven.md) page for more details.
+See the [Maven](Maven.md) page for further details.
+
+# Gradle dependency #
+This project can be added as a Gradle dependency:
+
+```
+    compile 'com.google.code.ndef-tools-for-android:ndeftools:1.2.4'
+```
+See the [Gradle](Gradle.md) page for further details.
 
 ## NFC Tools for Java ##
 If  you are into interacting Android devices with NFC readers (terminals) and such, you might also check out [NFC Tools for Java](https://github.com/grundid/nfctools).

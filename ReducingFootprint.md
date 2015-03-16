@@ -1,13 +1,13 @@
 # The org.ndeftools.Record class #
 
-Each record class type has its own parse and serialize methods, all tied together in the abstract [Record](http://wiki.ndef-tools-for-android.googlecode.com/git/javadoc/ndeftools/org/ndeftools/Record.html) class. If you want to reduce the footprint, use record-specific parsing, like
+Each record class type has its own parse and serialize methods, all tied together in the abstract [Record](https://github.com/skjolber/ndef-tools-for-android/blob/master/ndeftools/src/org/ndeftools/Record.java) class. If you want to reduce the footprint, use record-specific parsing, like
 ```
 Record myRecord = MimeRecord.parse(ndefRecord);
 ```
 
-or uncomment in the generic [Record](http://wiki.ndef-tools-for-android.googlecode.com/git/javadoc/ndeftools/org/ndeftools/Record.html) parse method:
+or uncomment in the generic [Record](https://github.com/skjolber/ndef-tools-for-android/blob/master/ndeftools/src/org/ndeftools/Record.java#L147) parse method:
 
-```
+```java
 	public static Record parse(NdefRecord ndefRecord) throws FormatException {
 		short tnf = ndefRecord.getTnf();
 		

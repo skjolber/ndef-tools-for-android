@@ -48,7 +48,7 @@ The package name has not been set yet, change it to <b>com.google.android.apps.m
 
 ## Writing the NDEF message to a tag ##
 Once your editing is done, select the NDEF+QR tab. An QR code representing the message bytes is generated:<br />
-![![](https://raw.githubusercontent.com/skjolber/nfc-eclipse-plugin/wiki/images/tutorial/aar_qr.png)](https://raw.githubusercontent.com/skjolber/nfc-eclipse-plugin/wiki/images/tutorial/aar_ar.png).
+![![](https://raw.githubusercontent.com/skjolber/nfc-eclipse-plugin/wiki/images/tutorial/aar_qr.png)](https://raw.githubusercontent.com/skjolber/nfc-eclipse-plugin/wiki/images/tutorial/aar_qr.png).
 <br />
 Launch the [NFC Developer](https://play.google.com/store/apps/details?id=com.antares.nfc) app.
 
