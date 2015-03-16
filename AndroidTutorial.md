@@ -11,24 +11,27 @@ This tutorial focuses on the NDEF format, which is the mainline format used for 
   * An USB cable to connect computer and device
   * Eclipse
   * An IDE with Android SDK installed, including USB drivers.
-  * A writable NFC [tag](http://code.google.com/p/nfc-eclipse-plugin/wiki/Tags). Consider ordering an [NFC tags starter pack](http://rapidnfc.com/r/1372) if your don't have any.
+  * A writable NFC [tag](https://github.com/skjolber/nfc-eclipse-plugin/blob/wiki/Tags.md). Consider ordering an [NFC tags starter pack](http://rapidnfc.com/r/1372) if your don't have any (and support this project at the same time).
 
 Note: This tutorial assumes you are using Eclipse, however any other IDE can be used, using Eclipse only as an NDEF file editor (see below).
 # Setup #
-  1. Install the [NFC Eclipse plugin](http://nfc-eclipse-plugin.googlecode.com) from update site
+  1. Install the [NFC Eclipse plugin](https://github.com/skjolber/nfc-eclipse-plugin) from update site
 ```
 http://nfc-eclipse-plugin.googlecode.com/git/nfc-eclipse-plugin-feature/update-site/ 
 ```
   1. On your Android device, install the [NFC Developer](https://play.google.com/store/apps/details?id=com.antares.nfc) app from Android Play.
-  1. Download [template](http://code.google.com/p/ndef-tools-for-android/downloads/detail?name=AndroidTutorial2.zip) projects.  # Import project <b>HelloWorldNFC Base</b>.
+  1. Download [template](https://github.com/skjolber/ndef-tools-for-android/blob/wiki/tutorial/AndroidTutorial.zip?raw=true) projects.  
+  
+# Import project __HelloWorldNFC Base__.
 You are now ready to start the tutorial. So lets get it ooon! :-)
 <br />
 
 # Creating an NDEF message using NFC Eclipse plugin #
-The NFC Eclipse plugin editor creates static NDEF messages as files. See [here](http://code.google.com/p/nfc-eclipse-plugin/wiki/Tutorial) for a more in-depth tutorial on the editor.
+The NFC Eclipse plugin editor creates static NDEF messages as files. See [here](https://github.com/skjolber/nfc-eclipse-plugin/blob/wiki/Tutorial.md) for a more in-depth tutorial on the editor.
 
 Later, we could create messages at runtime.<br /> The first message we will create only contains a single NDEF record, an Android Application Record.
 <br />
+
 _All Android applications are uniquely identified by a Java package name, and an Android Application Record specifies such a package name - built into Android (4.0+) is a function that launches the corresponding application if such a NDEF record is found in an NDEF message. If no such application is installed, Android opens Google Play on the corresponding app page._<br />
 From the root of the Eclipse project, select
 ```
@@ -39,16 +42,18 @@ and create the file <b>test.ndef</b>. Open the file. Right-click on the empty ta
 Add record -> AndroidApplicationRecord
 ```
 from the dropdown menu. You should see something like this:<br />
-![![](http://wiki.ndef-tools-for-android.googlecode.com/git/images/aar.png)](http://wiki.ndef-tools-for-android.googlecode.com/git/images/aar.png)<br />
+![![](https://raw.githubusercontent.com/skjolber/nfc-eclipse-plugin/wiki/images/tutorial/aar.png)](https://raw.githubusercontent.com/skjolber/nfc-eclipse-plugin/wiki/images/tutorial/aar.png)<br />
 The new record has only a single attribute, package name. In addition it has an 'id' attribute which all records have.
 The package name has not been set yet, change it to <b>com.google.android.apps.maps</b>.
+
 ## Writing the NDEF message to a tag ##
 Once your editing is done, select the NDEF+QR tab. An QR code representing the message bytes is generated:<br />
-![![](http://wiki.ndef-tools-for-android.googlecode.com/git/images/aar_qr.png)](http://wiki.ndef-tools-for-android.googlecode.com/git/images/aar_qr.png).
+![![](https://raw.githubusercontent.com/skjolber/nfc-eclipse-plugin/wiki/images/tutorial/aar_qr.png)](https://raw.githubusercontent.com/skjolber/nfc-eclipse-plugin/wiki/images/tutorial/aar_ar.png).
 <br />
 Launch the [NFC Developer](https://play.google.com/store/apps/details?id=com.antares.nfc) app.
 
 _Now scan the QR code on the screen and then scan (touch up) the tag by moving it to the center of the back of your Android device._
+
 ## Test the tag containing the newly created NDEF message ##
 Close the NFC Developer app, and scan the tag just created (make sure the device is not locked).
 
@@ -57,24 +62,27 @@ Observe how scanning the tag launches Google Maps!
 This is because the identifier we put in earlier points to the Google Maps application in Google Play.
 
 Now we have a tag with a valid NDEF message!
+
 # Hello (World) NFC tag #
-Make sure you have imported the [project template](http://code.google.com/p/ndef-tools-for-android/downloads/detail?name=AndroidTutorial2.zip) project <b>HelloWorldNFC Base</b>. Connect Android device using USB cable and enable developer mode in settings:
+Make sure you have imported the [project template](https://github.com/skjolber/ndef-tools-for-android/blob/wiki/tutorial/AndroidTutorial.zip?raw=true) project <b>HelloWorldNFC Base</b>. Connect Android device using USB cable and enable developer mode in settings:
   * USB debugging
   * Remain awake when charging (optional)
 
 Launch the hello world application via right-clicking on project and `'Run As -> Android application'`. Show view `'Android->LogCat'` in Eclipse and verify that a hello world message appears.
+
 ## Change Hello World text by scanning a tag ##
 We want to receive NFC messages when our application is showing on the screen.
 
 1. Add NFC permissions in the manifest:
-```
+```xml
 <!-- Near field communications permissions -->
 <uses-permission android:name="android.permission.NFC" />
 <uses-feature android:name="android.hardware.nfc" android:required="true" />
 ```
 
 2. Initialize NFC [foreground mode](http://developer.android.com/guide/topics/connectivity/nfc/advanced-nfc.html#foreground-dispatch) in the Hello World activity:
-```
+
+```java
 @Override
 public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +95,8 @@ public void onCreate(Bundle savedInstanceState) {
 ```
 
 3. Call enable/disable foreground mode from onResume() and onPause() in the Hello World activity:
-```
+
+```java
 public void enableForegroundMode() {
         Log.d(TAG, "enableForegroundMode");
 
@@ -105,7 +114,8 @@ public void disableForegroundMode() {
 ```
 
 4. Change title to <b>'Hello NFC tag!'</b> when a tag is scanned:
-```
+
+```java
 @Override
 public void onNewIntent(Intent intent) { // this method is called when an NFC tag is scanned
 Log.d(TAG, "onNewIntent");
@@ -130,7 +140,7 @@ The NDEF Tools for Android library jar is already added to the template project.
 
 Modify the method onNewIntent(..) to parse the incoming NDEF message.
 
-```
+```java
 Parcelable[] messages = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
     if (messages != null) { 
         Log.d(TAG, "Found " + messages.length + " NDEF messages");
@@ -173,13 +183,13 @@ Now our very own app should launch! :-)
 This concludes the tutorial. Import the <b>HelloWorldNFC Solution</b> project for a working solution.
 
 # Next steps #
-Get the [latest version](http://code.google.com/p/ndef-tools-for-android/downloads/list) of this library and familiarize yourself with the NDEF format, because it sets the stage for many of the things you can do with NFC on Android.
+Get the [latest version](https://github.com/skjolber/ndef-tools-for-android) of this library and familiarize yourself with the NDEF format, because it sets the stage for many of the things you can do with NFC on Android.
 
 ## Additional tutorial ##
 Try the more advanced tutorial at [github](https://github.com/skjolber/Fagmote/tree/master/Android/Near%20Field%20Communications). It includes writing to tags and beaming between devices. Also covers how to [detect that the app was launched via NFC](https://github.com/skjolber/Fagmote/tree/master/Android/Near%20Field%20Communications#c-detect-app-launch-via-nfc-tag) and potentially reading the tag contents.
 
 ## Working samples ##
-The NFC utility library also included within this project contains [abstract activities](http://code.google.com/p/ndef-tools-for-android/source/browse/#git%2Fndeftools-util%2Fsrc%2Forg%2Fndeftools%2Futil%2Factivity), as well as working [examples implementations](http://code.google.com/p/ndef-tools-for-android/source/browse/#git%2Fndeftools-boilerplate%2Fsrc%2Forg%2Fndeftools%2Fboilerplate). Get the code from [Git](http://code.google.com/p/ndef-tools-for-android/source/checkout) or download it [here](http://code.google.com/p/ndef-tools-for-android/downloads/list).
+The Android NFC utility library used within this project contains [abstract activities](https://github.com/skjolber/ndef-tools-for-android/tree/master/ndeftools-util/src/org/ndeftools/util/activity), as well as working [examples implementations](https://github.com/skjolber/ndef-tools-for-android/tree/master/ndeftools-boilerplate/src/org/ndeftools/boilerplate). Visit [NDEF Tools for Android](https://github.com/skjolber/ndef-tools-for-android) on Github.
 
 # Please report any problems #
 Drop me an email at skjolber@gmail.com if you run into technical problems or feel the text is unclear or could have been better.
