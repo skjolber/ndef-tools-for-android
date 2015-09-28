@@ -75,6 +75,7 @@ public abstract class NfcDetectorActivity extends Activity {
      */
 	
     public static final String EXTRA_ADAPTER_STATE = "android.nfc.extra.ADAPTER_STATE";
+    public static final String STATE_INTENT_PROCESSED = "org.ndeftools.util.activity.state.intent_processed";
     
     public static final int STATE_OFF = 1;
     public static final int STATE_TURNING_ON = 2;
@@ -109,7 +110,11 @@ public abstract class NfcDetectorActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     	Log.d(TAG, "onCreate");
-
+    	
+    	if(savedInstanceState != null) {
+    	    intentProcessed = savedInstanceState.getBoolean(STATE_INTENT_PROCESSED);
+    	}
+    	
     	nxpMifareClassic = hasMifareClassic();
     	 
     	// Check for available NFC Adapter
@@ -273,6 +278,12 @@ public abstract class NfcDetectorActivity extends Activity {
     public void stopDetectingNfcStateChanges() {
 		unregisterReceiver(nfcStateChangeBroadcastReceiver);
 	}
+	
+	@Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(STATE_INTENT_PROCESSED, intentProcessed);
+    }
 	  
     @Override
     protected void onPause() {
