@@ -78,7 +78,7 @@ Visit the [getting started overview page](https://github.com/skjolber/ndef-tools
 For a graphical NDEF editor, try [NFC Eclipse plugin](https://github.com/skjolber/nfc-eclipse-plugin). It creates __static NDEF content__, and so is good for getting to know the NDEF format. Recommended for developers new to NFC.
 
 # Tags #
-Order yourself some NFC tags, and support this project at the same time: [Starter packs from RapidNFC](http://rapidnfc.com/r/1372). Read more in the NFC Eclipse plugin [wiki](https://github.com/skjolber/nfc-eclipse-plugin/blob/wiki/Tags.md).
+Order yourself some NFC tags, read more in the NFC Eclipse plugin [wiki](https://github.com/skjolber/nfc-eclipse-plugin/blob/wiki/Tags.md).
 
 # Forum #
 Please post comments and questions at the [NFC developers](http://groups.google.com/group/nfc-developers/topics) Google forum group.
