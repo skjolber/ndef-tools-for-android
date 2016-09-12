@@ -22,6 +22,8 @@ package org.ndeftools;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 
+import org.ndeftools.wellknown.TextRecord;
+
 import android.nfc.NdefRecord;
 
 /**
@@ -69,6 +71,11 @@ public class MimeRecord extends Record {
 		if(!hasMimeType()) {
 			throw new IllegalArgumentException("Expected content type");
 		}
+
+		// fall back to android type
+	    if (android.os.Build.VERSION.SDK_INT >= 16 && id == null){
+	        return NdefRecord.createMime(mimeType, data != null ? data : EMPTY);
+	    }
 
 		// the android api normalizes the content type, I dont see why you would want that
 		return new NdefRecord(NdefRecord.TNF_MIME_MEDIA, mimeType.getBytes(Charset.forName("US-ASCII")), id != null ? id : EMPTY, data != null ? data : EMPTY);

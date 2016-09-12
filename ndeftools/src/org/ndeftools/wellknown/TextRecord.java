@@ -37,7 +37,7 @@ import android.nfc.NdefRecord;
 
 public class TextRecord extends Record {
 
-	private static final byte LANGUAGE_CODE_MASK = 0x1F;
+	private static final byte LANGUAGE_CODE_MASK = 0x3F; // bits 5..0 inclusive
 	private static final short TEXT_ENCODING_MASK = 0x80;
 
 	public static final Charset UTF8 = Charset.forName("UTF-8");
@@ -48,7 +48,7 @@ public class TextRecord extends Record {
 	
 		int status = payload[0] & 0xff;
 		int languageCodeLength = (status & TextRecord.LANGUAGE_CODE_MASK);
-		String languageCode = new String(payload, 1, languageCodeLength);
+		String languageCode = new String(payload, 1, languageCodeLength, Charset.forName("US-ASCII"));
 
 		Charset textEncoding = ((status & TEXT_ENCODING_MASK) != 0) ? TextRecord.UTF16 : TextRecord.UTF8;
 
@@ -176,12 +176,17 @@ public class TextRecord extends Record {
 		if(!hasText()) {
 			throw new IllegalArgumentException("Expected text");
 		}
+		
+		String languageCode = locale.getLanguage() + (locale.getCountry() == null || locale.getCountry().length() == 0 ? "" : ("-" + locale.getCountry()));
+		
+	    if (android.os.Build.VERSION.SDK_INT >= 21 && TextRecord.UTF8.equals(encoding)){
+	        return NdefRecord.createTextRecord(languageCode, text);
+	    }
 
-		byte[] languageData = (locale.getLanguage() + (locale.getCountry() == null || locale.getCountry().length() == 0 ? ""
-				: ("-" + locale.getCountry()))).getBytes();
+		byte[] languageData = languageCode.getBytes(Charset.forName("US-ASCII"));
 
 		if (languageData.length > TextRecord.LANGUAGE_CODE_MASK) {
-			throw new IllegalArgumentException("Expected language code length <= 32 bytes, not " + languageData.length + " bytes");
+			throw new IllegalArgumentException("Expected language code length <= " + TextRecord.LANGUAGE_CODE_MASK + " bytes, not " + languageData.length + " bytes");
 		}
 		
 		byte[] textData = text.getBytes(encoding);
