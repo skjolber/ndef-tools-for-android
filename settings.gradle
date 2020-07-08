@@ -1,0 +1,2 @@
+include ':jse', ':ndef', ':utility', ':example'
+rootProject.name = "parent"
