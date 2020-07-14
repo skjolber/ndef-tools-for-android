@@ -74,7 +74,7 @@ public class DefaultNfcTagWriterActivity extends NfcTagWriterActivity {
 		// add an Android Application Record so that this app is launches if a tag is scanned :-)
 		AndroidApplicationRecord androidApplicationRecord = new AndroidApplicationRecord();
 		androidApplicationRecord.setPackageName(getPlayIdentifier());
-		message.add(androidApplicationRecord);
+		//message.add(androidApplicationRecord);
 
 		// add a Text Record with the message which is entered
 		EditText text = (EditText) findViewById(R.id.text);		

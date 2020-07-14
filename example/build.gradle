@@ -1,13 +1,11 @@
-apply plugin: 'com.android.library'
-
-apply from: '../gradle/gradle-mvn-push.gradle'
+apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 24
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"

@@ -59,7 +59,7 @@ public class AndroidNfcActivity extends Activity {
     public void reader(View view) {
     	Log.d(TAG, "Show reader");
     	
-    	Intent intent = new Intent(this, DefaultNfcReaderActivity.class);
+    	Intent intent = new Intent(this, TestActivity.class);
     	startActivity(intent);
     }
 

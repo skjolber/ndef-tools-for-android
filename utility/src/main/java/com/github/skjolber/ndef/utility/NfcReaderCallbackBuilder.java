@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
+import android.os.Bundle;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -11,10 +12,9 @@ import java.util.function.Supplier;
 public class NfcReaderCallbackBuilder {
 
     protected Consumer<Tag> tagConsumer;
+    protected Runnable tagRemoved;
     protected int flags;
-    protected Intent extras;
-
-    protected boolean alwaysOn;
+    protected Bundle bundle;
 
     protected final NfcFactory nfcTags;
     protected final NfcAdapter adapter;
@@ -26,14 +26,14 @@ public class NfcReaderCallbackBuilder {
         this.activity = activity;
     }
 
-    public NfcReaderCallbackBuilder withFlags(int flags, Intent extras) {
+    public NfcReaderCallbackBuilder withFlags(int flags) {
         this.flags = flags;
 
         return this;
     }
 
-    public NfcReaderCallbackBuilder withExtras(Intent extras) {
-        this.extras = extras;
+    public NfcReaderCallbackBuilder withBundle(Bundle bundle) {
+        this.bundle = bundle;
 
         return this;
     }
@@ -44,14 +44,7 @@ public class NfcReaderCallbackBuilder {
         return this;
     }
 
-    public NfcReaderCallbackBuilder withAlwaysOn(boolean alwaysOn) {
-        this.alwaysOn = alwaysOn;
-
-        return this;
-    }
-
     public NfcReaderCallback build() {
-        NfcReaderCallback controls = new NfcReaderCallback(alwaysOn, adapter, activity, flags, extras);
-        return controls;
+        return new NfcReaderCallback(adapter, activity, flags, bundle, tagConsumer);
     }
 }

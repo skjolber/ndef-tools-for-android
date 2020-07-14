@@ -39,6 +39,7 @@ public class NfcSettingsBuilder {
         return this;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public NfcSettings build() {
         return new NfcSettings(adapter, context, onEnabledConsumer, onDisabledConsumer, onUnavailableConsumer);
     }
