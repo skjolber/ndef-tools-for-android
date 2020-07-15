@@ -33,14 +33,14 @@ public class NfcForegroundDispatchBuilder {
 
     protected BiConsumer<Tag, Intent> techBiConsumer;
     protected Consumer<Tag> techConsumer;
-    protected Class<? extends TagTechnology>[][] techs;
+    protected String[][] techs;
 
-    protected final NfcFactory nfcTags;
+    protected final NfcFactory nfcFactory;
     protected final NfcAdapter adapter;
     protected final Supplier<Activity> activity;
 
-    public NfcForegroundDispatchBuilder(NfcFactory nfcTags, NfcAdapter adapter, Supplier<Activity> activity) {
-        this.nfcTags = nfcTags;
+    public NfcForegroundDispatchBuilder(NfcFactory nfcFactory, NfcAdapter adapter, Supplier<Activity> activity) {
+        this.nfcFactory = nfcFactory;
         this.adapter = adapter;
         this.activity = activity;
     }
@@ -112,6 +112,10 @@ public class NfcForegroundDispatchBuilder {
     }
 
     public NfcForegroundDispatchBuilder withTechDiscovered(BiConsumer<Tag, Intent> consumer, Class<? extends TagTechnology>[] ... techs) {
+        return withTechDiscovered(consumer, getStrings(techs));
+    }
+
+    public NfcForegroundDispatchBuilder withTechDiscovered(BiConsumer<Tag, Intent> consumer, String[] ... techs) {
         if(techBiConsumer != null || techConsumer != null) {
             throw new IllegalArgumentException("Multiple tech discovery functionals not supported");
         }
@@ -130,6 +134,10 @@ public class NfcForegroundDispatchBuilder {
     }
 
     public NfcForegroundDispatchBuilder withTechDiscovered(Consumer<Tag> consumer, Class<? extends TagTechnology>[] ... techs) {
+        return withTechDiscovered(consumer, getStrings(techs));
+    }
+
+    public NfcForegroundDispatchBuilder withTechDiscovered(Consumer<Tag> consumer, String[] ... techs) {
         if(techBiConsumer != null || techConsumer != null) {
             throw new IllegalArgumentException("Multiple tech discovery functionals not supported");
         }
@@ -157,7 +165,7 @@ public class NfcForegroundDispatchBuilder {
                         {NfcV.class.getName()}
                 }; // catch all
             } else {
-                techologies = getStrings(techs);
+                techologies = this.techs;
             }
         } else {
             techologies = new String[0][];
@@ -168,7 +176,7 @@ public class NfcForegroundDispatchBuilder {
             if(ndefIntentFilter != null) {
                 ndefBroadcastReceiver = new NfcForegroundDispatch.NdefBroadcastReceiver(ndefIntentFilter, ndefBiConsumer, ndefConsumer);
             } else {
-                throw new IllegalStateException("Expected NFC Intent filter");
+                throw new IllegalStateException("Expected NDEF IntentFilter");
             }
         } else {
             ndefBroadcastReceiver = null;
@@ -188,10 +196,23 @@ public class NfcForegroundDispatchBuilder {
             techBroadcastReceiver = null;
         }
 
-        return new NfcForegroundDispatch(adapter, activity, ndefBroadcastReceiver, tagBroadcastReceiver, techBroadcastReceiver, techologies);
+        NfcForegroundDispatch nfcForegroundDispatch = new NfcForegroundDispatch(adapter, activity, ndefBroadcastReceiver, tagBroadcastReceiver, techBroadcastReceiver, techologies);
+
+        nfcFactory.setNfcForegroundDispatch(nfcForegroundDispatch);
+
+        return nfcForegroundDispatch;
     }
 
-    private String[][] getStrings(Class<? extends TagTechnology>[][] techs) {
+    public NfcForegroundDispatchBuilder withNdefIntentFilter(IntentFilter ndef) {
+        this.ndefIntentFilter = ndef;
+
+        return this;
+    }
+
+    protected String[][] getStrings(Class<? extends TagTechnology>[][] techs) {
+        if(techs == null) {
+            return null;
+        }
         String[][] techologies = new String[techs.length][];
 
         for(int i = 0; i < techologies.length; i++) {
@@ -204,9 +225,4 @@ public class NfcForegroundDispatchBuilder {
         return techologies;
     }
 
-    public NfcForegroundDispatchBuilder withNdefIntentFilter(IntentFilter ndef) {
-        this.ndefIntentFilter = ndef;
-
-        return this;
-    }
 }

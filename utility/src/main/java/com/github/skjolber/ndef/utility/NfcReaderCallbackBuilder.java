@@ -1,7 +1,6 @@
 package com.github.skjolber.ndef.utility;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.os.Bundle;
@@ -16,12 +15,12 @@ public class NfcReaderCallbackBuilder {
     protected int flags;
     protected Bundle bundle;
 
-    protected final NfcFactory nfcTags;
+    protected final NfcFactory nfcFactory;
     protected final NfcAdapter adapter;
     protected final Supplier<Activity> activity;
 
-    public NfcReaderCallbackBuilder(NfcFactory nfcTags, NfcAdapter adapter, Supplier<Activity> activity) {
-        this.nfcTags = nfcTags;
+    public NfcReaderCallbackBuilder(NfcFactory nfcFactory, NfcAdapter adapter, Supplier<Activity> activity) {
+        this.nfcFactory = nfcFactory;
         this.adapter = adapter;
         this.activity = activity;
     }
@@ -45,6 +44,10 @@ public class NfcReaderCallbackBuilder {
     }
 
     public NfcReaderCallback build() {
-        return new NfcReaderCallback(adapter, activity, flags, bundle, tagConsumer);
+        NfcReaderCallback nfcReaderCallback = new NfcReaderCallback(adapter, activity, flags, bundle, tagConsumer);
+
+        nfcFactory.setNfcReaderCallback(nfcReaderCallback);
+
+        return nfcReaderCallback;
     }
 }

@@ -10,21 +10,15 @@ import androidx.annotation.RequiresApi;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class NfcSettings {
-
-    protected final NfcAdapter adapter;
-    protected final Supplier<? extends Context> context;
+public class NfcSettings extends NfcControls {
 
     protected Consumer<Boolean> disabledConsumer;
     protected Consumer<Boolean> enabledConsumer;
     protected Consumer<Boolean> unavailableConsumer;
 
-    protected boolean active = false;
-
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public NfcSettings(NfcAdapter adapter, Supplier<? extends Context> context, Consumer<Boolean> enabledConsumer, Consumer<Boolean> disabledConsumer, Consumer<Boolean> unavailableConsumer) {
-        this.adapter = adapter;
-        this.context = context;
+    public NfcSettings(NfcAdapter adapter, Supplier<Activity> context, Consumer<Boolean> enabledConsumer, Consumer<Boolean> disabledConsumer, Consumer<Boolean> unavailableConsumer) {
+        super(adapter, context);
 
         this.disabledConsumer = disabledConsumer;
         this.enabledConsumer = enabledConsumer;
@@ -35,18 +29,6 @@ public class NfcSettings {
         return adapter != null && adapter.isEnabled();
     }
 
-    public void setActive(boolean enabled) {
-        if(!this.active && enabled) {
-            enabled = enabled;
-
-            enabledImpl();
-        } else if(this.active && !enabled) {
-            enabled = enabled;
-
-            disabledImpl();
-        }
-    }
-
     protected void disabledImpl() {
 
     }
@@ -54,5 +36,4 @@ public class NfcSettings {
     protected void enabledImpl() {
 
     }
-
 }

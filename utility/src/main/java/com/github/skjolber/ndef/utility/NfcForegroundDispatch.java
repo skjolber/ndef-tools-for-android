@@ -120,7 +120,7 @@ public class NfcForegroundDispatch extends NfcControls {
 
     protected final String[][] techLists;
 
-    private boolean recieveBroadcasts;
+    protected boolean recieveBroadcasts;
 
     public NfcForegroundDispatch(NfcAdapter adapter, Supplier<Activity> activity, NdefBroadcastReceiver ndefBroadcastReceiver, TagBroadcastReceiver tagBroadcastReceiver, TechBroadcastReceiver techBroadcastReceiver, String[][] techLists) {
         super(adapter, activity);

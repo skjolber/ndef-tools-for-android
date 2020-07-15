@@ -17,11 +17,13 @@ public class NfcSettingsBuilder {
 
     protected final NfcAdapter adapter;
     protected final Supplier<? extends Context> context;
+    protected final NfcFactory nfcFactory;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public NfcSettingsBuilder(NfcAdapter adapter, Supplier<? extends Context> context) {
+    public NfcSettingsBuilder(NfcFactory nfcFactory, NfcAdapter adapter, Supplier<? extends Context> context) {
         this.adapter = adapter;
         this.context = context;
+        this.nfcFactory = nfcFactory;
     }
 
     public NfcSettingsBuilder withUnavailable(Consumer<Boolean> consumer) {
@@ -41,6 +43,10 @@ public class NfcSettingsBuilder {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public NfcSettings build() {
-        return new NfcSettings(adapter, context, onEnabledConsumer, onDisabledConsumer, onUnavailableConsumer);
+        NfcSettings nfcSettings = new NfcSettings(adapter, context, onEnabledConsumer, onDisabledConsumer, onUnavailableConsumer);
+
+        nfcFactory.setNfcSettings(nfcSettings);
+
+        return nfcSettings;
     }
 }
