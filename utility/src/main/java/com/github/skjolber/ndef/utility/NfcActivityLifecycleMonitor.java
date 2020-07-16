@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +16,8 @@ import java.util.List;
 
 // https://medium.com/@mobile_develop/android-application-development-detecting-when-your-app-enters-the-background-or-foreground-bbced47ad8a5
 public class NfcActivityLifecycleMonitor implements Application.ActivityLifecycleCallbacks {
+
+    private static final String TAG = NfcActivityLifecycleMonitor.class.getName();
 
     protected static class ActivityAdapter {
         private final Activity activity;
@@ -36,22 +39,27 @@ public class NfcActivityLifecycleMonitor implements Application.ActivityLifecycl
         public void onResume() {
             NfcForegroundDispatch nfcForegroundDispatch = nfcFactory.getNfcForegroundDispatch();
             if(nfcForegroundDispatch != null) {
-                nfcForegroundDispatch.setActive(true);
+                Log.d(TAG, "Invoke foreground dispatch");
+                nfcForegroundDispatch.onResume();
+            } else {
+                Log.d(TAG, "No foreground dispatch");
             }
             NfcReaderCallback nfcReaderCallback = nfcFactory.getNfcReaderCallback();
             if(nfcReaderCallback != null) {
-                nfcReaderCallback.setActive(true);
+                nfcReaderCallback.onResume();
+            } else {
+                Log.d(TAG, "No reader callback");
             }
         }
 
         public void onPause() {
             NfcForegroundDispatch nfcForegroundDispatch = nfcFactory.getNfcForegroundDispatch();
             if(nfcForegroundDispatch != null) {
-                nfcForegroundDispatch.setActive(false);
+                nfcForegroundDispatch.onPause();
             }
             NfcReaderCallback nfcReaderCallback = nfcFactory.getNfcReaderCallback();
             if(nfcReaderCallback != null) {
-                nfcReaderCallback.setActive(false);
+                nfcReaderCallback.onPause();
             }
         }
     }
@@ -100,11 +108,24 @@ public class NfcActivityLifecycleMonitor implements Application.ActivityLifecycl
 
             NfcFactory factory = new NfcFactory(nfcAdapter, () -> activity);
 
-            nfcActivity.onPostCreated(factory);
+            nfcActivity.onPreCreated(factory);
 
             ActivityAdapter adapter = new ActivityAdapter(activity, factory);
 
             activities.add(new WeakReference<>(adapter));
+        }
+    }
+
+
+    @Override
+    public void onActivityPostCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
+        if(activity instanceof NfcActivity) {
+            NfcActivity nfcActivity = (NfcActivity)activity;
+
+            ActivityAdapter adapter = getAdapter(activity);
+            if(adapter != null) {
+                nfcActivity.onPostCreated(adapter.getFactory());
+            }
         }
     }
 
@@ -115,7 +136,7 @@ public class NfcActivityLifecycleMonitor implements Application.ActivityLifecycl
 
             ActivityAdapter adapter = getAdapter(activity);
             if(adapter != null) {
-                nfcActivity.onPostCreated(adapter.getFactory());
+                nfcActivity.onCreated(adapter.getFactory());
             }
         }
     }

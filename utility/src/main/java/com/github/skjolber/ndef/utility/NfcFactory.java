@@ -33,7 +33,7 @@ public class NfcFactory {
 
     protected void setNfcForegroundDispatch(NfcForegroundDispatch nfcForegroundDispatch) {
         if(this.nfcForegroundDispatch != null) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Already have foreground dispatch configured.");
         }
 
         this.nfcForegroundDispatch = nfcForegroundDispatch;
@@ -41,14 +41,14 @@ public class NfcFactory {
 
     protected void setNfcReaderCallback(NfcReaderCallback nfcReaderCallback) {
         if(this.nfcReaderCallback != null) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Already have reader callback configured.");
         }
         this.nfcReaderCallback = nfcReaderCallback;
     }
 
     protected void setNfcSettings(NfcSettings nfcSettings) {
         if(this.nfcSettings != null) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Already have settings configured.");
         }
         this.nfcSettings = nfcSettings;
     }

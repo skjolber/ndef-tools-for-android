@@ -6,40 +6,37 @@ import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.github.skjolber.ndef.utility.NfcActivity;
 import com.github.skjolber.ndef.utility.NfcFactory;
 import com.github.skjolber.ndef.utility.NfcForegroundDispatch;
 
-public class TestActivity extends Activity {
+public class TestActivity extends Activity implements NfcActivity {
 
     private static final String TAG = TestActivity.class.getName();
 
     private NfcForegroundDispatch dispatch;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        NfcFactory factory = new NfcFactory(NfcAdapter.getDefaultAdapter(this), () -> this);
-
+    public void onPostCreated(NfcFactory factory) {
         dispatch = factory.newForegroundDispatchBuilder()
                 .withNdefDiscovered(n -> Log.d(TAG, "withNdefDiscovered")).withDataType("*/*")
-                //.withTagDiscovered(n -> Log.d(TAG, "withTagDiscovered"))
+                .withTagDiscovered(n -> Log.d(TAG, "withTagDiscovered"))
                 .withTechDiscovered(n -> Log.d(TAG, "withTechDiscovered"))
                 .build();
     }
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
-
-        dispatch.setActive(true);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
-        dispatch.setActive(false);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.github.skjolber.ndef.utility;
 
+import android.app.Activity;
 import android.content.Context;
 import android.nfc.NfcAdapter;
 import android.os.Build;
@@ -16,11 +17,11 @@ public class NfcSettingsBuilder {
     private Consumer<Boolean> onUnavailableConsumer;
 
     protected final NfcAdapter adapter;
-    protected final Supplier<? extends Context> context;
+    protected final Supplier<Activity> context;
     protected final NfcFactory nfcFactory;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public NfcSettingsBuilder(NfcFactory nfcFactory, NfcAdapter adapter, Supplier<? extends Context> context) {
+    public NfcSettingsBuilder(NfcFactory nfcFactory, NfcAdapter adapter, Supplier<Activity> context) {
         this.adapter = adapter;
         this.context = context;
         this.nfcFactory = nfcFactory;

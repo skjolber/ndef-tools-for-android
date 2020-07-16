@@ -8,4 +8,7 @@ public interface NfcActivity {
     default void onPostCreated(NfcFactory factory) {
     }
 
+    default void onCreated(NfcFactory factory) {
+    }
+
 }

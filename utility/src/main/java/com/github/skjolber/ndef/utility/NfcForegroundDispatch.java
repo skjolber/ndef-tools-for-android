@@ -134,6 +134,7 @@ public class NfcForegroundDispatch extends NfcControls {
 
     @Override
     protected void disabledImpl() {
+        Log.d(TAG, "disabledImpl");
         Activity activity = activitySupplier.get();
         stopReceivingBroadcasts(activity);
         adapter.disableForegroundDispatch(activity);
@@ -141,6 +142,7 @@ public class NfcForegroundDispatch extends NfcControls {
 
     @Override
     protected void enabledImpl() {
+        Log.d(TAG, "enabledImpl");
         Activity activity = activitySupplier.get();
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(activity, 0, new Intent(), 0);
