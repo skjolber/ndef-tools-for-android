@@ -73,10 +73,7 @@
     
     <string name="nfcAvailableEnabled">NFC available and enabled.</string>
     <string name="nfcAvailableDisabled">NFC available but disabled.</string>
-    <string name="nfcBeamAvailableEnabled">Beam enabled.</string>
-    <string name="nfcBeamAvailableDisabled">Beam disabled.</string>
-    <string name="nfcBeamed">Message beamed.</string>
-    <string name="noNfcMessage">NFC is not available.</string>
+    <string name="noNfcMessage">NFC is not available on this device.</string>
     <string name="tagNotWritable">Tag is not writable.</string>
 
     <string name="ndefWriteFailed">Write tag failed: %s</string>

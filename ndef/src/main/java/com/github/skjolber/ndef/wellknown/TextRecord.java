@@ -20,6 +20,7 @@
 package com.github.skjolber.ndef.wellknown;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
 import com.github.skjolber.ndef.Record;
@@ -40,8 +41,8 @@ public class TextRecord extends Record {
 	private static final byte LANGUAGE_CODE_MASK = 0x1F;
 	private static final short TEXT_ENCODING_MASK = 0x80;
 
-	public static final Charset UTF8 = Charset.forName("UTF-8");
-	public static final Charset UTF16 = Charset.forName("UTF-16BE");
+	public static final Charset UTF8 = StandardCharsets.UTF_8;
+	public static final Charset UTF16 = StandardCharsets.UTF_16BE;
 
 	public static TextRecord parseNdefRecord(NdefRecord ndefRecord) {
 		byte[] payload = ndefRecord.getPayload();
@@ -175,6 +176,10 @@ public class TextRecord extends Record {
 
 		if(!hasText()) {
 			throw new IllegalArgumentException("Expected text");
+		}
+
+		if (android.os.Build.VERSION.SDK_INT >= 21 && TextRecord.UTF8.equals(encoding)) {
+			return NdefRecord.createTextRecord(locale.getCountry(), text);
 		}
 
 		byte[] languageData = (locale.getLanguage() + (locale.getCountry() == null || locale.getCountry().length() == 0 ? ""

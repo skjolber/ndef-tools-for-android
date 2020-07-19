@@ -102,7 +102,7 @@ public class ForegroundDispatchActivity extends Activity implements NfcActivity 
 					if (transition) {
 						Log.d(TAG, "NFC setting transitioned to enabled.");
 					} else {
-						Log.d(TAG, "NFC setting is current enabled.");
+						Log.d(TAG, "NFC setting is currently enabled.");
 					}
 					toast(getString(R.string.nfcAvailableEnabled));
 				})
@@ -151,14 +151,11 @@ public class ForegroundDispatchActivity extends Activity implements NfcActivity 
 
 		} catch (FormatException e) {
 			Log.d(TAG, "Problem parsing message", e);
+
+			clearList();
 		}
 	}
 
-	public void hideList() {
-		ListView listView = (ListView) findViewById(R.id.recordListView);
-		listView.setVisibility(View.GONE);
-	}
-	
 	/**
 	 * 
 	 * Clear NDEF records from list
