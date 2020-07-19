@@ -2,6 +2,7 @@ package com.github.skjolber.ndef.utility;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.pm.PackageManager;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,7 +18,9 @@ import java.util.List;
 // https://medium.com/@mobile_develop/android-application-development-detecting-when-your-app-enters-the-background-or-foreground-bbced47ad8a5
 public class NfcActivityLifecycleMonitor implements Application.ActivityLifecycleCallbacks {
 
-    private static final String TAG = NfcActivityLifecycleMonitor.class.getName();
+    protected static final String TAG = NfcActivityLifecycleMonitor.class.getName();
+    protected final boolean nfcSystemFeature;
+    protected NfcSettings.NfcTransitionFlag transitionFlag = new NfcSettings.NfcTransitionFlag();
 
     protected static class ActivityAdapter {
         private final Activity activity;
@@ -68,9 +71,11 @@ public class NfcActivityLifecycleMonitor implements Application.ActivityLifecycl
 
     protected final List<WeakReference<ActivityAdapter>> activities = new ArrayList<>();
 
-    public NfcActivityLifecycleMonitor(NfcAdapter nfcAdapter) {
+    public NfcActivityLifecycleMonitor(NfcAdapter nfcAdapter, boolean nfcSystemFeature) {
         this.nfcAdapter = nfcAdapter;
+        this.nfcSystemFeature = nfcSystemFeature;
     }
+
 
     protected ActivityAdapter getAdapter(Activity activity) {
         int index = getAdapterIndex(activity);
@@ -106,7 +111,7 @@ public class NfcActivityLifecycleMonitor implements Application.ActivityLifecycl
         if(activity instanceof NfcActivity) {
             NfcActivity nfcActivity = (NfcActivity) activity;
 
-            NfcFactory factory = new NfcFactory(nfcAdapter, () -> activity);
+            NfcFactory factory = new NfcFactory(nfcAdapter, () -> activity, transitionFlag);
 
             nfcActivity.onPreCreated(factory);
 

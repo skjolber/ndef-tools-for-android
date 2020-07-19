@@ -11,7 +11,6 @@ import java.util.function.Supplier;
 public class NfcReaderCallbackBuilder {
 
     protected Consumer<Tag> tagConsumer;
-    protected Runnable tagRemoved;
     protected int flags;
     protected Bundle bundle;
 

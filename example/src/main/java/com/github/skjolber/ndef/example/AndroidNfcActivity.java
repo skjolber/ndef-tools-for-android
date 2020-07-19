@@ -56,11 +56,26 @@ public class AndroidNfcActivity extends Activity {
     	startActivity(intent);
     }
 
-    public void reader(View view) {
-    	Log.d(TAG, "Show reader");
+    public void ndefReader(View view) {
+    	Log.d(TAG, "Show NDEF reader");
     	
-    	Intent intent = new Intent(this, TestActivity.class);
+    	Intent intent = new Intent(this, ForegroundDispatchActivity.class);
     	startActivity(intent);
+    }
+
+    public void callbackReader(View view) {
+        Log.d(TAG, "Show callback reader");
+
+        Intent intent = new Intent(this, ReaderCallbackActivity.class);
+        startActivity(intent);
+    }
+
+    public void toggleIgnore(View view) {
+
+    }
+
+    public void toogleEnable(View view) {
+
     }
 
 }

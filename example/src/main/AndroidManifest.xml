@@ -23,7 +23,7 @@
 
         <activity
             android:icon="@drawable/ic_launcher"
-            android:name=".DefaultNfcReaderActivity"
+            android:name=".ForegroundDispatchActivity"
             android:label="@string/reader"
             android:configChanges="orientation|keyboardHidden"
             >
@@ -50,8 +50,8 @@
 
         <activity
             android:icon="@drawable/ic_launcher"
-            android:name=".TestActivity"
-            android:label="@string/beamer"
+            android:name=".ReaderCallbackActivity"
+            android:label="@string/readerCallback"
             android:configChanges="orientation|keyboardHidden"
             >
         </activity>

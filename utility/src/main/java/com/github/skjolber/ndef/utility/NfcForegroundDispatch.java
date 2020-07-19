@@ -28,6 +28,7 @@ public class NfcForegroundDispatch extends NfcControls {
         protected final BiConsumer<Tag, Intent> techBiConsumer;
         protected final Consumer<Tag> techConsumer;
         protected final IntentFilter intentFilter;
+        protected boolean ignore = false;
 
         public TechBroadcastReceiver(IntentFilter intentFilter, BiConsumer<Tag, Intent> techBiConsumer, Consumer<Tag> techConsumer) {
             this.techBiConsumer = techBiConsumer;
@@ -40,15 +41,21 @@ public class NfcForegroundDispatch extends NfcControls {
         }
 
         public void onReceive(Context context, Intent intent) {
-            Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+            if(!ignore) {
+                Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
 
-            if(techBiConsumer != null) {
-                techBiConsumer.accept(tag, intent);
-            } else if(techConsumer != null) {
-                techConsumer.accept(tag);
-            } else {
-                throw new RuntimeException();
+                if (techBiConsumer != null) {
+                    techBiConsumer.accept(tag, intent);
+                } else if (techConsumer != null) {
+                    techConsumer.accept(tag);
+                } else {
+                    throw new RuntimeException();
+                }
             }
+        }
+
+        public void setIgnore(boolean ignore) {
+            this.ignore = ignore;
         }
     };
 
@@ -57,6 +64,7 @@ public class NfcForegroundDispatch extends NfcControls {
         protected final BiConsumer<Tag, Intent> tagBiConsumer;
         protected final Consumer<Tag> tagConsumer;
         protected final IntentFilter intentFilter;
+        protected boolean ignore = false;
 
         public TagBroadcastReceiver(IntentFilter intentFilter, BiConsumer<Tag, Intent> tagBiConsumer, Consumer<Tag> tagConsumer) {
             this.intentFilter = intentFilter;
@@ -65,15 +73,21 @@ public class NfcForegroundDispatch extends NfcControls {
         }
 
         public void onReceive(Context context, Intent intent) {
-            Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+            if(!ignore) {
+                Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
 
-            if(tagBiConsumer != null) {
-                tagBiConsumer.accept(tag, intent);
-            } else if(tagConsumer != null) {
-                tagConsumer.accept(tag);
-            } else {
-                throw new RuntimeException();
+                if (tagBiConsumer != null) {
+                    tagBiConsumer.accept(tag, intent);
+                } else if (tagConsumer != null) {
+                    tagConsumer.accept(tag);
+                } else {
+                    throw new RuntimeException();
+                }
             }
+        }
+
+        public void setIgnore(boolean ignore) {
+            this.ignore = ignore;
         }
 
         public IntentFilter getIntentFilter() {
@@ -86,6 +100,7 @@ public class NfcForegroundDispatch extends NfcControls {
         protected final BiConsumer<NdefMessage, Intent> ndefBiConsumer;
         protected final Consumer<NdefMessage> ndefConsumer;
         protected final IntentFilter intentFilter;
+        protected boolean ignore = false;
 
         public NdefBroadcastReceiver(IntentFilter intentFilter, BiConsumer<NdefMessage, Intent> ndefBiConsumer, Consumer<NdefMessage> ndefConsumer) {
             this.intentFilter = intentFilter;
@@ -94,25 +109,36 @@ public class NfcForegroundDispatch extends NfcControls {
         }
 
         public void onReceive(Context context, Intent intent) {
-            Parcelable[] messages = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-            NdefMessage[] ndefMessages = new NdefMessage[messages.length];
-            for (int i = 0; i < messages.length; i++) {
-                ndefMessages[i] = (NdefMessage) messages[i];
+            if(!ignore) {
+                NdefMessage ndefMessage = getNdefMessage(intent);
+                if (ndefBiConsumer != null) {
+                    ndefBiConsumer.accept(ndefMessage, intent);
+                } else if (ndefConsumer != null) {
+                    ndefConsumer.accept(ndefMessage);
+                } else {
+                    throw new RuntimeException();
+                }
             }
-            if(ndefBiConsumer != null) {
-                ndefBiConsumer.accept(ndefMessages[0], intent);
-            } else if(ndefConsumer != null) {
-                ndefConsumer.accept(ndefMessages[0]);
-            } else {
-                throw new RuntimeException();
-            }
+        }
+
+        public void setIgnore(boolean ignore) {
+            this.ignore = ignore;
         }
 
         public IntentFilter getIntentFilter() {
             return intentFilter;
         }
 
-    };
+    }
+
+    public static NdefMessage getNdefMessage(Intent intent) {
+        Parcelable[] messages = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+        NdefMessage[] ndefMessages = new NdefMessage[messages.length];
+        for (int i = 0; i < messages.length; i++) {
+            ndefMessages[i] = (NdefMessage) messages[i];
+        }
+        return ndefMessages[0];
+    }
 
     protected final NdefBroadcastReceiver ndefBroadcastReceiver;
     protected final TagBroadcastReceiver tagBroadcastReceiver;
@@ -130,6 +156,21 @@ public class NfcForegroundDispatch extends NfcControls {
         this.ndefBroadcastReceiver = ndefBroadcastReceiver;
         this.tagBroadcastReceiver = tagBroadcastReceiver;
         this.techBroadcastReceiver = techBroadcastReceiver;
+    }
+
+    @Override
+    public void setIgnore(boolean ignore) {
+        super.setIgnore(ignore);
+
+        if(ndefBroadcastReceiver != null) {
+            ndefBroadcastReceiver.setIgnore(ignore);
+        }
+        if(tagBroadcastReceiver != null) {
+            tagBroadcastReceiver.setIgnore(ignore);
+        }
+        if(techBroadcastReceiver != null) {
+            techBroadcastReceiver.setIgnore(ignore);
+        }
     }
 
     @Override

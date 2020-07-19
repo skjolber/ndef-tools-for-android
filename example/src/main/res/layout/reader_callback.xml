@@ -9,7 +9,7 @@
      <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/beamerTitle"
+        android:text="@string/readerCallbackTitle"
 		android:padding="3dip"
         android:textColor="@color/black"
 		android:textStyle="bold"
@@ -20,12 +20,29 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/beamerDescription"
+        android:text="@string/readerCallbackDescription"
 		android:padding="3dip"
         android:textColor="@color/black"
 		android:textStyle="bold"
 	/>
 
+	<Button
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/ignore"
+		android:onClick="toggleIgnore"
+		android:background="@drawable/button"
+		android:layout_marginTop="10dp"
+		/>
+
+	<Button
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/enable"
+		android:onClick="toogleEnable"
+		android:background="@drawable/button"
+		android:layout_marginTop="10dp"
+		/>
 
     
 </LinearLayout>

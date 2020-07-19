@@ -5,14 +5,15 @@ import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.github.skjolber.ndef.utility.NfcActivity;
 import com.github.skjolber.ndef.utility.NfcFactory;
 import com.github.skjolber.ndef.utility.NfcForegroundDispatch;
 
-public class TestActivity extends Activity implements NfcActivity {
+public class ReaderCallbackActivity extends Activity implements NfcActivity {
 
-    private static final String TAG = TestActivity.class.getName();
+    private static final String TAG = ReaderCallbackActivity.class.getName();
 
     private NfcForegroundDispatch dispatch;
 
@@ -27,6 +28,8 @@ public class TestActivity extends Activity implements NfcActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.reader_callback);
     }
 
     @Override
@@ -44,5 +47,11 @@ public class TestActivity extends Activity implements NfcActivity {
         super.onNewIntent(intent);
 
         Log.i(TAG, "onNewIntent " + intent.getAction() + " " + intent.hasExtra(NfcAdapter.EXTRA_NDEF_MESSAGES));
+    }
+
+    public void toggleIgnore(View view) {
+    }
+
+    public void toogleEnable(View view) {
     }
 }

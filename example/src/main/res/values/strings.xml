@@ -107,15 +107,21 @@
     <string name="writerHint">Your Text Record-text here</string>
     <string name="writerScanHint">(Scan tag to write at any time.)</string>
     
-    <string name="reader">NFC tag and Beam (push) reader</string>
-    <string name="readerTitle">NFC tag and Beam (push) reader demo</string>
-    <string name="readerDescription">This activity reads and displays the contents of any incoming NFC message in the NDEF format.</string>
+    <string name="reader">NFC NDEF reader (using foregroudDispatch)</string>
+    <string name="readerTitle">NFC NDEF reader demo</string>
+    <string name="readerDescription">This activity reads and displays the NDEF contents of any tag (if present).</string>
     
-    <string name="beamer">NFC Beam (push) writer</string>
-    <string name="beamerTitle">NFC Beam (push) writer demo</string>
-    <string name="beamerDescription">This activity beams (pushes) an Android Application Record to any other device, as well as detecting incoming messages in the NDEF format.\n\nNote that most phones require that the sender manually taps on the screen to do the actual payload data transmit part of the beam (push) messaging.</string>
+    <string name="readerCallback">NFC tag reader (using readerCallback)</string>
+    <string name="readerCallbackTitle">NFC tag reader (using readerCallback) demo</string>
+    <string name="readerCallbackDescription">This activity reads and displays the tech types of any tag.</string>
 
     <string name="tagLost">Tag lost</string>
-    
-    
+
+    <string name="enable">Enable</string>
+    <string name="disable">Disable</string>
+
+    <string name="ignore">Ignore</string>
+    <string name="ignore_on">On</string>
+    <string name="ignore_off">Off</string>
+
 </resources>

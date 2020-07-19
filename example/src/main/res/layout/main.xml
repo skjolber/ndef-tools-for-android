@@ -32,10 +32,20 @@
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:text="@string/reader" 
-	    android:onClick="reader"
+	    android:onClick="ndefReader"
 	    android:background="@drawable/button"
 	    android:layout_marginTop="10dp"
 	    />
+
+	<Button
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/readerCallback"
+		android:onClick="callbackReader"
+		android:background="@drawable/button"
+		android:layout_marginTop="10dp"
+		/>
+
 
 	<Button
 	    android:layout_width="fill_parent"

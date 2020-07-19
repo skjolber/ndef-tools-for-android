@@ -13,10 +13,14 @@ public class NfcFactory {
     protected NfcForegroundDispatch nfcForegroundDispatch;
     protected NfcReaderCallback nfcReaderCallback;
     protected NfcSettings nfcSettings;
+    protected boolean nfcSystemFeature;
 
-    public NfcFactory(NfcAdapter adapter, Supplier<Activity> activity) {
+    protected final NfcSettings.NfcTransitionFlag transitionFlag;
+
+    public NfcFactory(NfcAdapter adapter, Supplier<Activity> activity, NfcSettings.NfcTransitionFlag transitionFlag) {
         this.adapter = adapter;
         this.activity = activity;
+        this.transitionFlag = transitionFlag;
     }
 
     public NfcForegroundDispatchBuilder newForegroundDispatchBuilder() {
@@ -28,7 +32,7 @@ public class NfcFactory {
     }
 
     public NfcSettingsBuilder newSettingsBuilder() {
-        return new NfcSettingsBuilder(this, adapter, activity);
+        return new NfcSettingsBuilder(this, adapter, activity, transitionFlag, nfcSystemFeature);
     }
 
     protected void setNfcForegroundDispatch(NfcForegroundDispatch nfcForegroundDispatch) {
