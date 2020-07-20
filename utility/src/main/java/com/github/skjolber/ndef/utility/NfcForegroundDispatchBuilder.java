@@ -22,7 +22,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class NfcForegroundDispatchBuilder {
+public class NfcForegroundDispatchBuilder extends TagLostBuilder<NfcForegroundDispatchBuilder> {
 
     protected BiConsumer<NdefMessage, Intent> ndefBiConsumer;
     protected Consumer<NdefMessage> ndefConsumer;
@@ -35,14 +35,8 @@ public class NfcForegroundDispatchBuilder {
     protected Consumer<Tag> techConsumer;
     protected String[][] techs;
 
-    protected final NfcFactory nfcFactory;
-    protected final NfcAdapter adapter;
-    protected final Supplier<Activity> activity;
-
     public NfcForegroundDispatchBuilder(NfcFactory nfcFactory, NfcAdapter adapter, Supplier<Activity> activity) {
-        this.nfcFactory = nfcFactory;
-        this.adapter = adapter;
-        this.activity = activity;
+        super(nfcFactory, adapter, activity);
     }
 
     public NdefIntentFilterBuilder withNdefDiscovered(BiConsumer<NdefMessage, Intent> consumer) {
@@ -171,10 +165,17 @@ public class NfcForegroundDispatchBuilder {
             techologies = new String[0][];
         }
 
+        TagRemoved tagRemoved;
+        if(tagRemovedListener != null) {
+            tagRemoved = buildTagRemoved();
+        } else {
+            tagRemoved = null;
+        }
+
         NfcForegroundDispatch.NdefBroadcastReceiver ndefBroadcastReceiver;
         if(ndefBiConsumer != null || ndefConsumer != null) {
             if(ndefIntentFilter != null) {
-                ndefBroadcastReceiver = new NfcForegroundDispatch.NdefBroadcastReceiver(ndefIntentFilter, ndefBiConsumer, ndefConsumer);
+                ndefBroadcastReceiver = new NfcForegroundDispatch.NdefBroadcastReceiver(ndefIntentFilter, tagRemoved, ndefBiConsumer, ndefConsumer);
             } else {
                 throw new IllegalStateException("Expected NDEF IntentFilter");
             }
@@ -184,14 +185,14 @@ public class NfcForegroundDispatchBuilder {
 
         NfcForegroundDispatch.TagBroadcastReceiver tagBroadcastReceiver;
         if(tagBiConsumer != null || tagConsumer != null) {
-            tagBroadcastReceiver = new NfcForegroundDispatch.TagBroadcastReceiver(new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED), tagBiConsumer, tagConsumer);
+            tagBroadcastReceiver = new NfcForegroundDispatch.TagBroadcastReceiver(new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED), tagRemoved, tagBiConsumer, tagConsumer);
         } else {
             tagBroadcastReceiver = null;
         }
 
         NfcForegroundDispatch.TechBroadcastReceiver techBroadcastReceiver;
         if(techBiConsumer != null || techConsumer != null) {
-            techBroadcastReceiver = new NfcForegroundDispatch.TechBroadcastReceiver(new IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED), techBiConsumer, techConsumer);
+            techBroadcastReceiver = new NfcForegroundDispatch.TechBroadcastReceiver(new IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED), tagRemoved, techBiConsumer, techConsumer);
         } else {
             techBroadcastReceiver = null;
         }

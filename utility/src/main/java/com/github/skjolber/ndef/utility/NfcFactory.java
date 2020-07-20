@@ -68,4 +68,13 @@ public class NfcFactory {
     protected NfcSettings getNfcSettings() {
         return nfcSettings;
     }
+
+    public void setTagLost(TagRemoved tagRemoved) {
+        if(nfcForegroundDispatch != null) {
+            nfcForegroundDispatch.setTagRemoved(tagRemoved);
+        }
+        if(nfcReaderCallback != null) {
+            nfcReaderCallback.setTagRemoved(tagRemoved);
+        }
+    }
 }

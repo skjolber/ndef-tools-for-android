@@ -2,7 +2,6 @@ package com.github.skjolber.ndef.utility;
 
 import android.app.Activity;
 import android.nfc.NfcAdapter;
-import android.util.Log;
 
 import java.util.function.Supplier;
 
@@ -19,6 +18,7 @@ public abstract class NfcControls {
     protected boolean ignore = false; // user switch for whether to ignore tags etc (while still listening for them)
 
     protected boolean resumed = false; // system switch for whether it currently is appropriate to go to active state
+    protected TagRemoved tagRemoved;
 
     protected NfcControls(NfcAdapter adapter, Supplier<Activity> activitySupplier) {
         this.adapter = adapter;
@@ -76,4 +76,7 @@ public abstract class NfcControls {
 
     protected abstract void enabledImpl();
 
+    public void setTagRemoved(TagRemoved tagRemoved) {
+        this.tagRemoved = tagRemoved;
+    }
 }

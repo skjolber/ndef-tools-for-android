@@ -1,7 +1,6 @@
 package com.github.skjolber.ndef.utility;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.os.Bundle;
@@ -14,6 +13,7 @@ public class NfcReaderCallback extends NfcControls implements NfcAdapter.ReaderC
     protected final Consumer<Tag> tagConsumer;
     protected final int flags;
     protected final Bundle bundle;
+    protected TagRemoved tagRemoved;
 
     public NfcReaderCallback(NfcAdapter adapter, Supplier<Activity> activity, int flags, Bundle bundle, Consumer<Tag> tagConsumer) {
         super(adapter, activity);
@@ -44,6 +44,10 @@ public class NfcReaderCallback extends NfcControls implements NfcAdapter.ReaderC
     public void onTagDiscovered(Tag tag) {
         if(!ignore) {
             tagConsumer.accept(tag);
+
+            if(tagRemoved != null) {
+                tagRemoved.callback(tag);
+            }
         }
     }
 

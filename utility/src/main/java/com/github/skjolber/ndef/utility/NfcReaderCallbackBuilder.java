@@ -8,20 +8,14 @@ import android.os.Bundle;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class NfcReaderCallbackBuilder {
+public class NfcReaderCallbackBuilder extends TagLostBuilder<NfcReaderCallbackBuilder> {
 
     protected Consumer<Tag> tagConsumer;
     protected int flags;
     protected Bundle bundle;
 
-    protected final NfcFactory nfcFactory;
-    protected final NfcAdapter adapter;
-    protected final Supplier<Activity> activity;
-
     public NfcReaderCallbackBuilder(NfcFactory nfcFactory, NfcAdapter adapter, Supplier<Activity> activity) {
-        this.nfcFactory = nfcFactory;
-        this.adapter = adapter;
-        this.activity = activity;
+        super(nfcFactory, adapter, activity);
     }
 
     public NfcReaderCallbackBuilder withFlags(int flags) {
@@ -44,9 +38,13 @@ public class NfcReaderCallbackBuilder {
 
     public NfcReaderCallback build() {
         NfcReaderCallback nfcReaderCallback = new NfcReaderCallback(adapter, activity, flags, bundle, tagConsumer);
+        if(tagRemovedListener != null) {
+            nfcReaderCallback.setTagRemoved(buildTagRemoved());
+        }
 
         nfcFactory.setNfcReaderCallback(nfcReaderCallback);
 
         return nfcReaderCallback;
     }
+
 }

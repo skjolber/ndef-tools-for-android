@@ -71,17 +71,23 @@ public class ForegroundDispatchActivity extends Activity implements NfcActivity 
 				.withNdefDiscovered((ndefMessage, intent) -> {
 					Log.d(TAG, "withNdefDiscovered");
 
-					handle(ndefMessage);
+					showNdefMessage(ndefMessage);
 				}).withDataType("*/*")
 				.withTagDiscovered( (tag, intent) -> {
 					Log.d(TAG, "withTagDiscovered");
 
+					// catch all NDEF messages
 					NdefMessage ndefMessage = NfcForegroundDispatch.getNdefMessage(intent);
 					if(ndefMessage != null) {
-						handle(ndefMessage);
+						showNdefMessage(ndefMessage);
 					} else {
-						clearList();
+						clearNdefMessage();
 					}
+				})
+				.withTagRemoved( () -> {
+					Log.d(TAG, "withTagRemoved");
+
+					clearNdefMessage();
 				})
 				.build();
 
@@ -110,7 +116,7 @@ public class ForegroundDispatchActivity extends Activity implements NfcActivity 
 
 	}
 
-	private void handle(NdefMessage ndefMessage) {
+	private void showNdefMessage(NdefMessage ndefMessage) {
 		try {
 			Message message = new Message(ndefMessage);
 
@@ -152,7 +158,7 @@ public class ForegroundDispatchActivity extends Activity implements NfcActivity 
 		} catch (FormatException e) {
 			Log.d(TAG, "Problem parsing message", e);
 
-			clearList();
+			clearNdefMessage();
 		}
 	}
 
@@ -162,10 +168,10 @@ public class ForegroundDispatchActivity extends Activity implements NfcActivity 
 	 * 
 	 */
 	
-	private void clearList() {
+	private void clearNdefMessage() {
 		ListView listView = (ListView) findViewById(R.id.recordListView);
 		listView.setAdapter(null);
-		listView.setVisibility(View.VISIBLE);
+		listView.setVisibility(View.INVISIBLE);
 	}
 
 	public void toast(String message) {

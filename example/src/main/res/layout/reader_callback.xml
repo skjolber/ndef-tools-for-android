@@ -44,5 +44,16 @@
 		android:layout_marginTop="10dp"
 		/>
 
+	<TextView
+		android:id="@+id/tagStatus"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="@string/tagPresent"
+		android:padding="3dip"
+		android:textColor="@color/black"
+		android:textStyle="bold"
+		android:textSize="30sp"
+		android:visibility="invisible"
+		/>
     
 </LinearLayout>

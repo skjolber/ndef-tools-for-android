@@ -13,7 +13,6 @@ import android.os.Parcelable;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -23,21 +22,51 @@ public class NfcForegroundDispatch extends NfcControls {
 
     private static final String TAG = NfcForegroundDispatch.class.getName();
 
-    protected static class TechBroadcastReceiver extends BroadcastReceiver {
+    protected static abstract class AbstractBroadcastReceiver extends BroadcastReceiver {
 
-        protected final BiConsumer<Tag, Intent> techBiConsumer;
-        protected final Consumer<Tag> techConsumer;
         protected final IntentFilter intentFilter;
+        protected final TagRemoved tagRemoved;
+
         protected boolean ignore = false;
 
-        public TechBroadcastReceiver(IntentFilter intentFilter, BiConsumer<Tag, Intent> techBiConsumer, Consumer<Tag> techConsumer) {
-            this.techBiConsumer = techBiConsumer;
-            this.techConsumer = techConsumer;
+        public AbstractBroadcastReceiver(IntentFilter intentFilter, TagRemoved tagRemoved) {
             this.intentFilter = intentFilter;
+            this.tagRemoved = tagRemoved;
+        }
+
+        public void setIgnore(boolean ignore) {
+            this.ignore = ignore;
         }
 
         public IntentFilter getIntentFilter() {
             return intentFilter;
+        }
+
+        public void onReceive(Context context, Intent intent) {
+            handleTagLost(intent);
+        }
+
+        protected void handleTagLost(Intent intent) {
+            if(tagRemoved != null) {
+                if (intent.hasExtra(NfcAdapter.EXTRA_TAG)) {
+                    Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+
+                    // register callback
+                    tagRemoved.callback(tag);
+                }
+            }
+        }
+    }
+
+    protected static class TechBroadcastReceiver extends AbstractBroadcastReceiver {
+
+        protected final BiConsumer<Tag, Intent> techBiConsumer;
+        protected final Consumer<Tag> techConsumer;
+
+        public TechBroadcastReceiver(IntentFilter intentFilter, TagRemoved tagRemoved, BiConsumer<Tag, Intent> techBiConsumer, Consumer<Tag> techConsumer) {
+            super(intentFilter, tagRemoved);
+            this.techBiConsumer = techBiConsumer;
+            this.techConsumer = techConsumer;
         }
 
         public void onReceive(Context context, Intent intent) {
@@ -51,23 +80,18 @@ public class NfcForegroundDispatch extends NfcControls {
                 } else {
                     throw new RuntimeException();
                 }
+                super.onReceive(context, intent);
             }
-        }
-
-        public void setIgnore(boolean ignore) {
-            this.ignore = ignore;
         }
     };
 
-    protected static class TagBroadcastReceiver extends BroadcastReceiver {
+    protected static class TagBroadcastReceiver extends AbstractBroadcastReceiver {
 
         protected final BiConsumer<Tag, Intent> tagBiConsumer;
         protected final Consumer<Tag> tagConsumer;
-        protected final IntentFilter intentFilter;
-        protected boolean ignore = false;
 
-        public TagBroadcastReceiver(IntentFilter intentFilter, BiConsumer<Tag, Intent> tagBiConsumer, Consumer<Tag> tagConsumer) {
-            this.intentFilter = intentFilter;
+        public TagBroadcastReceiver(IntentFilter intentFilter, TagRemoved tagRemoved, BiConsumer<Tag, Intent> tagBiConsumer, Consumer<Tag> tagConsumer) {
+            super(intentFilter, tagRemoved);
             this.tagBiConsumer = tagBiConsumer;
             this.tagConsumer = tagConsumer;
         }
@@ -83,27 +107,19 @@ public class NfcForegroundDispatch extends NfcControls {
                 } else {
                     throw new RuntimeException();
                 }
+                super.onReceive(context, intent);
             }
         }
 
-        public void setIgnore(boolean ignore) {
-            this.ignore = ignore;
-        }
-
-        public IntentFilter getIntentFilter() {
-            return intentFilter;
-        }
     };
 
-    protected static class NdefBroadcastReceiver extends BroadcastReceiver {
+    protected static class NdefBroadcastReceiver extends AbstractBroadcastReceiver {
 
         protected final BiConsumer<NdefMessage, Intent> ndefBiConsumer;
         protected final Consumer<NdefMessage> ndefConsumer;
-        protected final IntentFilter intentFilter;
-        protected boolean ignore = false;
 
-        public NdefBroadcastReceiver(IntentFilter intentFilter, BiConsumer<NdefMessage, Intent> ndefBiConsumer, Consumer<NdefMessage> ndefConsumer) {
-            this.intentFilter = intentFilter;
+        public NdefBroadcastReceiver(IntentFilter intentFilter, TagRemoved tagRemoved, BiConsumer<NdefMessage, Intent> ndefBiConsumer, Consumer<NdefMessage> ndefConsumer) {
+            super(intentFilter, tagRemoved);
             this.ndefBiConsumer = ndefBiConsumer;
             this.ndefConsumer = ndefConsumer;
         }
@@ -118,26 +134,22 @@ public class NfcForegroundDispatch extends NfcControls {
                 } else {
                     throw new RuntimeException();
                 }
+                super.onReceive(context, intent);
             }
-        }
-
-        public void setIgnore(boolean ignore) {
-            this.ignore = ignore;
-        }
-
-        public IntentFilter getIntentFilter() {
-            return intentFilter;
         }
 
     }
 
     public static NdefMessage getNdefMessage(Intent intent) {
-        Parcelable[] messages = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-        NdefMessage[] ndefMessages = new NdefMessage[messages.length];
-        for (int i = 0; i < messages.length; i++) {
-            ndefMessages[i] = (NdefMessage) messages[i];
+        if(intent.hasExtra(NfcAdapter.EXTRA_NDEF_MESSAGES)) {
+            Parcelable[] messages = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+            NdefMessage[] ndefMessages = new NdefMessage[messages.length];
+            for (int i = 0; i < messages.length; i++) {
+                ndefMessages[i] = (NdefMessage) messages[i];
+            }
+            return ndefMessages[0];
         }
-        return ndefMessages[0];
+        return null;
     }
 
     protected final NdefBroadcastReceiver ndefBroadcastReceiver;
