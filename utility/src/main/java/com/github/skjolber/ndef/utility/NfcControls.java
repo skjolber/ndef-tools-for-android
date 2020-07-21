@@ -79,4 +79,12 @@ public abstract class NfcControls {
     public void setTagRemoved(TagRemoved tagRemoved) {
         this.tagRemoved = tagRemoved;
     }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public boolean isIgnore() {
+        return ignore;
+    }
 }

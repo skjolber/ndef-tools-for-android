@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
@@ -29,7 +30,7 @@
 	<Button
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:text="@string/ignore"
+		android:text="@string/ignoreTagsOn"
 		android:onClick="toggleIgnore"
 		android:background="@drawable/button"
 		android:layout_marginTop="10dp"
@@ -38,7 +39,7 @@
 	<Button
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:text="@string/enable"
+		android:text="@string/disableReaderCallback"
 		android:onClick="toogleEnable"
 		android:background="@drawable/button"
 		android:layout_marginTop="10dp"
@@ -46,7 +47,7 @@
 
 	<TextView
 		android:id="@+id/tagStatus"
-		android:layout_width="wrap_content"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:text="@string/tagPresent"
 		android:padding="3dip"
@@ -55,5 +56,15 @@
 		android:textSize="30sp"
 		android:visibility="invisible"
 		/>
-    
+
+	<ListView
+		android:visibility="gone"
+		android:id="@+id/techologyListView"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:orientation="horizontal"
+		android:cacheColorHint="@android:color/transparent"
+		android:background="@drawable/button"
+		/>
+
 </LinearLayout>

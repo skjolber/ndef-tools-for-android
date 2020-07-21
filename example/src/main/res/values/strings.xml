@@ -116,12 +116,11 @@
 
     <string name="tagPresent">Tag present</string>
 
-    <string name="enable">Enable</string>
-    <string name="disable">Disable</string>
+    <string name="enableReaderCallback">Enable reader callback</string>
+    <string name="disableReaderCallback">Disable reader callback</string>
 
-    <string name="ignore">Ignore</string>
-    <string name="ignore_on">On</string>
-    <string name="ignore_off">Off</string>
+    <string name="ignoreTagsOn">Ignore scanned tags</string>
+    <string name="ignoreTagsOff">Do not ignore scanned tags</string>
     <string name="tagLost" />
 
 </resources>

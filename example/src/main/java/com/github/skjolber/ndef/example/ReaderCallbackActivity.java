@@ -2,20 +2,24 @@ package com.github.skjolber.ndef.example;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.skjolber.ndef.MimeRecord;
+import com.github.skjolber.ndef.Record;
+import com.github.skjolber.ndef.externaltype.ExternalTypeRecord;
 import com.github.skjolber.ndef.utility.NfcActivity;
 import com.github.skjolber.ndef.utility.NfcFactory;
-import com.github.skjolber.ndef.utility.NfcForegroundDispatch;
 import com.github.skjolber.ndef.utility.NfcReaderCallback;
 import com.github.skjolber.ndef.utility.NfcSettings;
+import com.github.skjolber.ndef.wellknown.TextRecord;
 
 public class ReaderCallbackActivity extends Activity implements NfcActivity {
 
@@ -39,6 +43,11 @@ public class ReaderCallbackActivity extends Activity implements NfcActivity {
 
                     TextView view = findViewById(R.id.tagStatus);
                     view.setVisibility(View.VISIBLE);
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tag.getTechList());
+                    ListView listView = (ListView) findViewById(R.id.techologyListView);
+                    listView.setAdapter(adapter);
+                    listView.setVisibility(View.VISIBLE);
                 })
                 .withMainThread()
                 .withAllTagTechnologies()
@@ -47,6 +56,8 @@ public class ReaderCallbackActivity extends Activity implements NfcActivity {
 
                     TextView view = findViewById(R.id.tagStatus);
                     view.setVisibility(View.INVISIBLE);
+
+                    clearList();
                 })
                 .build();
 
@@ -93,14 +104,45 @@ public class ReaderCallbackActivity extends Activity implements NfcActivity {
     }
 
     public void toggleIgnore(View view) {
+        readerCallback.setIgnore(!readerCallback.isIgnore());
+
+        TextView v = (TextView)view;
+        if(readerCallback.isIgnore()) {
+            Log.d(TAG, "Ignore tags on");
+
+            v.setText(R.string.ignoreTagsOff);
+        } else {
+            Log.d(TAG, "Ignore tags off");
+
+            v.setText(R.string.ignoreTagsOn);
+        }
     }
 
     public void toogleEnable(View view) {
+        readerCallback.setEnabled(!readerCallback.isEnabled());
+
+        TextView v = (TextView)view;
+        if(readerCallback.isEnabled()) {
+            Log.d(TAG, "Tag scanning is enabled");
+
+            v.setText(R.string.disableReaderCallback);
+        } else {
+            Log.d(TAG, "Tag scanning is disabled");
+
+            v.setText(R.string.enableReaderCallback);
+        }
     }
 
     public void toast(String message) {
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
         toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL, 0, 0);
         toast.show();
+    }
+
+
+    private void clearList() {
+        ListView listView = (ListView) findViewById(R.id.techologyListView);
+        listView.setAdapter(null);
+        listView.setVisibility(View.INVISIBLE);
     }
 }
