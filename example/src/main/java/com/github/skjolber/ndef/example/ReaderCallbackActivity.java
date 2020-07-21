@@ -32,6 +32,50 @@ public class ReaderCallbackActivity extends Activity implements NfcActivity {
     }
 
     @Override
+    public void onPostCreated(NfcFactory factory) {
+        readerCallback = factory.newReaderCallbackBuilder()
+                .withTagDiscovered(tag -> {
+                    Log.d(TAG, "withTagDiscovered");
+
+                    TextView view = findViewById(R.id.tagStatus);
+                    view.setVisibility(View.VISIBLE);
+                })
+                .withMainThread()
+                .withAllTagTechnologies()
+                .withTagRemoved( () -> {
+                    Log.d(TAG, "withTagRemoved");
+
+                    TextView view = findViewById(R.id.tagStatus);
+                    view.setVisibility(View.INVISIBLE);
+                })
+                .build();
+
+        nfcSettings = factory.newSettingsBuilder()
+                .withDisabled((transition, available) -> {
+                    if(available) {
+                        if (transition) {
+                            Log.d(TAG, "NFC setting transitioned to disabled.");
+                        } else {
+                            Log.d(TAG, "NFC setting is still disabled.");
+                        }
+                        toast(getString(R.string.nfcAvailableDisabled));
+                    } else {
+                        toast(getString(R.string.noNfcMessage));
+                    }
+                })
+                .withEnabled( (transition) -> {
+                    if (transition) {
+                        Log.d(TAG, "NFC setting transitioned to enabled.");
+                    } else {
+                        Log.d(TAG, "NFC setting is still enabled.");
+                    }
+                    toast(getString(R.string.nfcAvailableEnabled));
+                })
+                .build();
+    }
+
+
+    @Override
     protected void onResume() {
         super.onResume();
     }
@@ -52,48 +96,6 @@ public class ReaderCallbackActivity extends Activity implements NfcActivity {
     }
 
     public void toogleEnable(View view) {
-    }
-
-    @Override
-    public void onPostCreated(NfcFactory factory) {
-        readerCallback = factory.newReaderCallbackBuilder().withTagDiscovered(tag -> {
-
-            Log.d(TAG, "withTagDiscovered");
-
-            TextView view = findViewById(R.id.tagStatus);
-            view.setVisibility(View.VISIBLE);
-        })
-        .withTagRemoved( () -> {
-            Log.d(TAG, "withTagRemoved");
-
-            TextView view = findViewById(R.id.tagStatus);
-            view.setVisibility(View.INVISIBLE);
-        })
-        .build();
-
-        nfcSettings = factory.newSettingsBuilder()
-                .withDisabled((transition, available) -> {
-                    if(available) {
-                        if (transition) {
-                            Log.d(TAG, "NFC setting transitioned to disabled.");
-                        } else {
-                            Log.d(TAG, "NFC setting is currently disabled.");
-                        }
-                        toast(getString(R.string.nfcAvailableDisabled));
-                    } else {
-                        toast(getString(R.string.noNfcMessage));
-                    }
-                })
-                .withEnabled( (transition) -> {
-                    if (transition) {
-                        Log.d(TAG, "NFC setting transitioned to enabled.");
-                    } else {
-                        Log.d(TAG, "NFC setting is currently enabled.");
-                    }
-                    toast(getString(R.string.nfcAvailableEnabled));
-                })
-                .build();
-
     }
 
     public void toast(String message) {

@@ -5,25 +5,18 @@ import android.content.pm.PackageManager;
 import android.nfc.NfcAdapter;
 
 import com.github.skjolber.ndef.utility.NfcActivityLifecycleMonitor;
+import com.github.skjolber.ndef.utility.NfcActivityLifecycleMonitorBuilder;
 
 public class NfcApplication extends Application {
 
-    private NfcActivityLifecycleMonitor monitor;
+    protected NfcActivityLifecycleMonitor monitor;
 
     public void onCreate() {
         super.onCreate();
 
-        NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
-
-        monitor = new NfcActivityLifecycleMonitor(nfcAdapter, isNfcSystemFeature());
+        monitor = new NfcActivityLifecycleMonitorBuilder().withApplication(this).build();
 
         registerActivityLifecycleCallbacks(monitor);
-    }
-
-    protected boolean isNfcSystemFeature() {
-        PackageManager pm = getPackageManager();
-
-        return pm.hasSystemFeature(PackageManager.FEATURE_NFC);
     }
 
     @Override

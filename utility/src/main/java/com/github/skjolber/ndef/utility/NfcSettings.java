@@ -75,7 +75,7 @@ public class NfcSettings extends NfcControls {
     }
 
     public boolean isNfcEnabled() {
-        return nfcSystemFeature && adapter != null && adapter.isEnabled();
+        return nfcSystemFeature && isNfcAdapterEnabled();
     }
 
     public boolean isNfcAdapterEnabled() {

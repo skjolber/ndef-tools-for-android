@@ -19,6 +19,7 @@ import java.util.List;
 public class NfcActivityLifecycleMonitor implements Application.ActivityLifecycleCallbacks {
 
     protected static final String TAG = NfcActivityLifecycleMonitor.class.getName();
+
     protected final boolean nfcSystemFeature;
     protected NfcSettings.NfcTransitionFlag transitionFlag = new NfcSettings.NfcTransitionFlag();
 
@@ -42,16 +43,11 @@ public class NfcActivityLifecycleMonitor implements Application.ActivityLifecycl
         public void onResume() {
             NfcForegroundDispatch nfcForegroundDispatch = nfcFactory.getNfcForegroundDispatch();
             if(nfcForegroundDispatch != null) {
-                Log.d(TAG, "Invoke foreground dispatch");
                 nfcForegroundDispatch.onResume();
-            } else {
-                Log.d(TAG, "No foreground dispatch");
             }
             NfcReaderCallback nfcReaderCallback = nfcFactory.getNfcReaderCallback();
             if(nfcReaderCallback != null) {
                 nfcReaderCallback.onResume();
-            } else {
-                Log.d(TAG, "No reader callback");
             }
         }
 
@@ -148,7 +144,7 @@ public class NfcActivityLifecycleMonitor implements Application.ActivityLifecycl
 
     @Override
     public void onActivityStarted(@NonNull Activity activity) {
-
+        // do nothing
     }
 
     @Override
@@ -177,12 +173,12 @@ public class NfcActivityLifecycleMonitor implements Application.ActivityLifecycl
 
     @Override
     public void onActivityStopped(@NonNull Activity activity) {
-
+        // do nothing
     }
 
     @Override
     public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle outState) {
-
+        // do nothing
     }
 
     @Override

@@ -4,50 +4,72 @@ import android.app.Activity;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class NfcReaderCallback extends NfcControls implements NfcAdapter.ReaderCallback {
 
+    private static final String TAG = NfcReaderCallback.class.getName();
+
     protected final Consumer<Tag> tagConsumer;
     protected final int flags;
     protected final Bundle bundle;
-    protected TagRemoved tagRemoved;
+    protected final boolean mainThread;
 
-    public NfcReaderCallback(NfcAdapter adapter, Supplier<Activity> activity, int flags, Bundle bundle, Consumer<Tag> tagConsumer) {
+    public NfcReaderCallback(NfcAdapter adapter, Supplier<Activity> activity, int flags, Bundle bundle, Consumer<Tag> tagConsumer, boolean mainThread) {
         super(adapter, activity);
 
         this.flags = flags;
         this.bundle = bundle;
 
         this.tagConsumer = tagConsumer;
+        this.mainThread = mainThread;
     }
 
     @Override
     protected void disabledImpl() {
-        Activity activity = activitySupplier.get();
+        Log.d(TAG, "disabledImpl");
 
         if(tagConsumer != null) {
-            adapter.enableReaderMode(activity, this, flags, bundle);
+            if(adapter != null) {
+                Log.d(TAG, "Disable reader mode");
+                adapter.disableReaderMode(activitySupplier.get());
+            }
         }
     }
 
     @Override
     protected void enabledImpl() {
+        Log.d(TAG, "enabledImpl");
+
         if(tagConsumer != null) {
-            adapter.disableForegroundDispatch(activitySupplier.get());
+            if(adapter != null) {
+                Log.d(TAG, "Enable reader mode");
+                adapter.enableReaderMode(activitySupplier.get(), this, flags, bundle);
+            }
         }
     }
 
     @Override
     public void onTagDiscovered(Tag tag) {
+        Log.d(TAG, "onTagDiscovered");
         if(!ignore) {
-            tagConsumer.accept(tag);
-
-            if(tagRemoved != null) {
-                tagRemoved.callback(tag);
+            if(mainThread) {
+                activitySupplier.get().runOnUiThread(() -> runImpl(tag));
+            } else {
+                runImpl(tag);
             }
+        }
+    }
+
+    public void runImpl(Tag tag) {
+        tagConsumer.accept(tag);
+
+        if(tagRemoved != null) {
+            Log.d(TAG, "Add tag removed callback");
+            tagRemoved.callback(tag);
         }
     }
 
