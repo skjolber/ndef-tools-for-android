@@ -4,11 +4,11 @@ import android.app.Application;
 import android.content.pm.PackageManager;
 import android.nfc.NfcAdapter;
 
-public class NfcActivityLifecycleMonitorBuilder {
+public class NfcActivityLifecycleCallbacksBuilder {
 
     protected Application application;
 
-    public NfcActivityLifecycleMonitorBuilder withApplication(Application application) {
+    public NfcActivityLifecycleCallbacksBuilder withApplication(Application application) {
         this.application = application;
 
         return this;
@@ -20,10 +20,10 @@ public class NfcActivityLifecycleMonitorBuilder {
         return pm.hasSystemFeature(PackageManager.FEATURE_NFC);
     }
 
-    public NfcActivityLifecycleMonitor build() {
+    public NfcActivityLifecycleCallbacks build() {
         NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(application);
 
-        return new NfcActivityLifecycleMonitor(nfcAdapter, isNfcSystemFeature());
+        return new NfcActivityLifecycleCallbacks(nfcAdapter, isNfcSystemFeature());
     }
 
 

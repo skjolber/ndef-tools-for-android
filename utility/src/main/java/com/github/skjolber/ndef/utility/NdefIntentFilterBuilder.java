@@ -4,9 +4,15 @@ import android.content.IntentFilter;
 import android.nfc.NfcAdapter;
 import android.os.PatternMatcher;
 
-// https://stackoverflow.com/questions/30642465/nfc-tag-is-not-discovered-for-action-ndef-discovered-action-even-if-it-contains
+
+/**
+ *
+ * Simple builder for NDEF intent filters.
+ *
+ */
 
 public class NdefIntentFilterBuilder {
+    // https://stackoverflow.com/questions/30642465/nfc-tag-is-not-discovered-for-action-ndef-discovered-action-even-if-it-contains
 
     protected final NfcForegroundDispatchBuilder builder;
 

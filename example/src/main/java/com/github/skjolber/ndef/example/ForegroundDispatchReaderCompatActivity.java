@@ -24,13 +24,12 @@ import com.github.skjolber.ndef.MimeRecord;
 import com.github.skjolber.ndef.Record;
 import com.github.skjolber.ndef.externaltype.ExternalTypeRecord;
 
-import com.github.skjolber.ndef.utility.NfcActivity;
+import com.github.skjolber.ndef.utility.NfcCompatActivity;
 import com.github.skjolber.ndef.utility.NfcFactory;
 import com.github.skjolber.ndef.utility.NfcForegroundDispatch;
 import com.github.skjolber.ndef.utility.NfcSettings;
 import com.github.skjolber.ndef.wellknown.TextRecord;
 
-import android.app.Activity;
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.os.Bundle;
@@ -42,19 +41,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 /**
  * 
- * Activity demonstrating using foreground dispatch.
+ * Activity demonstrating using foreground dispatch and appcompat's lifecycle observer.
  * 
  * The activity lists the records of any detected NDEF message and displays some toast messages for various events.
  * 
- * @author Thomas Rorvik Skjolberg
- *
  */
 
-public class ForegroundDispatchReaderActivity extends Activity implements NfcActivity {
+public class ForegroundDispatchReaderCompatActivity extends AppCompatActivity implements NfcCompatActivity {
 
-	private static final String TAG = ForegroundDispatchReaderActivity.class.getName();
+	private static final String TAG = ForegroundDispatchReaderCompatActivity.class.getName();
 	
 	protected NfcForegroundDispatch foregroundDispatch;
 	protected NfcSettings nfcSettings;
@@ -166,11 +165,11 @@ public class ForegroundDispatchReaderActivity extends Activity implements NfcAct
 	}
 
 	/**
-	 * 
+	 *
 	 * Clear NDEF records from list
-	 * 
+	 *
 	 */
-	
+
 	private void clearNdefMessage() {
 		ListView listView = (ListView) findViewById(R.id.recordListView);
 		listView.setAdapter(null);

@@ -2,10 +2,8 @@ package com.github.skjolber.ndef.utility;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.pm.PackageManager;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,11 +12,20 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * {@linkplain Application.ActivityLifecycleCallbacks} for regular {@linkplain Activity}s; relying on
+ * {@linkplain Application.ActivityLifecycleCallbacks#onActivityResumed(Activity)} and
+ * {@linkplain Application.ActivityLifecycleCallbacks#onActivityPaused(Activity)} to
+ *  wire NFC onResume(..) and onPause(..).
+ */
 
-// https://medium.com/@mobile_develop/android-application-development-detecting-when-your-app-enters-the-background-or-foreground-bbced47ad8a5
-public class NfcActivityLifecycleMonitor implements Application.ActivityLifecycleCallbacks {
+public class NfcActivityLifecycleCallbacks implements Application.ActivityLifecycleCallbacks {
 
-    protected static final String TAG = NfcActivityLifecycleMonitor.class.getName();
+    protected static final String TAG = NfcActivityLifecycleCallbacks.class.getName();
+
+    public static NfcActivityLifecycleCallbacksBuilder newBuilder() {
+        return new NfcActivityLifecycleCallbacksBuilder();
+    }
 
     protected final boolean nfcSystemFeature;
     protected NfcSettings.NfcTransitionFlag transitionFlag = new NfcSettings.NfcTransitionFlag();
@@ -67,7 +74,7 @@ public class NfcActivityLifecycleMonitor implements Application.ActivityLifecycl
 
     protected final List<WeakReference<ActivityAdapter>> activities = new ArrayList<>();
 
-    public NfcActivityLifecycleMonitor(NfcAdapter nfcAdapter, boolean nfcSystemFeature) {
+    public NfcActivityLifecycleCallbacks(NfcAdapter nfcAdapter, boolean nfcSystemFeature) {
         this.nfcAdapter = nfcAdapter;
         this.nfcSystemFeature = nfcSystemFeature;
     }
@@ -100,7 +107,7 @@ public class NfcActivityLifecycleMonitor implements Application.ActivityLifecycl
 
     /**
      * Called as the first step of the Activity being created. This is always called before
-     * {@link Activity#onCreate}.
+     * {@link Activity#onCreate(Bundle)}.
      */
 
     public void onActivityPreCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
@@ -117,7 +124,6 @@ public class NfcActivityLifecycleMonitor implements Application.ActivityLifecycl
         }
     }
 
-
     @Override
     public void onActivityPostCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
         if(activity instanceof NfcActivity) {
@@ -132,14 +138,6 @@ public class NfcActivityLifecycleMonitor implements Application.ActivityLifecycl
 
     @Override
     public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
-        if(activity instanceof NfcActivity) {
-            NfcActivity nfcActivity = (NfcActivity)activity;
-
-            ActivityAdapter adapter = getAdapter(activity);
-            if(adapter != null) {
-                nfcActivity.onCreated(adapter.getFactory());
-            }
-        }
     }
 
     @Override

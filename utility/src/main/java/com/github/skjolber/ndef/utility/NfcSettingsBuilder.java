@@ -2,9 +2,6 @@ package com.github.skjolber.ndef.utility;
 
 import android.app.Activity;
 import android.nfc.NfcAdapter;
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -28,7 +25,6 @@ public class NfcSettingsBuilder {
     protected boolean global = true; // true for global, false for local
     protected boolean nfcSystemFeature;
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public NfcSettingsBuilder(NfcFactory nfcFactory, NfcAdapter adapter, Supplier<Activity> context, NfcSettings.NfcTransitionFlag flag, boolean nfcSystemFeature) {
         this.adapter = adapter;
         this.context = context;
@@ -108,7 +104,6 @@ public class NfcSettingsBuilder {
         return this;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public NfcSettings build() {
         NfcSettings.NfcTransitionFlag flag;
         if(global) {

@@ -18,6 +18,14 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+/**
+ *
+ * Utility for use of {@linkplain NfcAdapter#enableForegroundDispatch(Activity, PendingIntent, IntentFilter[], String[][])}
+ * and optionally {@linkplain NfcAdapter.OnTagRemovedListener}.
+ *
+ */
+
+
 public class NfcForegroundDispatch extends NfcControls {
 
     private static final String TAG = NfcForegroundDispatch.class.getName();
@@ -139,6 +147,13 @@ public class NfcForegroundDispatch extends NfcControls {
         }
 
     }
+
+    /**
+     * Utility method for getting NDEF message from an intent.
+     *
+     * @param intent intent which optionally contains an NDEF message
+     * @return the first NDEF message, if present.
+     */
 
     public static NdefMessage getNdefMessage(Intent intent) {
         if(intent.hasExtra(NfcAdapter.EXTRA_NDEF_MESSAGES)) {

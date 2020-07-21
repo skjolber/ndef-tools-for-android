@@ -2,9 +2,6 @@ package com.github.skjolber.ndef.utility;
 
 import android.app.Activity;
 import android.nfc.NfcAdapter;
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -12,6 +9,15 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class NfcSettings extends NfcControls {
+
+    /**
+     * Small utility class for supporting a state on NFC settings; as in
+     * whether the enabled/disabled state has already been delivered to the current
+     * (or any previous) activity. This means that each activity does not need to
+     * notify the user that NFC is disabled; by looking at the transition flag,
+     * it is possible to show that message once per application execution.
+     *
+     */
 
     public static class NfcTransitionFlag implements Function<Boolean, Boolean> {
 
@@ -55,7 +61,6 @@ public class NfcSettings extends NfcControls {
 
     protected boolean nfcSystemFeature;
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public NfcSettings(NfcAdapter adapter, Supplier<Activity> context, NfcTransitionFlag redeliveryFlag, boolean nfcSystemFeature, Runnable enabledRunnable, Consumer<Boolean> enabledConsumer, Runnable disabledRunnable, Consumer<Boolean> disabledConsumer, BiConsumer<Boolean, Boolean> disabledBiConsumer) {
         super(adapter, context);
 

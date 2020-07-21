@@ -1,11 +1,8 @@
 package com.github.skjolber.ndef.utility;
 
-import android.app.Activity;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.os.Handler;
-
-import java.util.function.Supplier;
 
 public class TagRemoved {
 

@@ -9,6 +9,12 @@ import android.util.Log;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+/**
+ *
+ * Utility for use of {@linkplain NfcAdapter.ReaderCallback} and optionally {@linkplain NfcAdapter.OnTagRemovedListener}.
+ *
+ */
+
 public class NfcReaderCallback extends NfcControls implements NfcAdapter.ReaderCallback {
 
     private static final String TAG = NfcReaderCallback.class.getName();

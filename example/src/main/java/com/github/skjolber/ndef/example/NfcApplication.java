@@ -1,28 +1,37 @@
 package com.github.skjolber.ndef.example;
 
 import android.app.Application;
-import android.content.pm.PackageManager;
-import android.nfc.NfcAdapter;
 
-import com.github.skjolber.ndef.utility.NfcActivityLifecycleMonitor;
-import com.github.skjolber.ndef.utility.NfcActivityLifecycleMonitorBuilder;
+import com.github.skjolber.ndef.utility.NfcActivityLifecycleCallbacks;
+import com.github.skjolber.ndef.utility.NfcActivityLifecycleCallbacksBuilder;
+import com.github.skjolber.ndef.utility.NfcCompatActivityLifecycleCallbacks;
+
+/**
+ *
+ * Main application. Normally, one callback would be sufficient.
+ *
+ */
 
 public class NfcApplication extends Application {
 
-    protected NfcActivityLifecycleMonitor monitor;
+    protected NfcActivityLifecycleCallbacks callbacks;
+    protected NfcCompatActivityLifecycleCallbacks appcompatCallbacks;
 
     public void onCreate() {
         super.onCreate();
 
-        monitor = new NfcActivityLifecycleMonitorBuilder().withApplication(this).build();
+        callbacks = NfcActivityLifecycleCallbacks.newBuilder().withApplication(this).build();
+        appcompatCallbacks = NfcCompatActivityLifecycleCallbacks.newBuilder().withApplication(this).build();
 
-        registerActivityLifecycleCallbacks(monitor);
+        registerActivityLifecycleCallbacks(callbacks);
+        registerActivityLifecycleCallbacks(appcompatCallbacks);
     }
 
     @Override
     public void onTerminate() {
         super.onTerminate();
 
-        unregisterActivityLifecycleCallbacks(monitor);
+        unregisterActivityLifecycleCallbacks(callbacks);
+        unregisterActivityLifecycleCallbacks(appcompatCallbacks);
     }
 }

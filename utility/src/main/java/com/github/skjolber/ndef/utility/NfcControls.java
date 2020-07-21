@@ -5,11 +5,21 @@ import android.nfc.NfcAdapter;
 
 import java.util.function.Supplier;
 
+/**
+ *
+ * Abstract superclass which wraps onResume(..) and onPause(..) functionality in subclasses.
+ * Supports both enable/disable and ignore programmatical settings:<br>
+ *  - enable / disabled NFC functionality
+ *  - ignore events (i.e. scanned tags)
+ *
+ */
+
 public abstract class NfcControls {
 
     private static final String TAG = NfcControls.class.getName();
 
     protected final NfcAdapter adapter;
+    // Implementation note: activity supplier so that making a global (default) behaviour is possible.
     protected final Supplier<Activity> activitySupplier;
 
     protected boolean enabled = true; // user switch for whether to start listening for tags etc

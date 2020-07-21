@@ -34,6 +34,7 @@
 		android:onClick="toggleIgnore"
 		android:background="@drawable/button"
 		android:layout_marginTop="10dp"
+		android:textColor="@color/black"
 		/>
 
 	<Button
@@ -43,6 +44,7 @@
 		android:onClick="toogleEnable"
 		android:background="@drawable/button"
 		android:layout_marginTop="10dp"
+		android:textColor="@color/black"
 		/>
 
 

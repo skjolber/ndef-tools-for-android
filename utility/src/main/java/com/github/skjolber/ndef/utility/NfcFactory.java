@@ -5,6 +5,13 @@ import android.nfc.NfcAdapter;
 
 import java.util.function.Supplier;
 
+/**
+ *
+ * Base connection point for activites wanting to use NFC. Allows the client to build either reader-callback
+ * or foreground-dispatch types of NFC interaction; optionally with tag lost functionality.
+ *
+ */
+
 public class NfcFactory {
 
     protected final NfcAdapter adapter;
@@ -69,7 +76,7 @@ public class NfcFactory {
         return nfcSettings;
     }
 
-    public void setTagLost(TagRemoved tagRemoved) {
+    public void setTagRemoved(TagRemoved tagRemoved) {
         if(nfcForegroundDispatch != null) {
             nfcForegroundDispatch.setTagRemoved(tagRemoved);
         }

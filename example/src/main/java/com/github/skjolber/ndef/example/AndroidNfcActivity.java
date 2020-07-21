@@ -22,21 +22,24 @@ package com.github.skjolber.ndef.example;
 
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleEventObserver;
+import androidx.lifecycle.LifecycleOwner;
+
 /**
  * 
  * Boilerplate activity selector.
  * 
- * @author Thomas Rorvik Skjolberg
- *
  */
 
-public class AndroidNfcActivity extends Activity {
+public class AndroidNfcActivity extends AppCompatActivity {
 	
     private static final String TAG = AndroidNfcActivity.class.getName();
     
@@ -47,6 +50,13 @@ public class AndroidNfcActivity extends Activity {
 		setContentView(R.layout.main);
 		
 		setTitle(R.string.app_name_description);
+
+        getLifecycle().addObserver(new LifecycleEventObserver() {
+            @Override
+            public void onStateChanged(@NonNull LifecycleOwner source, @NonNull Lifecycle.Event event) {
+                Log.d(TAG, "On state changed: " + event);
+            }
+        });
     }
     
     public void writer(View view) {
@@ -59,7 +69,7 @@ public class AndroidNfcActivity extends Activity {
     public void ndefReader(View view) {
     	Log.d(TAG, "Show NDEF reader_foreground_dispatch");
     	
-    	Intent intent = new Intent(this, ForegroundDispatchReaderActivity.class);
+    	Intent intent = new Intent(this, ForegroundDispatchReaderCompatActivity.class);
     	startActivity(intent);
     }
 
@@ -70,12 +80,5 @@ public class AndroidNfcActivity extends Activity {
         startActivity(intent);
     }
 
-    public void toggleIgnore(View view) {
-
-    }
-
-    public void toogleEnable(View view) {
-
-    }
 
 }

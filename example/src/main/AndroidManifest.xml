@@ -3,7 +3,6 @@
 
     <uses-permission android:name="android.permission.NFC" />
     <uses-feature android:name="android.hardware.nfc" android:required="false" />
-    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:icon="@drawable/ic_launcher"
@@ -13,6 +12,7 @@
             android:name=".AndroidNfcActivity"
             android:label="@string/app_name"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/Theme.AppCompat"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,9 +23,10 @@
 
         <activity
             android:icon="@drawable/ic_launcher"
-            android:name=".ForegroundDispatchReaderActivity"
+            android:name=".ForegroundDispatchReaderCompatActivity"
             android:label="@string/reader"
             android:configChanges="orientation|keyboardHidden"
+            android:theme="@style/Theme.AppCompat"
             >
 
             <!-- open any tag with ndef content -->

@@ -69,7 +69,7 @@
     <string name="uri">URI</string>
     
     <string name="wellknownURI">Well-known URI</string>
-    
+
     <string name="nfcAvailableEnabled">NFC available and enabled.</string>
     <string name="nfcAvailableDisabled">NFC available but disabled.</string>
     <string name="noNfcMessage">NFC is not available on this device.</string>

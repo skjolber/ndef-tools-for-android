@@ -61,8 +61,6 @@ import java.util.Locale;
  * 
  * The activity lists the records of any detected NDEF message and displays some toast messages for various events.
  * 
- * @author Thomas Rorvik Skjolberg
- *
  */
 
 public class ForegroundDispatchWriterActivity extends Activity implements NfcActivity {

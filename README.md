@@ -13,6 +13,7 @@ The most important features are
     * Composing and [writing]() NDEF messages
 
 In other words, this projects helps you to handle __dynamic NDEF content__ at runtime.
+
 # NDEF object representation library #
 So a [Message](https://github.com/skjolber/ndef-tools-for-android/blob/master/ndeftools/src/com/github/skjolber/ndeftools/Message.java) consists of a list of [Records](https://github.com/skjolber/ndef-tools-for-android/blob/master/ndeftools/src/com/github/skjolber/ndeftools/Record.java) in the NDEF standard. Browse the [source](https://github.com/skjolber/ndef-tools-for-android/tree/master/ndeftools/src/org/ndeftools) for an overview.
 
@@ -63,7 +64,7 @@ NdefMessage lowLevel = highLevel.getNdefMessage();
 ```
 
 # NFC utility module #
-The [utility module](https://github.com/skjolber/ndef-tools-for-android/tree/master/ndeftools-util) adds support for interacting with NFC from Android activities:
+The [utility module](https://github.com/skjolber/ndef-tools-for-android/tree/master/utility) adds support for interacting with NFC from Android activities:
 
  * Handle NFC device settings
    * detect whether NFC is turned on or off on the device, and
