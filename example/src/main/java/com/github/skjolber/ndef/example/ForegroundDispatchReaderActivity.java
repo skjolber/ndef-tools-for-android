@@ -52,9 +52,9 @@ import android.widget.Toast;
  *
  */
 
-public class ForegroundDispatchActivity extends Activity implements NfcActivity {
+public class ForegroundDispatchReaderActivity extends Activity implements NfcActivity {
 
-	private static final String TAG = ForegroundDispatchActivity.class.getName();
+	private static final String TAG = ForegroundDispatchReaderActivity.class.getName();
 	
 	protected NfcForegroundDispatch foregroundDispatch;
 	protected NfcSettings nfcSettings;

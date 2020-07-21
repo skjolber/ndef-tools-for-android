@@ -44,5 +44,23 @@
 		android:textStyle="bold"
 		android:layout_gravity="center_horizontal"
 	/>
+
+	<Button
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/ignoreTagsOn"
+		android:onClick="toggleIgnore"
+		android:background="@drawable/button"
+		android:layout_marginTop="10dp"
+		/>
+
+	<Button
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/disableForegroundDispatch"
+		android:onClick="toogleEnable"
+		android:background="@drawable/button"
+		android:layout_marginTop="10dp"
+		/>
      
 </LinearLayout>

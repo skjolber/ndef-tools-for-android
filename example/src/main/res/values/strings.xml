@@ -70,7 +70,6 @@
     
     <string name="wellknownURI">Well-known URI</string>
     
-    
     <string name="nfcAvailableEnabled">NFC available and enabled.</string>
     <string name="nfcAvailableDisabled">NFC available but disabled.</string>
     <string name="noNfcMessage">NFC is not available on this device.</string>
@@ -98,18 +97,18 @@
     <string name="introductionTitle">NDEF Tools for Android boilerplate demo</string>
     <string name="introductionDescription">A working NFC-capable app built using data-binding and abstract activities from the NDEF Tools for Android project.</string>
     
-    <string name="writer">NFC tag writer</string>
-    <string name="writerTitle">NFC tag writer demo</string>
+    <string name="writer">NFC tag writer (using foreground dispatch)</string>
+    <string name="writerTitle">NFC tag writer demo (using foreground dispatch)</string>
     <string name="writerDescription">This activity writes a simple NDEF message containing an Android Application Record and a Text Record from the below text input to tags. </string>
     <string name="writerHint">Your Text Record-text here</string>
     <string name="writerScanHint">(Scan tag to write at any time.)</string>
     
-    <string name="reader">NFC NDEF reader (using foregroudDispatch)</string>
+    <string name="reader">NFC NDEF reader (using foregroud dispatch)</string>
     <string name="readerTitle">NFC NDEF reader demo</string>
     <string name="readerDescription">This activity reads and displays the NDEF contents of any tag (if present).</string>
     
-    <string name="readerCallback">NFC tag reader (using readerCallback)</string>
-    <string name="readerCallbackTitle">NFC tag reader (using readerCallback) demo</string>
+    <string name="readerCallback">NFC tag reader (using reader callback)</string>
+    <string name="readerCallbackTitle">NFC tag reader (using reader callback) demo</string>
     <string name="readerCallbackDescription">This activity reads and displays the tech types of any tag.</string>
 
     <string name="tagRemoved">Tag lost</string>
@@ -119,8 +118,8 @@
     <string name="enableReaderCallback">Enable reader callback</string>
     <string name="disableReaderCallback">Disable reader callback</string>
 
-    <string name="enableForegroundDispatch">Enable reader callback</string>
-    <string name="disableForegroundDispatch">Disable reader callback</string>
+    <string name="enableForegroundDispatch">Enable foreground dispatch</string>
+    <string name="disableForegroundDispatch">Disable foreground dispatch</string>
 
     <string name="ignoreTagsOn">Ignore scanned tags</string>
     <string name="ignoreTagsOff">Do not ignore scanned tags</string>

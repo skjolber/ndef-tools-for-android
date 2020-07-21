@@ -23,7 +23,7 @@
 
         <activity
             android:icon="@drawable/ic_launcher"
-            android:name=".ForegroundDispatchActivity"
+            android:name=".ForegroundDispatchReaderActivity"
             android:label="@string/reader"
             android:configChanges="orientation|keyboardHidden"
             >
@@ -42,7 +42,7 @@
 
         <activity
             android:icon="@drawable/ic_launcher"
-            android:name=".DefaultNfcTagWriterActivity"
+            android:name=".ForegroundDispatchWriterActivity"
             android:label="@string/writer"
             android:configChanges="orientation|keyboardHidden"
             >

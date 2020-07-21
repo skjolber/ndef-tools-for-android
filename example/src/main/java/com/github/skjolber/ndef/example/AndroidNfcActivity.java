@@ -52,14 +52,14 @@ public class AndroidNfcActivity extends Activity {
     public void writer(View view) {
     	Log.d(TAG, "Show tag writer");
     	
-    	Intent intent = new Intent(this, DefaultNfcTagWriterActivity.class);
+    	Intent intent = new Intent(this, ForegroundDispatchWriterActivity.class);
     	startActivity(intent);
     }
 
     public void ndefReader(View view) {
     	Log.d(TAG, "Show NDEF reader_foreground_dispatch");
     	
-    	Intent intent = new Intent(this, ForegroundDispatchActivity.class);
+    	Intent intent = new Intent(this, ForegroundDispatchReaderActivity.class);
     	startActivity(intent);
     }
 
