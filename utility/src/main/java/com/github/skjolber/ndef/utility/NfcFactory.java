@@ -45,7 +45,7 @@ public class NfcFactory {
 
     protected void setNfcReaderCallback(NfcReaderCallback nfcReaderCallback) {
         if(this.nfcReaderCallback != null) {
-            throw new IllegalArgumentException("Already have reader callback configured.");
+            throw new IllegalArgumentException("Already have reader_foreground_dispatch callback configured.");
         }
         this.nfcReaderCallback = nfcReaderCallback;
     }

@@ -119,6 +119,9 @@
     <string name="enableReaderCallback">Enable reader callback</string>
     <string name="disableReaderCallback">Disable reader callback</string>
 
+    <string name="enableForegroundDispatch">Enable reader callback</string>
+    <string name="disableForegroundDispatch">Disable reader callback</string>
+
     <string name="ignoreTagsOn">Ignore scanned tags</string>
     <string name="ignoreTagsOff">Do not ignore scanned tags</string>
     <string name="tagLost" />

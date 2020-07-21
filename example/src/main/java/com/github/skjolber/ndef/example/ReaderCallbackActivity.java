@@ -12,14 +12,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.skjolber.ndef.MimeRecord;
-import com.github.skjolber.ndef.Record;
-import com.github.skjolber.ndef.externaltype.ExternalTypeRecord;
 import com.github.skjolber.ndef.utility.NfcActivity;
 import com.github.skjolber.ndef.utility.NfcFactory;
 import com.github.skjolber.ndef.utility.NfcReaderCallback;
 import com.github.skjolber.ndef.utility.NfcSettings;
-import com.github.skjolber.ndef.wellknown.TextRecord;
+
+/**
+ * Activity demonstrating {@linkplain android.nfc.NfcAdapter.ReaderCallback}.
+ */
 
 public class ReaderCallbackActivity extends Activity implements NfcActivity {
 
@@ -41,9 +41,6 @@ public class ReaderCallbackActivity extends Activity implements NfcActivity {
                 .withTagDiscovered(tag -> {
                     Log.d(TAG, "withTagDiscovered");
 
-                    TextView view = findViewById(R.id.tagStatus);
-                    view.setVisibility(View.VISIBLE);
-
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tag.getTechList());
                     ListView listView = (ListView) findViewById(R.id.techologyListView);
                     listView.setAdapter(adapter);
@@ -53,9 +50,6 @@ public class ReaderCallbackActivity extends Activity implements NfcActivity {
                 .withAllTagTechnologies()
                 .withTagRemoved( () -> {
                     Log.d(TAG, "withTagRemoved");
-
-                    TextView view = findViewById(R.id.tagStatus);
-                    view.setVisibility(View.INVISIBLE);
 
                     clearList();
                 })
@@ -138,7 +132,6 @@ public class ReaderCallbackActivity extends Activity implements NfcActivity {
         toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL, 0, 0);
         toast.show();
     }
-
 
     private void clearList() {
         ListView listView = (ListView) findViewById(R.id.techologyListView);

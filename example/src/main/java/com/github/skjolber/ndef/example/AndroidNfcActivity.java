@@ -57,14 +57,14 @@ public class AndroidNfcActivity extends Activity {
     }
 
     public void ndefReader(View view) {
-    	Log.d(TAG, "Show NDEF reader");
+    	Log.d(TAG, "Show NDEF reader_foreground_dispatch");
     	
     	Intent intent = new Intent(this, ForegroundDispatchActivity.class);
     	startActivity(intent);
     }
 
     public void callbackReader(View view) {
-        Log.d(TAG, "Show callback reader");
+        Log.d(TAG, "Show callback reader_foreground_dispatch");
 
         Intent intent = new Intent(this, ReaderCallbackActivity.class);
         startActivity(intent);

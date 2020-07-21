@@ -34,7 +34,7 @@ public class NfcReaderCallback extends NfcControls implements NfcAdapter.ReaderC
 
         if(tagConsumer != null) {
             if(adapter != null) {
-                Log.d(TAG, "Disable reader mode");
+                Log.d(TAG, "Disable reader_foreground_dispatch mode");
                 adapter.disableReaderMode(activitySupplier.get());
             }
         }
@@ -46,7 +46,7 @@ public class NfcReaderCallback extends NfcControls implements NfcAdapter.ReaderC
 
         if(tagConsumer != null) {
             if(adapter != null) {
-                Log.d(TAG, "Enable reader mode");
+                Log.d(TAG, "Enable reader_foreground_dispatch mode");
                 adapter.enableReaderMode(activitySupplier.get(), this, flags, bundle);
             }
         }

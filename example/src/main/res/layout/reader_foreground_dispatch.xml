@@ -27,6 +27,25 @@
 		android:textStyle="bold"
 	/>
 
+	<Button
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/ignoreTagsOn"
+		android:onClick="toggleIgnore"
+		android:background="@drawable/button"
+		android:layout_marginTop="10dp"
+		/>
+
+	<Button
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/disableReaderCallback"
+		android:onClick="toogleEnable"
+		android:background="@drawable/button"
+		android:layout_marginTop="10dp"
+		/>
+
+
       <ListView
           android:visibility="gone"
           android:id="@+id/recordListView"
@@ -35,6 +54,7 @@
           android:orientation="horizontal"
 		  android:cacheColorHint="@android:color/transparent"
 		  android:background="@drawable/button"
+		  android:layout_marginTop="10dp"
       />
     
 </LinearLayout>

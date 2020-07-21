@@ -39,6 +39,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -62,7 +63,7 @@ public class ForegroundDispatchActivity extends Activity implements NfcActivity 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		setContentView(R.layout.reader);
+		setContentView(R.layout.reader_foreground_dispatch);
 	}
 
 	@Override
@@ -82,6 +83,8 @@ public class ForegroundDispatchActivity extends Activity implements NfcActivity 
 						showNdefMessage(ndefMessage);
 					} else {
 						clearNdefMessage();
+
+						toast(getString(R.string.readNonNDEFMessage));
 					}
 				})
 				.withTagRemoved( () -> {
@@ -180,5 +183,34 @@ public class ForegroundDispatchActivity extends Activity implements NfcActivity 
 		toast.show();
 	}
 
+	public void toggleIgnore(View view) {
+		foregroundDispatch.setIgnore(!foregroundDispatch.isIgnore());
+
+		TextView v = (TextView)view;
+		if(foregroundDispatch.isIgnore()) {
+			Log.d(TAG, "Ignore tags on");
+
+			v.setText(R.string.ignoreTagsOff);
+		} else {
+			Log.d(TAG, "Ignore tags off");
+
+			v.setText(R.string.ignoreTagsOn);
+		}
+	}
+
+	public void toogleEnable(View view) {
+		foregroundDispatch.setEnabled(!foregroundDispatch.isEnabled());
+
+		TextView v = (TextView)view;
+		if(foregroundDispatch.isEnabled()) {
+			Log.d(TAG, "Tag scanning is enabled");
+
+			v.setText(R.string.disableForegroundDispatch);
+		} else {
+			Log.d(TAG, "Tag scanning is disabled");
+
+			v.setText(R.string.enableForegroundDispatch);
+		}
+	}
 
 }

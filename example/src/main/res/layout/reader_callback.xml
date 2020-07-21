@@ -45,18 +45,6 @@
 		android:layout_marginTop="10dp"
 		/>
 
-	<TextView
-		android:id="@+id/tagStatus"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:text="@string/tagPresent"
-		android:padding="3dip"
-		android:textColor="@color/black"
-		android:textStyle="bold"
-		android:textSize="30sp"
-		android:visibility="invisible"
-		/>
-
 	<ListView
 		android:visibility="gone"
 		android:id="@+id/techologyListView"
@@ -65,6 +53,7 @@
 		android:orientation="horizontal"
 		android:cacheColorHint="@android:color/transparent"
 		android:background="@drawable/button"
+		android:layout_marginTop="10dp"
 		/>
 
 </LinearLayout>
