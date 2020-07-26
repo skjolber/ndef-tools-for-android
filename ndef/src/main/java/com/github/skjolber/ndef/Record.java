@@ -355,7 +355,7 @@ public abstract class Record {
 	/**
 	 * Set the record id
 	 * 
-	 * @param id
+	 * @param id id as bytes
 	 */
 
 	public void setId(byte[] id) {
@@ -366,7 +366,7 @@ public abstract class Record {
 	 * 
 	 * Set record id using string
 	 * 
-	 * @param key
+	 * @param key key as string
 	 */
 	
 	public void setKey(String key) {
@@ -376,6 +376,8 @@ public abstract class Record {
 	/**
 	 * 
 	 * Get record id as string
+	 * 
+	 * @return id as string, or null
 	 */
 
 	public String getKey() {
@@ -385,7 +387,7 @@ public abstract class Record {
 	/**
 	 * Check whether record id is set.
 	 * 
-	 * @return true if id is not null and length > 0
+	 * @return true if id is not null and length is over 0
 	 */
 
 	public boolean hasKey() {

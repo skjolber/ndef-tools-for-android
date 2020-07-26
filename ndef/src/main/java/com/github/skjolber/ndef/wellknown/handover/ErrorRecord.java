@@ -24,7 +24,7 @@ import com.github.skjolber.ndef.Record;
 import android.nfc.NdefRecord;
 
 /**
- * Error record. <br/><br/>
+ * Error record. <br><br>
  * 
  * The Error Record is used in the Handover Select Record to indicate that the Handover Selector failed to successfully
  * process the most recently received Handover Request Message. It SHALL NOT be used elsewhere.

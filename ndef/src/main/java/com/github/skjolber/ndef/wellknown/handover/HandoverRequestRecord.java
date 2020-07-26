@@ -31,7 +31,7 @@ import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 
 /**
- * Handover Request Record <br/><br/>
+ * Handover Request Record <br><br>
  * 
  * The Handover Request Record identifies a list of possible alternative carriers that the Handover Requester device
  * would be able to use for further communication with the Handover Selector. At least a single alternative carrier MUST

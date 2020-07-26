@@ -30,7 +30,7 @@ import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 
 /**
- * Generic Control Data Record.<br/><br/>
+ * Generic Control Data Record.<br><br>
  * 
  * @author Adrian Stabiszewski (as@nfctools.org)
  *

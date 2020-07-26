@@ -31,7 +31,7 @@ import com.github.skjolber.ndef.Record;
 import android.nfc.NdefRecord;
 
 /**
- * Signature record.<br/><br/>
+ * Signature record.<br><br>
  * 
  * Digital signing of NDEF data is a trustworthy method for providing information about the origin of NDEF data. 
  * It provides users with the possibility of verifying the authenticity and integrity of data within the NDEF message.

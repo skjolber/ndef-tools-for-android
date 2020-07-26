@@ -28,7 +28,7 @@ import android.nfc.FormatException;
 import android.nfc.NdefRecord;
 
 /**
- * Smart Poster Record.<br/><br/>
+ * Smart Poster Record.<br><br>
  * 
  * The URI RTD specifies a way to mark different kinds of URIs and IRIs, but often you need a way to associate metadata with the URI. 
  * The purpose of the Smart Poster RTD is to provide the necessary wrapper to fulfill the Smart Poster use case, as defined by the NFC Forum.

@@ -25,7 +25,7 @@ import java.nio.charset.Charset;
  * Android Application Record. This is an Android-specific record type which attempts to launch the application specified by the package name. 
  * If no such application exists on the device, Google Play is launched at the corresponding application page.
  * 
- * @see <a href="@linkplain http://developer.android.com/guide/topics/connectivity/nfc/nfc.html#aar">Android Application Records</a>
+ * @see <a href="http://developer.android.com/guide/topics/connectivity/nfc/nfc.html#aar">Android Application Records</a>
  * 
  * @author Thomas Rorvik Skjolberg (skjolber@gmail.com)
  * 
@@ -71,6 +71,8 @@ public class AndroidApplicationRecord extends ExternalTypeRecord {
 	/**
 	 * 
 	 * Set the package name.
+	 * 
+	 * @param packageName name of package
 	 */
 
 	public void setPackageName(String packageName) {

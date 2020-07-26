@@ -85,7 +85,7 @@ public class Message extends ArrayList<Record> {
 	/**
 	 * {@link NdefMessage} constructor.
 	 * 
-	 * @param ndefMessage
+	 * @param ndefMessage NDEF message
 	 * @throws FormatException if known record type cannot be parsed
 	 */
 	
@@ -141,7 +141,7 @@ public class Message extends ArrayList<Record> {
 	/**
 	 * {@link Record} list constructor.
 	 * 
-	 * @param list
+	 * @param list list of {@linkplain Record}s.
 	 */
 	
 	public Message(List<Record> list) {
@@ -161,7 +161,7 @@ public class Message extends ArrayList<Record> {
 	/**
 	 * {@link Record} array constructor.
 	 * 
-	 * @param records
+	 * @param records zero or more {@linkplain Record}s. 
 	 */
 	
 	public Message(Record ... records) {

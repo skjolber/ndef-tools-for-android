@@ -28,7 +28,7 @@ import android.annotation.SuppressLint;
 import android.nfc.NdefRecord;
 
 /**
- * External type record.<br/><br/>
+ * External type record.<br><br>
  * 
  * Note: Support for custom external types can be added via the {@link ExternalTypeRecordParser} interface, or by overloading this class.
  * 
@@ -56,9 +56,9 @@ public abstract class ExternalTypeRecord extends Record {
 		/**
 		 * Parse an External Type record payload.
 		 * 
-		 * @param domain
-		 * @param type
-		 * @param payload
+		 * @param domain domain
+		 * @param type type
+		 * @param payload payload as bytes
 		 * @return a newly created {@link ExternalTypeRecord}.
 		 */
 		ExternalTypeRecord parse(String domain, String type, byte[] payload); 

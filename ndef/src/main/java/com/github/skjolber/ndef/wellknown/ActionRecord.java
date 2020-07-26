@@ -25,7 +25,7 @@ import android.nfc.NdefRecord;
 
 /**
  * 
- * Action record.<br/><br/>
+ * Action record.<br><br>
  * 
  * @author Adrian Stabiszewski (as@nfctools.org)
  *

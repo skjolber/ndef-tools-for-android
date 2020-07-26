@@ -26,7 +26,7 @@ import android.nfc.FormatException;
 import android.nfc.NdefRecord;
 
 /**
- * Generic Control Target Record.<br/><br/>
+ * Generic Control Target Record.<br><br>
  * 
  * @author Adrian Stabiszewski (as@nfctools.org)
  *

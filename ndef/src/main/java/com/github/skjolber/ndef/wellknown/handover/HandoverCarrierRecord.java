@@ -33,7 +33,7 @@ import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 
 /**
- * Handover Carrier Record<br/><br/>
+ * Handover Carrier Record<br><br>
  * 
  * The Handover Carrier Record provides a unique identification of an alternative carrier technology in Handover Request
  * messages when no carrier configuration data is to be provided. If the Handover Selector has the same carrier

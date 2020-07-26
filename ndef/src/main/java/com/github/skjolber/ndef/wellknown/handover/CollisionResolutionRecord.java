@@ -24,7 +24,7 @@ import com.github.skjolber.ndef.Record;
 import android.nfc.NdefRecord;
 
 /**
- * Collision Resolution Record. <br/><br/>
+ * Collision Resolution Record. <br><br>
  * 
  * The Collision Resolution Record is used in the Handover Request Record to transmit the random number required to
  * resolve a collision of handover request messages. It SHALL NOT be used elsewhere.

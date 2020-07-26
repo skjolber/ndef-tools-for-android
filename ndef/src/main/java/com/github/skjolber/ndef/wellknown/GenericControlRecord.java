@@ -30,11 +30,11 @@ import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 
 /**
- * Generic control record.<br/><br/>
+ * Generic control record.<br><br>
  * 
  * The Generic Control Record Type Definition defines an NFC Forum Well Known Type on how
  * to activate a specific application or to set a property in a destination device through NFC
- * communication.<br/><br/>
+ * communication.<br><br>
  *
  * The purpose of the Generic Control RTD is to provide a way to request a specific action to an
  * NFC Forum device (a destination device) from another NFC Forum device, a tag, or a card

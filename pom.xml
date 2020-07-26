@@ -20,11 +20,8 @@
     <inceptionYear>2012</inceptionYear>
 
     <modules>
-        <module>ndeftools</module>
-        <module>ndeftools-util</module>
-        <module>ndeftools-boilerplate</module>
-        <module>ndeftools-jse</module>
-       <!-- <module>ndeftools-test</module> -->
+        <module>jse</module>
+        <module>ndef</module>
     </modules>
 
     <scm>
@@ -68,43 +65,48 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <java.version>1.6</java.version>
-        <android.version>4.1.1.4</android.version>
-        <android.platform>16</android.platform>
-		<android.plugin.version>3.5.3</android.plugin.version>
+        <java.version>1.8</java.version>
+		
+		<nfctools.version>1.0.M8</nfctools.version>
+		<junit.version>4.13</junit.version>
     </properties>
 
 	<dependencyManagement>
 		<dependencies>
-			
 			<dependency>
-				<groupId>com.google.android</groupId>
-				<artifactId>android</artifactId>
-				<version>${android.version}</version>
-				<scope>provided</scope>
+			    <groupId>com.google.code.ndef-tools-for-android</groupId>
+			    <artifactId>ndeftools</artifactId>
+			    <version>${project.version}</version>
 			</dependency>
-			
+			<dependency>
+			    <groupId>com.google.code.ndef-tools-for-android</groupId>
+			    <artifactId>ndeftools-jse</artifactId>
+			    <version>${project.version}</version>
+			</dependency>
+			<dependency>
+			    <groupId>junit</groupId>
+			    <artifactId>junit</artifactId>
+			    <version>${junit.version}</version>
+			    <scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.nfctools</groupId>
+				<artifactId>nfctools-api</artifactId>
+				<version>${nfctools.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.nfctools</groupId>
+				<artifactId>nfctools-ndef</artifactId>
+				<version>${nfctools.version}</version>
+				<scope>test</scope>
+			</dependency>		
 		</dependencies>
 	</dependencyManagement>
 
     <build>
         <pluginManagement>
             <plugins>
-                <plugin>
-                    <groupId>com.jayway.maven.plugins.android.generation2</groupId>
-                    <artifactId>android-maven-plugin</artifactId>
-                    <version>3.6.0</version>
-
-                    <configuration>
-                        <sdk>
-                            <platform>16</platform>
-                        </sdk>
-		                <manifest>
-		                    <debuggable>true</debuggable>
-		                </manifest>
-                        <undeployBeforeDeploy>true</undeployBeforeDeploy>
-                    </configuration>
-                </plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-gpg-plugin</artifactId>
