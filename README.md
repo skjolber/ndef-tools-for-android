@@ -8,9 +8,7 @@ The current (version <= 10.0) Android SDK only comes with a low-level NDEF API w
 The most important features are
   * NDEF object representation library (no more byte arrays!)
     * Simple conversion to and from Android SDK low-level equivalent
-  * NFC utility library, with wrapper for support of
-    * [Reading]() and parsing NDEF messages
-    * Composing and [writing]() NDEF messages
+  * JSE module with the corresponding Android classes for use in regular Java
 
 In other words, this projects helps you to handle __dynamic NDEF content__ at runtime.
 
@@ -63,15 +61,8 @@ NdefMessage lowLevel = highLevel.getNdefMessage();
 // .. pass low-level NdefMessage to existing code
 ```
 
-# NFC utility module #
-The [utility module](https://github.com/skjolber/ndef-tools-for-android/tree/master/utility) adds support for interacting with NFC from Android activities:
-
- * Handle NFC device settings
-   * detect whether NFC is turned on or off on the device, and
-   * detect whether NFc goes online or offline
- * NFC intent wrapper
-   * enable/disable listening for NFC tags
-   * enable/disable consuming NFC tags (i.e. make the app ignore tag scans for example; in such a way that other apps are not triggered)
+# JSE module #
+A few NFC classes copied from the Android open source project, so that the NDEF library can be used on regular Java (i.e. Java 8 or 11). 
 
 # NFC Eclipse plugin #
 For a graphical NDEF editor, try [NFC Eclipse plugin](https://github.com/skjolber/nfc-eclipse-plugin). It creates __static NDEF content__, and so is good for getting to know the NDEF format. Recommended for developers new to NFC.
