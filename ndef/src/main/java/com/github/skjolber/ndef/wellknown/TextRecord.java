@@ -178,12 +178,14 @@ public class TextRecord extends Record {
 			throw new IllegalArgumentException("Expected text");
 		}
 
+		String languageAndLocale = (locale.getLanguage() + (locale.getCountry() == null || locale.getCountry().length() == 0 ? ""
+						: ("-" + locale.getCountry())));
+		
 		if (android.os.Build.VERSION.SDK_INT >= 21 && TextRecord.UTF8.equals(encoding)) {
-			return NdefRecord.createTextRecord(locale.getCountry(), text);
+			return NdefRecord.createTextRecord(languageAndLocale, text);
 		}
 
-		byte[] languageData = (locale.getLanguage() + (locale.getCountry() == null || locale.getCountry().length() == 0 ? ""
-				: ("-" + locale.getCountry()))).getBytes();
+		byte[] languageData = languageAndLocale.getBytes();
 
 		if (languageData.length > TextRecord.LANGUAGE_CODE_MASK) {
 			throw new IllegalArgumentException("Expected language code length <= 32 bytes, not " + languageData.length + " bytes");

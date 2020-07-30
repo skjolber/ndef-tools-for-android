@@ -16,20 +16,23 @@
 
 package android.net;
 
+import android.content.Intent;
+import android.os.Parcelable;
+
 import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.RandomAccess;
 import java.util.Set;
-
-import libcore.net.UriCodec;
 
 /**
  * Immutable URI reference. A URI reference includes a URI and a fragment, the
@@ -42,7 +45,7 @@ import libcore.net.UriCodec;
  * forgiving--in the face of invalid input, it will return garbage
  * rather than throw an exception unless otherwise specified.
  */
-public abstract class Uri implements Comparable<Uri> {
+public abstract class Uri implements Parcelable, Comparable<Uri> {
 
     /*
 
@@ -125,6 +128,7 @@ public abstract class Uri implements Comparable<Uri> {
     /**
      * Prevents external subclassing.
      */
+    
     private Uri() {}
 
     /**
@@ -143,7 +147,7 @@ public abstract class Uri implements Comparable<Uri> {
     }
 
     /**
-     * Returns true if this URI is relative, i.e. if it doesn't contain an
+     * Returns true if this URI is relative, i.e.&nbsp;if it doesn't contain an
      * explicit scheme.
      *
      * @return true if this URI is relative, false if it's absolute
@@ -151,7 +155,7 @@ public abstract class Uri implements Comparable<Uri> {
     public abstract boolean isRelative();
 
     /**
-     * Returns true if this URI is absolute, i.e. if it contains an
+     * Returns true if this URI is absolute, i.e.&nbsp;if it contains an
      * explicit scheme.
      *
      * @return true if this URI is absolute, false if it's relative
@@ -165,11 +169,12 @@ public abstract class Uri implements Comparable<Uri> {
      *
      * @return the scheme or null if this is a relative URI
      */
+
     public abstract String getScheme();
 
     /**
-     * Gets the scheme-specific part of this URI, i.e. everything between the
-     * scheme separator ':' and the fragment separator '#'. If this is a
+     * Gets the scheme-specific part of this URI, i.e.&nbsp;everything between
+     * the scheme separator ':' and the fragment separator '#'. If this is a
      * relative URI, this method returns the entire URI. Decodes escaped octets.
      *
      * <p>Example: "//www.google.com/search?q=android"
@@ -179,14 +184,14 @@ public abstract class Uri implements Comparable<Uri> {
     public abstract String getSchemeSpecificPart();
 
     /**
-     * Gets the scheme-specific part of this URI, i.e. everything between the
-     * scheme separator ':' and the fragment separator '#'. If this is a
+     * Gets the scheme-specific part of this URI, i.e.&nbsp;everything between
+     * the scheme separator ':' and the fragment separator '#'. If this is a
      * relative URI, this method returns the entire URI. Leaves escaped octets
      * intact.
      *
      * <p>Example: "//www.google.com/search?q=android"
      *
-     * @return the decoded scheme-specific-part
+     * @return the encoded scheme-specific-part
      */
     public abstract String getEncodedSchemeSpecificPart();
 
@@ -199,6 +204,7 @@ public abstract class Uri implements Comparable<Uri> {
      *
      * @return the authority for this URI or null if not present
      */
+
     public abstract String getAuthority();
 
     /**
@@ -210,6 +216,7 @@ public abstract class Uri implements Comparable<Uri> {
      *
      * @return the authority for this URI or null if not present
      */
+
     public abstract String getEncodedAuthority();
 
     /**
@@ -219,6 +226,7 @@ public abstract class Uri implements Comparable<Uri> {
      *
      * @return the user info for this URI or null if not present
      */
+
     public abstract String getUserInfo();
 
     /**
@@ -228,6 +236,7 @@ public abstract class Uri implements Comparable<Uri> {
      *
      * @return the user info for this URI or null if not present
      */
+
     public abstract String getEncodedUserInfo();
 
     /**
@@ -237,6 +246,7 @@ public abstract class Uri implements Comparable<Uri> {
      *
      * @return the host for this URI or null if not present
      */
+
     public abstract String getHost();
 
     /**
@@ -253,6 +263,7 @@ public abstract class Uri implements Comparable<Uri> {
      * @return the decoded path, or null if this is not a hierarchical URI
      * (like "mailto:nobody@google.com") or the URI is invalid
      */
+
     public abstract String getPath();
 
     /**
@@ -261,6 +272,7 @@ public abstract class Uri implements Comparable<Uri> {
      * @return the encoded path, or null if this is not a hierarchical URI
      * (like "mailto:nobody@google.com") or the URI is invalid
      */
+
     public abstract String getEncodedPath();
 
     /**
@@ -271,6 +283,7 @@ public abstract class Uri implements Comparable<Uri> {
      *
      * @return the decoded query or null if there isn't one
      */
+
     public abstract String getQuery();
 
     /**
@@ -281,6 +294,7 @@ public abstract class Uri implements Comparable<Uri> {
      *
      * @return the encoded query or null if there isn't one
      */
+
     public abstract String getEncodedQuery();
 
     /**
@@ -288,6 +302,7 @@ public abstract class Uri implements Comparable<Uri> {
      *
      * @return the decoded fragment or null if there isn't one
      */
+
     public abstract String getFragment();
 
     /**
@@ -295,6 +310,7 @@ public abstract class Uri implements Comparable<Uri> {
      *
      * @return the encoded fragment or null if there isn't one
      */
+
     public abstract String getEncodedFragment();
 
     /**
@@ -309,6 +325,7 @@ public abstract class Uri implements Comparable<Uri> {
      *
      * @return the decoded last segment or null if the path is empty
      */
+
     public abstract String getLastPathSegment();
 
     /**
@@ -351,17 +368,21 @@ public abstract class Uri implements Comparable<Uri> {
     public abstract String toString();
 
     /**
-     * Return a string representation of the URI that is safe to print
-     * to logs and other places where PII should be avoided.
-     * @hide
+     * Return a string representation of this URI that has common forms of PII redacted,
+     * making it safer to use for logging purposes.  For example, {@code tel:800-466-4411} is
+     * returned as {@code tel:xxx-xxx-xxxx} and {@code http://example.com/path/to/item/} is
+     * returned as {@code http://example.com/...}.
+     * @return the common forms PII redacted string of this URI
+     * 
      */
+
     public String toSafeString() {
         String scheme = getScheme();
         String ssp = getSchemeSpecificPart();
         if (scheme != null) {
             if (scheme.equalsIgnoreCase("tel") || scheme.equalsIgnoreCase("sip")
                     || scheme.equalsIgnoreCase("sms") || scheme.equalsIgnoreCase("smsto")
-                    || scheme.equalsIgnoreCase("mailto")) {
+                    || scheme.equalsIgnoreCase("mailto") || scheme.equalsIgnoreCase("nfc")) {
                 StringBuilder builder = new StringBuilder(64);
                 builder.append(scheme);
                 builder.append(':');
@@ -376,6 +397,11 @@ public abstract class Uri implements Comparable<Uri> {
                     }
                 }
                 return builder.toString();
+            } else if (scheme.equalsIgnoreCase("http") || scheme.equalsIgnoreCase("https")
+                    || scheme.equalsIgnoreCase("ftp") || scheme.equalsIgnoreCase("rtsp")) {
+                ssp = "//" + ((getHost() != null) ? getHost() : "")
+                        + ((getPort() != -1) ? (":" + getPort()) : "")
+                        + "/...";
             }
         }
         // Not a sensitive scheme, but let's still be conservative about
@@ -426,7 +452,7 @@ public abstract class Uri implements Comparable<Uri> {
 
     /**
      * Creates a Uri from a file. The URI has the form
-     * "file://<absolute path>". Encodes path characters with the exception of
+     * "file://absolute-path". Encodes path characters with the exception of
      * '/'.
      *
      * <p>Example: "file:///tmp/android.txt"
@@ -513,6 +539,7 @@ public abstract class Uri implements Comparable<Uri> {
             @SuppressWarnings("StringEquality")
             boolean cached = (scheme != NOT_CACHED);
             return cached ? scheme : (scheme = parseScheme());
+
         }
 
         private String parseScheme() {
@@ -693,6 +720,10 @@ public abstract class Uri implements Comparable<Uri> {
                 LOOP: while (end < length) {
                     switch (uriString.charAt(end)) {
                         case '/': // Start of path
+                        case '\\':// Start of path
+                          // Per http://url.spec.whatwg.org/#host-state, the \ character
+                          // is treated as if it were a / character when encountered in a
+                          // host
                         case '?': // Start of query
                         case '#': // Start of fragment
                             break LOOP;
@@ -731,6 +762,10 @@ public abstract class Uri implements Comparable<Uri> {
                         case '#': // Start of fragment
                             return ""; // Empty path.
                         case '/': // Start of path!
+                        case '\\':// Start of path!
+                          // Per http://url.spec.whatwg.org/#host-state, the \ character
+                          // is treated as if it were a / character when encountered in a
+                          // host
                             break LOOP;
                     }
                     pathStart++;
@@ -1020,7 +1055,7 @@ public abstract class Uri implements Comparable<Uri> {
                 return null;
             }
 
-            int end = authority.indexOf('@');
+            int end = authority.lastIndexOf('@');
             return end == NOT_FOUND ? null : authority.substring(0, end);
         }
 
@@ -1033,19 +1068,18 @@ public abstract class Uri implements Comparable<Uri> {
         public String getHost() {
             @SuppressWarnings("StringEquality")
             boolean cached = (host != NOT_CACHED);
-            return cached ? host
-                    : (host = parseHost());
+            return cached ? host : (host = parseHost());
         }
 
         private String parseHost() {
-            String authority = getEncodedAuthority();
+            final String authority = getEncodedAuthority();
             if (authority == null) {
                 return null;
             }
 
             // Parse out user info and then port.
-            int userInfoSeparator = authority.indexOf('@');
-            int portSeparator = authority.indexOf(':', userInfoSeparator);
+            int userInfoSeparator = authority.lastIndexOf('@');
+            int portSeparator = findPortSeparator(authority);
 
             String encodedHost = portSeparator == NOT_FOUND
                     ? authority.substring(userInfoSeparator + 1)
@@ -1063,16 +1097,8 @@ public abstract class Uri implements Comparable<Uri> {
         }
 
         private int parsePort() {
-            String authority = getEncodedAuthority();
-            if (authority == null) {
-                return -1;
-            }
-
-            // Make sure we look for the port separtor *after* the user info
-            // separator. We have URLs with a ':' in the user info.
-            int userInfoSeparator = authority.indexOf('@');
-            int portSeparator = authority.indexOf(':', userInfoSeparator);
-
+            final String authority = getEncodedAuthority();
+            int portSeparator = findPortSeparator(authority);
             if (portSeparator == NOT_FOUND) {
                 return -1;
             }
@@ -1083,6 +1109,24 @@ public abstract class Uri implements Comparable<Uri> {
             } catch (NumberFormatException e) {
                 return -1;
             }
+        }
+
+        private int findPortSeparator(String authority) {
+            if (authority == null) {
+                return NOT_FOUND;
+            }
+
+            // Reverse search for the ':' character that breaks as soon as a char that is neither
+            // a colon nor an ascii digit is encountered. Thanks to the goodness of UTF-16 encoding,
+            // it's not possible that a surrogate matches one of these, so this loop can just
+            // look for characters rather than care about code points.
+            for (int i = authority.length() - 1; i >= 0; --i) {
+                final int character = authority.charAt(i);
+                if (':' == character) return i;
+                // Character.isDigit would include non-ascii digits
+                if (character < '0' || character > '9') return NOT_FOUND;
+            }
+            return NOT_FOUND;
         }
     }
 
@@ -1588,7 +1632,7 @@ public abstract class Uri implements Comparable<Uri> {
     /**
      * Searches the query string for the first value with the given key.
      *
-     * <p><strong>Warning:</strong> Prior to Ice Cream Sandwich, this decoded
+     * <p><strong>Warning:</strong> Prior to Jelly Bean, this decoded
      * the '+' character as '+' rather than ' '.
      *
      * @param key which will be encoded
@@ -1596,6 +1640,7 @@ public abstract class Uri implements Comparable<Uri> {
      * @throws NullPointerException if key is null
      * @return the decoded value or null if no parameter is found
      */
+
     public String getQueryParameter(String key) {
         if (isOpaque()) {
             throw new UnsupportedOperationException(NOT_HIERARCHICAL);
@@ -1627,7 +1672,7 @@ public abstract class Uri implements Comparable<Uri> {
                     return "";
                 } else {
                     String encodedValue = query.substring(separator + 1, end);
-                    return UriCodec.decode(encodedValue, true, Charset.forName("UTF-8"));
+                    return UriCodec.decode(encodedValue, true, StandardCharsets.UTF_8, false);
                 }
             }
 
@@ -1639,6 +1684,24 @@ public abstract class Uri implements Comparable<Uri> {
             }
         } while (true);
         return null;
+    }
+
+    /**
+     * Searches the query string for the first value with the given key and interprets it
+     * as a boolean value. "false" and "0" are interpreted as <code>false</code>, everything
+     * else is interpreted as <code>true</code>.
+     *
+     * @param key which will be decoded
+     * @param defaultValue the default value to return if there is no query parameter for key
+     * @return the boolean interpretation of the query parameter key
+     */
+    public boolean getBooleanQueryParameter(String key, boolean defaultValue) {
+        String flag = getQueryParameter(key);
+        if (flag == null) {
+            return defaultValue;
+        }
+        flag = flag.toLowerCase(Locale.ROOT);
+        return (!"false".equals(flag) && !"0".equals(flag));
     }
 
     /**
@@ -1659,13 +1722,11 @@ public abstract class Uri implements Comparable<Uri> {
      * begin with and a scheme component cannot be found.
      *
      * @return normalized Uri (never null)
-     * @see {@link android.content.Intent#setData}
-     * @see {@link #setNormalizedData}
      */
     public Uri normalizeScheme() {
         String scheme = getScheme();
         if (scheme == null) return this;  // give up
-        String lowerScheme = scheme.toLowerCase(Locale.US);
+        String lowerScheme = scheme.toLowerCase(Locale.ROOT);
         if (scheme.equals(lowerScheme)) return this;  // no change
 
         return buildUpon().scheme(lowerScheme).build();
@@ -1812,7 +1873,8 @@ public abstract class Uri implements Comparable<Uri> {
         if (s == null) {
             return null;
         }
-        return UriCodec.decode(s, false, Charset.forName("UTF-8"));
+        return UriCodec.decode(
+                s, false /* convertPlus */, StandardCharsets.UTF_8, false /* throwOnFailure */);
     }
 
     /**
@@ -1824,17 +1886,26 @@ public abstract class Uri implements Comparable<Uri> {
          * Enum which indicates which representation of a given part we have.
          */
         static class Representation {
-            static final int BOTH = 0;
             static final int ENCODED = 1;
             static final int DECODED = 2;
         }
 
         volatile String encoded;
         volatile String decoded;
+        private final int mCanonicalRepresentation;
 
         AbstractPart(String encoded, String decoded) {
-            this.encoded = encoded;
-            this.decoded = decoded;
+            if (encoded != NOT_CACHED) {
+                this.mCanonicalRepresentation = Representation.ENCODED;
+                this.encoded = encoded;
+                this.decoded = NOT_CACHED;
+            } else if (decoded != NOT_CACHED) {
+                this.mCanonicalRepresentation = Representation.DECODED;
+                this.encoded = NOT_CACHED;
+                this.decoded = decoded;
+            } else {
+                throw new IllegalArgumentException("Neither encoded nor decoded");
+            }
         }
 
         abstract String getEncoded();
@@ -1872,7 +1943,6 @@ public abstract class Uri implements Comparable<Uri> {
             boolean hasEncoded = encoded != NOT_CACHED;
             return hasEncoded ? encoded : (encoded = encode(decoded));
         }
-
 
         /**
          * Returns given part or {@link #NULL} if the given part is null.
@@ -1929,6 +1999,11 @@ public abstract class Uri implements Comparable<Uri> {
         private static class EmptyPart extends Part {
             public EmptyPart(String value) {
                 super(value, value);
+                if (value != null && !value.isEmpty()) {
+                    throw new IllegalArgumentException("Expected empty value, got: " + value);
+                }
+                // Avoid having to re-calculate the non-canonical value.
+                encoded = decoded = value;
             }
 
             @Override
@@ -2128,5 +2203,72 @@ public abstract class Uri implements Comparable<Uri> {
         return builder.build();
     }
 
+    /**
+     * If this {@link Uri} is {@code file://}, then resolve and return its
+     * canonical path. Also fixes legacy emulated storage paths so they are
+     * usable across user boundaries. Should always be called from the app
+     * process before sending elsewhere.
+     *
+     * 
+     */
     
+    public Uri getCanonicalUri() {
+        if ("file".equals(getScheme())) {
+            final String canonicalPath;
+            try {
+                canonicalPath = new File(getPath()).getCanonicalPath();
+            } catch (IOException e) {
+                return this;
+            }
+
+            return Uri.fromFile(new File(canonicalPath));
+        } else {
+            return this;
+        }
+    }
+
+    /**
+     * If this is a {@code file://} Uri, it will be reported to
+     * StrictMode.
+     *
+     * 
+     */
+    public void checkFileUriExposed(String location) {
+    	// do nothing
+    }
+
+    /**
+     * If this is a {@code content://} Uri without access flags, it will be
+     * reported to StrictMode.
+     *
+     * 
+     */
+    public void checkContentUriWithoutPermission(String location, int flags) {
+    	// do nothing
+    }
+
+    /**
+     * Test if this is a path prefix match against the given Uri. Verifies that
+     * scheme, authority, and atomic path segments match.
+     *
+     * 
+     */
+    public boolean isPathPrefixMatch(Uri prefix) {
+        if (!Objects.equals(getScheme(), prefix.getScheme())) return false;
+        if (!Objects.equals(getAuthority(), prefix.getAuthority())) return false;
+
+        List<String> seg = getPathSegments();
+        List<String> prefixSeg = prefix.getPathSegments();
+
+        final int prefixSize = prefixSeg.size();
+        if (seg.size() < prefixSize) return false;
+
+        for (int i = 0; i < prefixSize; i++) {
+            if (!Objects.equals(seg.get(i), prefixSeg.get(i))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

@@ -20,7 +20,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.nfc.FormatException;
-import android.os.Parcelable;
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
@@ -86,7 +85,7 @@ import java.util.Locale;
  * @see NdefMessage
  */
 @SuppressLint("NewApi")
-public final class NdefRecord implements Parcelable {
+public final class NdefRecord {
     /**
      * Indicates the record is empty.<p>
      * Type, id and payload fields are empty in a {@literal TNF_EMPTY} record.
@@ -933,4 +932,6 @@ public final class NdefRecord implements Parcelable {
         }
         return s;
     }
+
+
 }

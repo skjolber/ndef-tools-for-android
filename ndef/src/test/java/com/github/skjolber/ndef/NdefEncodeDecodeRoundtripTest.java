@@ -147,7 +147,7 @@ public class NdefEncodeDecodeRoundtripTest {
 	@Test
 	public void testEncodeDecodeRoundtrip() throws Exception {
 		
-		for(int version = 10; version <= 17; version++) {
+		for(int version = 10; version <= 29; version++) {
 			android.os.Build.VERSION.SDK_INT = version;
 			
 			// individually
@@ -182,7 +182,7 @@ public class NdefEncodeDecodeRoundtripTest {
 	@Test
 	public void testSignatureRecordRoundtrip() throws FormatException {
 		
-		for(int version = 10; version <= 17; version++) {
+		for(int version = 10; version <= 29; version++) {
 			android.os.Build.VERSION.SDK_INT = version;
 
 			ByteArrayOutputStream bout = new ByteArrayOutputStream();

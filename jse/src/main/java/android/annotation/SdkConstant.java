@@ -23,7 +23,7 @@ import java.lang.annotation.Target;
 
 /**
  * Indicates a constant field value should be exported to be used in the SDK tools.
- * @hide
+ * 
  */
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.SOURCE)

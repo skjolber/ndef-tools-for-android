@@ -144,7 +144,7 @@ public final class NdefMessage implements Parcelable {
      * Get the NDEF Records inside this NDEF Message.<p>
      * An {@link NdefMessage} always has one or more NDEF Records: so the
      * following code to retrieve the first record is always safe
-     * (no need to check for null or array length >= 1):
+     * (no need to check for null or array length is more or equal to 1):
      * <pre>
      * NdefRecord firstRecord = ndefMessage.getRecords()[0];
      * </pre>

@@ -129,7 +129,7 @@ public final class NdefRecord {
      * Indicates the type field contains an external type name.<p>
      * Used to encode custom payloads. When creating new records
      * use the helper {@link #createExternal}.<p>
-     * The external-type RTD format is specified in NFCForum-TS-RTD_1.0.<p>
+     * The external-type RTD format is specified in NFCForum-TS-RTD_1.0
      * <p>
      * Note this TNF should not be used with RTD_TEXT or RTD_URI constants.
      * Those are well known RTD constants, not external RTD constants.
@@ -162,7 +162,7 @@ public final class NdefRecord {
      * <p>
      * The NFC Forum NDEF Specification v1.0 suggests for NDEF parsers to treat this
      * value like TNF_UNKNOWN.
-     * @hide
+     * 
      */
     public static final short TNF_RESERVED = 0x07;
 
@@ -218,7 +218,7 @@ public final class NdefRecord {
      * <p>
      * Use {@link #createApplicationRecord(String)} to create
      * RTD_ANDROID_APP records.
-     * @hide
+     * 
      */
     public static final byte[] RTD_ANDROID_APP = "android.com:pkg".getBytes();
 
@@ -302,7 +302,7 @@ public final class NdefRecord {
      * <p>
      * Note that Android application records do not overrule
      * applications that have called
-     * {@link NfcAdapter#enableForegroundDispatch}.
+     * NfcAdapter#enableForegroundDispatch.
      *
      * @param packageName Android package name
      * @return Android application NDEF record
@@ -375,8 +375,6 @@ public final class NdefRecord {
      *
      * @param type MIME data type to normalize
      * @return normalized MIME data type, or null if the input was null
-     * @see {@link #setType}
-     * @see {@link #setTypeAndNormalize}
      */
     public static String normalizeMimeType(String type) {
         if (type == null) {
@@ -411,7 +409,7 @@ public final class NdefRecord {
      *
      * @param uriString string URI to encode.
      * @return an NDEF Record containing the URI
-     * @throws IllegalArugmentException if the uriString is empty or invalid
+     * @throws IllegalArgumentException if the uriString is empty or invalid
      */
     public static NdefRecord createUri(String uriString) {
         return createUri(Uri.parse(uriString));
@@ -438,7 +436,7 @@ public final class NdefRecord {
      * @param mimeType a valid MIME type
      * @param mimeData MIME data as bytes
      * @return an NDEF Record containing the MIME-typed data
-     * @throws IllegalArugmentException if the mimeType is empty or invalid
+     * @throws IllegalArgumentException if the mimeType is empty or invalid
      *
      */
     public static NdefRecord createMime(String mimeType, byte[] mimeData) {
@@ -519,6 +517,7 @@ public final class NdefRecord {
      *                     the language code of the current default locale will be used.
      * @param text   The text to be encoded in the record. Will be represented in UTF-8 format.
      * @throws IllegalArgumentException if text is null
+     * @return newly created NDEF record
      */
     public static NdefRecord createTextRecord(String languageCode, String text) {
         if (text == null) throw new NullPointerException("text is null");

@@ -20,7 +20,6 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 import android.nfc.FormatException;
-import android.os.Parcelable;
 
 
 /**
@@ -58,7 +57,7 @@ import android.os.Parcelable;
  * @see NfcAdapter#ACTION_NDEF_DISCOVERED
  * @see NdefRecord
  */
-public final class NdefMessage implements Parcelable {
+public final class NdefMessage {
     private final NdefRecord[] mRecords;
 
     /**
@@ -227,4 +226,6 @@ public final class NdefMessage implements Parcelable {
     public String toString() {
         return "NdefMessage " + Arrays.toString(mRecords);
     }
+
+
 }
