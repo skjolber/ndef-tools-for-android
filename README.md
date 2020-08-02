@@ -20,7 +20,7 @@ The project is built with [Gradle] and is available on the central Maven reposit
 
 ```groovy
 ext {
-  ndefToolsForAndroidVersion = '1.3.0'
+  ndefToolsForAndroidVersion = '2.0.0'
 }
 ```
 
