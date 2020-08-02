@@ -1,1 +1,0 @@
-Rewrite of the NFCDemo Android sample using the NDEF tools.
