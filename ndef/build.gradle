@@ -3,6 +3,8 @@ apply plugin: 'java-library'
 apply from: '../gradle/gradle-mvn-push.gradle'
 
 dependencies {
+	// do not add a dependency on the jse project, as those classes are normally 
+	// included in the Android runtime. 
     compileOnly project(':jse')
     testImplementation project(':jse')
 
