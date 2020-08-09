@@ -96,11 +96,11 @@ August 2020: Version 2.0.0 maintainance release:
   * Moved utilities and examples to seperate project
   * Minor improvements
   
-March 28th 2013: Version 1.2.3 released.
-February 5th 2013: Version 1.2.2 released.
-January 1st 2013: Version 1.2.1 released.
-October 18th 2012: Version 1.2 released.
-September 15th 2012: Initial release.
+March 28th 2013: Version 1.2.3 released.<br>
+February 5th 2013: Version 1.2.2 released.<br>
+January 1st 2013: Version 1.2.1 released.<br>
+October 18th 2012: Version 1.2 released.<br>
+September 15th 2012: Initial release.<br>
 
 
 [Apache 2.0]:           https://www.apache.org/licenses/LICENSE-2.0.html
