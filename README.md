@@ -82,6 +82,9 @@ NdefMessage lowLevel = highLevel.getNdefMessage();
 # JSE module
 A few NFC classes copied from the Android open source project, so that the NDEF library can be used on regular Java (i.e. Java 8 or 11). 
 
+# Example
+For a working example see [android-nfc-lifecycle-wrapper](https://github.com/skjolber/android-nfc-lifecycle-wrapper).
+
 # See also
 For a graphical NDEF editor, try [NFC Eclipse plugin](https://github.com/skjolber/nfc-eclipse-plugin). It creates __static NDEF content__, and so is good for getting to know the NDEF format. Recommended for developers new to NFC.
 
@@ -93,7 +96,7 @@ August 2020: Version 2.0.0 maintainance release:
   * Maven coordinates updated; group is now `com.github.skjolber.ndef-tools-for-android`
   * Packages renamed to `com.github.skjolber.ndef`
   * Added Gradle build (now dual builds with Maven)
-  * Moved utilities and examples to seperate project
+  * Moved utilities and examples to [seperate project](https://github.com/skjolber/android-nfc-lifecycle-wrapper)
   * Minor improvements
   
 March 28th 2013: Version 1.2.3 released.<br>
