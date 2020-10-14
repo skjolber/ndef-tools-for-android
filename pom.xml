@@ -64,7 +64,7 @@
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 
 		<nfctools.version>1.0.M8</nfctools.version>
-		<junit.version>4.13</junit.version>
+		<junit.version>4.13.1</junit.version>
 		
 		<android.version>4.1.1.4</android.version>
 
