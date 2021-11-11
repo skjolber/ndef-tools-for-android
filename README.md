@@ -31,7 +31,7 @@ api("com.github.skjolber.ndef-tools-for-android:ndeftools:${ndefToolsForAndroidV
 ```
 
 # Usage
-So a [Message](https://github.com/skjolber/ndef-tools-for-android/blob/master/ndeftools/main/src/com/github/skjolber/ndeftools/Message.java) consists of a list of [Records](https://github.com/skjolber/ndef-tools-for-android/blob/master/ndeftools/main/src/com/github/skjolber/ndeftools/Record.java) in the NDEF standard. Browse the [source](https://github.com/skjolber/ndef-tools-for-android/tree/master/ndeftools/main/src/org/ndeftools) for an overview of supported record types.
+So a [Message](https://github.com/skjolber/ndef-tools-for-android/blob/master/ndef/src/main/java/com/github/skjolber/ndef/Message.java) consists of a list of [Records](https://github.com/skjolber/ndef-tools-for-android/blob/master/ndef/src/main/java/com/github/skjolber/ndef/Record.java) in the NDEF standard. Browse the [source](https://github.com/skjolber/ndef-tools-for-android/tree/master/ndef/src/main/java/com/github/skjolber/ndef) for an overview of supported record types.
 
 ## Creating new NDEF records
 Compose an [Android Application Record](http://developer.android.com/guide/topics/connectivity/nfc/nfc.html#aar):
