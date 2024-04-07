@@ -23,6 +23,7 @@ import android.nfc.FormatException;
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -443,7 +444,7 @@ public final class NdefRecord {
         // missing '/' is allowed
 
         // MIME RFCs suggest ASCII encoding for content-type
-        byte[] typeBytes = mimeType.getBytes(Charset.forName("US_ASCII"));
+        byte[] typeBytes = mimeType.getBytes(StandardCharsets.US_ASCII);
         
 		if (android.os.Build.VERSION.SDK_INT >= 16) {
 			return new android.nfc.NdefRecord(TNF_MIME_MEDIA, typeBytes, null, mimeData);

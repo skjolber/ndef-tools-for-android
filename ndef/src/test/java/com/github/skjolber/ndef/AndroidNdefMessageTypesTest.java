@@ -36,10 +36,13 @@ import com.github.skjolber.ndef.wellknown.UriRecord;
 import android.nfc.FormatException;
 import android.nfc.NdefRecord;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 
 public class AndroidNdefMessageTypesTest {
-	
+
+	@Test
 	public void testAndroidApplicationRecord() throws FormatException {
 		String packageName = getClass().getName();
 		
@@ -60,7 +63,8 @@ public class AndroidNdefMessageTypesTest {
 			assertEquals(ndefRecord, ourNdefRecord);
 		}
 	}
-	
+
+	@Test
 	public void testExternalTypeRecord() throws FormatException {
 		String domain = getClass().getSimpleName().toLowerCase();
 		String type = "type";
@@ -85,7 +89,8 @@ public class AndroidNdefMessageTypesTest {
 			assertEquals(ndefRecord, ourNdefRecord);
 		}
 	}
-	
+
+	@Test
 	public void testMimeRecordBinary() throws FormatException {
 		String mimeType = "image/png";
 		byte[] mimeData = new byte[]{0x01, 0x02, 0x03};
@@ -107,7 +112,8 @@ public class AndroidNdefMessageTypesTest {
 			assertEquals(ndefRecord, ourNdefRecord);
 		}
 	}
-	
+
+	@Test
 	public void testMimeRecordText() throws FormatException {
 		String uri = "http://www.github.com";
 		NdefRecord ndefRecord = android.nfc16.NdefRecord.createUri(uri);
