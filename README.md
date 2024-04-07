@@ -99,7 +99,6 @@ August 2020: Version 2.0.0 maintenance release:
   * Added Gradle build (now dual builds with Maven)
   * Moved utilities and examples to [seperate project](https://github.com/skjolber/android-nfc-lifecycle-wrapper)
   * Minor improvements
-~~~~
 March 28th 2013: Version 1.2.3 released.<br>
 February 5th 2013: Version 1.2.2 released.<br>
 January 1st 2013: Version 1.2.1 released.<br>
