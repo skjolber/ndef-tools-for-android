@@ -1,8 +1,2 @@
-apply plugin: 'java-library'
-
-apply from: '../gradle/gradle-mvn-push.gradle'
-
-
 dependencies {
-    testImplementation 'junit:junit:4.13'
 }

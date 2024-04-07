@@ -19,14 +19,13 @@
 
 package com.github.skjolber.ndef;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.Charset;
 import java.util.Locale;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+
 import com.github.skjolber.ndef.externaltype.AndroidApplicationRecord;
 import com.github.skjolber.ndef.wellknown.Action;
 import com.github.skjolber.ndef.wellknown.ActionRecord;
@@ -174,7 +173,7 @@ public class NdefEncodeDecodeRoundtripTest {
 			
 			assertEquals(encoded.length, encodedDecodedEncoded.length);
 			for(int i = 0; i < encoded.length; i++) {
-				assertEquals(Integer.toString(i), encoded[i], encodedDecodedEncoded[i]);
+				assertEquals(encoded[i], encodedDecodedEncoded[i], Integer.toString(i));
 			}
 		}		
 	}

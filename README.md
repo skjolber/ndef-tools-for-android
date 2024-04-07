@@ -3,7 +3,7 @@
 # Overview
 This site hosts a library for [Near Field Communication](http://en.wikipedia.org/wiki/Near_field_communication) on [Android](http://www.android.com/) using the [NDEF](http://developer.android.com/reference/android/nfc/tech/Ndef.html) format.
 
-The current (version <= 10.0) Android SDK only comes with a low-level NDEF API which does not expose developers to the full potential of the NDEF format. Rather than sweating over byte arrays, developers should have access to high-level representations.
+The current (version <= 14.0) Android SDK only comes with a low-level NDEF API which does not expose developers to the full potential of the NDEF format. Rather than sweating over byte arrays, developers should have access to high-level representations.
 
 Features:
   * NDEF object representation library (no more byte arrays!)
@@ -20,7 +20,7 @@ The project is built with [Gradle] and is available on the central Maven reposit
 
 ```groovy
 ext {
-  ndefToolsForAndroidVersion = '2.0.0'
+  ndefToolsForAndroidVersion = '2.0.1'
 }
 ```
 
@@ -92,13 +92,14 @@ For a graphical NDEF editor, try [NFC Eclipse plugin](https://github.com/skjolbe
 This project springs out the [NFC Tools for Java](https://github.com/grundid/nfctools) and [NFC Eclipse plugin](https://github.com/skjolber/nfc-eclipse-plugin) projects.
 
 # History
+April 2024: Version 2.0.1 maintainance release.
 August 2020: Version 2.0.0 maintainance release: 
   * Maven coordinates updated; group is now `com.github.skjolber.ndef-tools-for-android`
   * Packages renamed to `com.github.skjolber.ndef`
   * Added Gradle build (now dual builds with Maven)
   * Moved utilities and examples to [seperate project](https://github.com/skjolber/android-nfc-lifecycle-wrapper)
   * Minor improvements
-  
+~~~~
 March 28th 2013: Version 1.2.3 released.<br>
 February 5th 2013: Version 1.2.2 released.<br>
 January 1st 2013: Version 1.2.1 released.<br>

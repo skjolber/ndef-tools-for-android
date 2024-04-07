@@ -22,7 +22,6 @@ package com.github.skjolber.ndef;
 import java.nio.charset.Charset;
 import java.util.Locale;
 
-import org.junit.Test;
 import com.github.skjolber.ndef.externaltype.AndroidApplicationRecord;
 import com.github.skjolber.ndef.wellknown.Action;
 import com.github.skjolber.ndef.wellknown.ActionRecord;
@@ -45,13 +44,15 @@ import com.github.skjolber.ndef.wellknown.handover.HandoverCarrierRecord;
 import com.github.skjolber.ndef.wellknown.handover.HandoverCarrierRecord.CarrierTypeFormat;
 import com.github.skjolber.ndef.wellknown.handover.HandoverRequestRecord;
 import com.github.skjolber.ndef.wellknown.handover.HandoverSelectRecord;
+
+import org.junit.jupiter.api.Test;
 import org.nfctools.ndef.NdefContext;
 import org.nfctools.ndef.NdefMessageDecoder;
 
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * 

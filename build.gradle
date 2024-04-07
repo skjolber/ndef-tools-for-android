@@ -1,10 +1,158 @@
-allprojects {
-    repositories {
+buildscript {
+    ext.repos = {
+        mavenLocal()
+        mavenCentral()
         google()
-        jcenter()
     }
+
+    repositories repos
+}
+
+plugins {
+    id 'org.owasp.dependencycheck' version '6.5.3' apply false
+    id 'com.github.ben-manes.versions' version '0.42.0' apply false
+    id('io.github.gradle-nexus.publish-plugin') version '1.1.0'
+}
+
+ext {
+    junitJupiterVersion = '5.10.2'
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+def javaLibraryProjects() {
+    subprojects.findAll { new File(it.projectDir, 'build.gradle').file }
+}
+
+allprojects {
+    // skip checking test configurations (like lint) or test libraries for vulnerabilities
+    apply plugin: 'org.owasp.dependencycheck'
+
+    buildscript {
+        repositories repos
+    }
+    repositories repos
+
+    configurations.all {
+        // Check for updates every build
+        // A module with a *-SNAPSHOT version coming from a Maven repository will be considered changing by default.
+        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+        resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
+    }
+
+    dependencyCheck {
+        failOnError = false // let's ignore errors to make builds more stable
+        analyzedTypes = ['jar'] // the default artifact types that will be analyzed.
+        // OWASP Dependency Check plugin for Jenkins needs an XML report, but humans may also need an HTML one
+        format = 'ALL'
+        // Specifies if the build should be failed if a CVSS score equal to or above a specified level is identified.
+        failBuildOnCVSS = 7
+        // specify a list of known issues which contain false-positives
+        suppressionFiles = ["$rootDir/dependencycheck-root-suppression.xml"]
+    }
+}
+
+
+configure(javaLibraryProjects()) {
+    apply plugin: 'java-library'
+
+    apply plugin: 'com.github.ben-manes.versions'
+}
+
+
+configure(javaLibraryProjects()) {
+
+    apply plugin: 'maven-publish'
+    apply plugin: 'signing'
+
+    repositories repos
+
+    java {
+        // Sets Java compatibility to Java 8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+
+        withJavadocJar()
+        withSourcesJar()
+    }
+
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                // Applies the component for the release build variant.
+                from components.java
+
+                groupId 'com.github.skjolber.ndef-tools-for-android'
+                artifactId "$project.ext.artifactId"
+                version "$version"
+
+                pom {
+                    name = "$project.ext.artifactName"
+                    description = "$project.ext.artifactDescription"
+                    url = 'https://github.com/skjolber/ndef-tools-for-android'
+                    organization {
+                        name = 'Thomas Rorvik Skjolberg'
+                        url = 'https://github.com/skjolber'
+                    }
+                    issueManagement {
+                        system = 'GitHub'
+                        url = 'https://github.com/skjolber/ndef-tools-for-android/issues'
+                    }
+                    licenses {
+                        license {
+                            name = 'The Apache Software License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                            distribution = 'repo'
+                        }
+                    }
+                    scm {
+                        url = 'https://github.com/skjolber/ndef-tools-for-android'
+                        connection = 'scm:git@github.com:skjolber/ndef-tools-for-android.git'
+                        developerConnection = 'scm:git@github.com:skjolber/ndef-tools-for-android.git'
+                    }
+                    developers {
+                        developer {
+                            id = 'skjolber'
+                            name = 'Thomas Rørvik Skjølberg'
+                        }
+                    }
+                }
+            }
+        }
+        if(project.hasProperty("signing.gnupg.keyName")) {
+            signing {
+                useGpgCmd()
+
+                // set
+                // signing.gnupg.keyName=xxx
+                // signing.gnupg.passphrase=yyy
+                // via command line or global gradle properties
+                // then run
+                // w17 build publishToSonatype --info --stacktrace
+
+                sign(publishing.publications)
+            }
+        }
+
+    }
+
+    test {
+        useJUnitPlatform {
+            includeEngines 'junit-jupiter', 'junit-vintage'
+        }
+    }
+
+    dependencies {
+        // JUnit Jupiter API and TestEngine implementation
+        testImplementation("org.junit.jupiter:junit-jupiter:${junitJupiterVersion}")
+    }
+}
+
+nexusPublishing {
+    repositories {
+        sonatype()
+    }
 }

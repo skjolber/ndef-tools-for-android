@@ -20,9 +20,9 @@ import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Locale;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.nfctools.ndef.NdefConstants;
 import org.nfctools.ndef.NdefContext;
 import org.nfctools.ndef.NdefMessageEncoder;

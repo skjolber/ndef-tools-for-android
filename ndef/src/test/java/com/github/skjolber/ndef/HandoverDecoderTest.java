@@ -31,7 +31,9 @@ import com.github.skjolber.ndef.wellknown.handover.HandoverSelectRecord;
 
 import android.nfc.NdefMessage;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Test various example handover messages.
@@ -42,8 +44,9 @@ import static org.junit.Assert.*;
 
 public class HandoverDecoderTest {
 
+	@Test
 	public void testBluetoothHandoverRequest12() throws Exception {
-		byte[] messageBytes = getResource("bluetooth_handover_request.bin");
+		byte[] messageBytes = getResource("/bluetooth_handover_request.bin");
 
 		Message message = new Message(new NdefMessage(messageBytes));
 		assertEquals(2, message.size());
@@ -67,8 +70,9 @@ public class HandoverDecoderTest {
 		assertEquals("0", bluetooth.getKey());
 	}
 
+	@Test
 	public void testBluetoothHandoverSelect12() throws Exception {
-		byte[] messageBytes = getResource("bluetooth_handover_select.bin");
+		byte[] messageBytes = getResource("/bluetooth_handover_select.bin");
 
 		Message message = new Message(new NdefMessage(messageBytes));
 		assertEquals(2, message.size());
@@ -92,8 +96,9 @@ public class HandoverDecoderTest {
 		assertEquals("0", bluetooth.getKey());
 	}
 
+	@Test
 	public void testBluetoothHandoverSelectTag12() throws Exception {
-		byte[] messageBytes = getResource("bluetooth_handover_select_tag.bin");
+		byte[] messageBytes = getResource("/bluetooth_handover_select_tag.bin");
 
 		Message message = new Message(new NdefMessage(messageBytes));
 

@@ -21,11 +21,12 @@ package com.github.skjolber.ndef;
 
 import java.io.ByteArrayOutputStream;
 
-import org.junit.Test;
 import com.github.skjolber.ndef.externaltype.AndroidApplicationRecord;
 
 import android.nfc16.NdefMessage;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Test various parse normalizations. 
@@ -90,7 +91,7 @@ public class NormalizeTest {
 			if(i != 0 && i != aBytes.length) {
 				assertEquals(abBytes[i], abBytesNormalized[i]);
 			} else {
-				assertFalse("Header at " + i + " is equal ", abBytes[i] == abBytesNormalized[i]);
+				assertFalse(abBytes[i] == abBytesNormalized[i], "Header at " + i + " is equal ");
 								
 				int header = (abBytesNormalized[i] & 0xff);
 				if(i == 0) {
@@ -123,7 +124,7 @@ public class NormalizeTest {
 			if(i != 0 && i != aBytes.length && i != abBytes.length) {
 				assertEquals(abcBytes[i], abcBytesNormalized[i]);
 			} else {
-				assertFalse("Header at " + i + " is equal ", abcBytes[i] == abcBytesNormalized[i]);
+				assertFalse(abcBytes[i] == abcBytesNormalized[i], "Header at " + i + " is equal ");
 				
 				int header = (abcBytesNormalized[i] & 0xff);
 				if(i == 0) {

@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import android.nfc.NdefMessage;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test various example handover messages.
