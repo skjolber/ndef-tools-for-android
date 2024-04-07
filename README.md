@@ -13,7 +13,7 @@ Features:
 In short, this projects helps you to handle __dynamic NDEF content__ at runtime.
 
 ## License
-[Apache 2.0]
+Apache 2.0
 
 ## Obtain
 The project is built with [Gradle] and is available on the central Maven repository.  For Gradle, configure the property
@@ -92,8 +92,8 @@ For a graphical NDEF editor, try [NFC Eclipse plugin](https://github.com/skjolbe
 This project springs out the [NFC Tools for Java](https://github.com/grundid/nfctools) and [NFC Eclipse plugin](https://github.com/skjolber/nfc-eclipse-plugin) projects.
 
 # History
-April 2024: Version 2.0.1 maintainance release.
-August 2020: Version 2.0.0 maintainance release: 
+April 2024: Version 2.0.1 maintenance release.
+August 2020: Version 2.0.0 maintenance release: 
   * Maven coordinates updated; group is now `com.github.skjolber.ndef-tools-for-android`
   * Packages renamed to `com.github.skjolber.ndef`
   * Added Gradle build (now dual builds with Maven)
