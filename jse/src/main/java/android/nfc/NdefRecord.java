@@ -16,17 +16,19 @@
 
 package android.nfc;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Parcelable;
+
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-import android.content.Intent;
-import android.net.Uri;
+import java.lang.IllegalArgumentException;
 
 /**
  * Represents an immutable NDEF Record.
@@ -84,7 +86,7 @@ import android.net.Uri;
  * @see NfcAdapter#ACTION_NDEF_DISCOVERED
  * @see NdefMessage
  */
-public final class NdefRecord {
+public final class NdefRecord implements Parcelable {
     /**
      * Indicates the record is empty.<p>
      * Type, id and payload fields are empty in a {@literal TNF_EMPTY} record.
@@ -129,7 +131,7 @@ public final class NdefRecord {
      * Indicates the type field contains an external type name.<p>
      * Used to encode custom payloads. When creating new records
      * use the helper {@link #createExternal}.<p>
-     * The external-type RTD format is specified in NFCForum-TS-RTD_1.0
+     * The external-type RTD format is specified in NFCForum-TS-RTD_1.0.<p>
      * <p>
      * Note this TNF should not be used with RTD_TEXT or RTD_URI constants.
      * Those are well known RTD constants, not external RTD constants.
@@ -162,7 +164,6 @@ public final class NdefRecord {
      * <p>
      * The NFC Forum NDEF Specification v1.0 suggests for NDEF parsers to treat this
      * value like TNF_UNKNOWN.
-     * 
      */
     public static final short TNF_RESERVED = 0x07;
 
@@ -218,7 +219,6 @@ public final class NdefRecord {
      * <p>
      * Use {@link #createApplicationRecord(String)} to create
      * RTD_ANDROID_APP records.
-     * 
      */
     public static final byte[] RTD_ANDROID_APP = "android.com:pkg".getBytes();
 
@@ -312,7 +312,7 @@ public final class NdefRecord {
         if (packageName.length() == 0) throw new IllegalArgumentException("packageName is empty");
 
         return new NdefRecord(TNF_EXTERNAL_TYPE, RTD_ANDROID_APP, null,
-                packageName.getBytes(Charset.forName("utf-8")));
+                packageName.getBytes(StandardCharsets.UTF_8));
     }
 
     /**
@@ -351,7 +351,7 @@ public final class NdefRecord {
                 break;
             }
         }
-        byte[] uriBytes = uriString.getBytes(Charset.forName("utf-8"));
+        byte[] uriBytes = uriString.getBytes(StandardCharsets.UTF_8);
         byte[] recordBytes = new byte[uriBytes.length + 1];
         recordBytes[0] = prefix;
         System.arraycopy(uriBytes, 0, recordBytes, 1, uriBytes.length);
@@ -359,44 +359,12 @@ public final class NdefRecord {
     }
 
     /**
-     * Normalize a MIME data type.
-     *
-     * <p>A normalized MIME type has white-space trimmed,
-     * content-type parameters removed, and is lower-case.
-     * This aligns the type with Android best practices for
-     * intent filtering.
-     *
-     * <p>For example, "text/plain; charset=utf-8" becomes "text/plain".
-     * "text/x-vCard" becomes "text/x-vcard".
-     *
-     * <p>All MIME types received from outside Android (such as user input,
-     * or external sources like Bluetooth, NFC, or the Internet) should
-     * be normalized before they are used to create an Intent.
-     *
-     * @param type MIME data type to normalize
-     * @return normalized MIME data type, or null if the input was null
-     */
-    public static String normalizeMimeType(String type) {
-        if (type == null) {
-            return null;
-        }
-
-        type = type.trim().toLowerCase(Locale.US);
-
-        final int semicolonIndex = type.indexOf(';');
-        if (semicolonIndex != -1) {
-            type = type.substring(0, semicolonIndex);
-        }
-        return type;
-    }    
-    
-    /**
      * Create a new NDEF Record containing a URI.<p>
      * Use this method to encode a URI (or URL) into an NDEF Record.<p>
      * Uses the well known URI type representation: {@link #TNF_WELL_KNOWN}
      * and {@link #RTD_URI}. This is the most efficient encoding
      * of a URI into NDEF.<p>
-      * The uriString parameter will be normalized with
+     * The uriString parameter will be normalized with
      * {@link Uri#normalizeScheme} to set the scheme to lower case to
      * follow Android best practices for intent filtering.
      * However the unchecked exception
@@ -455,7 +423,7 @@ public final class NdefRecord {
         // missing '/' is allowed
 
         // MIME RFCs suggest ASCII encoding for content-type
-        byte[] typeBytes = mimeType.getBytes(Charset.forName("US-ASCII"));
+        byte[] typeBytes = mimeType.getBytes(StandardCharsets.US_ASCII);
         return new NdefRecord(TNF_MIME_MEDIA, typeBytes, null, mimeData);
     }
 
@@ -489,14 +457,14 @@ public final class NdefRecord {
         if (domain == null) throw new NullPointerException("domain is null");
         if (type == null) throw new NullPointerException("type is null");
 
-        domain = domain.trim().toLowerCase(Locale.US);
-        type = type.trim().toLowerCase(Locale.US);
+        domain = domain.trim().toLowerCase(Locale.ROOT);
+        type = type.trim().toLowerCase(Locale.ROOT);
 
         if (domain.length() == 0) throw new IllegalArgumentException("domain is empty");
         if (type.length() == 0) throw new IllegalArgumentException("type is empty");
 
-        byte[] byteDomain = domain.getBytes(Charset.forName("utf-8"));
-        byte[] byteType = type.getBytes(Charset.forName("utf-8"));
+        byte[] byteDomain = domain.getBytes(StandardCharsets.UTF_8);
+        byte[] byteType = type.getBytes(StandardCharsets.UTF_8);
         byte[] b = new byte[byteDomain.length + 1 + byteType.length];
         System.arraycopy(byteDomain, 0, b, 0, byteDomain.length);
         b[byteDomain.length] = ':';
@@ -517,7 +485,6 @@ public final class NdefRecord {
      *                     the language code of the current default locale will be used.
      * @param text   The text to be encoded in the record. Will be represented in UTF-8 format.
      * @throws IllegalArgumentException if text is null
-     * @return newly created NDEF record
      */
     public static NdefRecord createTextRecord(String languageCode, String text) {
         if (text == null) throw new NullPointerException("text is null");
@@ -581,8 +548,7 @@ public final class NdefRecord {
      * @param tnf  a 3-bit TNF constant
      * @param type byte array, containing zero to 255 bytes, or null
      * @param id   byte array, containing zero to 255 bytes, or null
-     * @param payload byte array, containing zero to (2 ** 32 - 1) bytes,
-     *                or null
+     * @param payload byte array, containing zero to (2 ** 32 - 1) bytes, or null
      * @throws IllegalArgumentException if a valid record cannot be created
      */
     public NdefRecord(short tnf, byte[] type, byte[] id, byte[] payload) {
@@ -611,8 +577,8 @@ public final class NdefRecord {
      * an entire message.<p>
      * This implementation will attempt to parse a single record by ignoring
      * the MB and ME flags, and otherwise following the rules of
-     * {@link NdefMessage#NdefMessage(byte[])}.<p>
-     *
+     * {@link NdefMessage#NdefMessage(byte[])}.
+     * <p>
      * @param data raw bytes to parse
      * @throws FormatException if the data cannot be parsed into a valid record
      * @deprecated use {@link NdefMessage#NdefMessage(byte[])} instead.
@@ -796,7 +762,7 @@ public final class NdefRecord {
         }
         String prefix = URI_PREFIX_MAP[prefixIndex];
         String suffix = new String(Arrays.copyOfRange(mPayload, 1, mPayload.length),
-                Charset.forName("utf-8"));
+                StandardCharsets.UTF_8);
         return Uri.parse(prefix + suffix);
     }
 
@@ -837,7 +803,7 @@ public final class NdefRecord {
 
                 if (!mb && records.size() == 0 && !inChunk && !ignoreMbMe) {
                     throw new FormatException("expected MB flag");
-                } else if (mb && records.size() != 0 && !ignoreMbMe) {
+                } else if (mb && (records.size() != 0 || inChunk) && !ignoreMbMe) {
                     throw new FormatException("unexpected MB flag");
                 } else if (inChunk && il) {
                     throw new FormatException("unexpected IL flag in non-leading chunk");
@@ -847,7 +813,7 @@ public final class NdefRecord {
                     throw new FormatException("expected TNF_UNCHANGED in non-leading chunk");
                 } else if (!inChunk && tnf == NdefRecord.TNF_UNCHANGED) {
                     throw new FormatException("" +
-                    		"unexpected TNF_UNCHANGED in first chunk or unchunked record");
+                            "unexpected TNF_UNCHANGED in first chunk or unchunked record");
                 }
 
                 int typeLength = buffer.get() & 0xFF;
@@ -871,6 +837,9 @@ public final class NdefRecord {
 
                 if (cf && !inChunk) {
                     // first chunk
+                    if (typeLength == 0 && tnf != NdefRecord.TNF_UNKNOWN) {
+                        throw new FormatException("expected non-zero type length in first chunk");
+                    }
                     chunks.clear();
                     chunkTnf = tnf;
                 }
@@ -967,7 +936,7 @@ public final class NdefRecord {
      */
     void writeToByteBuffer(ByteBuffer buffer, boolean mb, boolean me) {
         boolean sr = mPayload.length < 256;
-        boolean il = mId.length > 0;
+        boolean il = mTnf == TNF_EMPTY ? true : mId.length > 0;
 
         byte flags = (byte)((mb ? FLAG_MB : 0) | (me ? FLAG_ME : 0) |
                 (sr ? FLAG_SR : 0) | (il ? FLAG_IL : 0) | mTnf);
@@ -995,7 +964,7 @@ public final class NdefRecord {
         int length = 3 + mType.length + mId.length + mPayload.length;
 
         boolean sr = mPayload.length < 256;
-        boolean il = mId.length > 0;
+        boolean il = mTnf == TNF_EMPTY ? true : mId.length > 0;
 
         if (!sr) length += 3;
         if (il) length += 1;

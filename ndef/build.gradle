@@ -11,5 +11,5 @@ dependencies {
     testImplementation('org.nfctools:nfctools-api:1.0.M8')
     testImplementation('org.nfctools:nfctools-ndef:1.0.M8')
 
-    testImplementation 'junit:junit:4.13'
+    testImplementation "junit:junit:${junitVersion}"
 }

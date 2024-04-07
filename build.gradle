@@ -5,6 +5,10 @@ allprojects {
     }
 }
 
+ext {
+    junitVersion = '4.13'
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
