@@ -85,7 +85,7 @@ configure(javaLibraryProjects()) {
                 // Applies the component for the release build variant.
                 from components.java
 
-                groupId 'com.github.skjolber.ndef-tools-for-android'
+                groupId "$group"
                 artifactId "$project.ext.artifactId"
                 version "$version"
 
