@@ -1,4 +1,5 @@
-
+![Build Status](https://github.com/skjolber/ndef-tools-for-android/actions/workflows/android.yml/badge.svg) 
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.skjolber.ndef-tools-for-android/ndeftools.svg)](https://mvnrepository.com/artifact/com.github.skjolber.ndef-tools-for-android/ndeftools)
 
 # Overview
 This site hosts a library for [Near Field Communication](http://en.wikipedia.org/wiki/Near_field_communication) on [Android](http://www.android.com/) using the [NDEF](http://developer.android.com/reference/android/nfc/tech/Ndef.html) format.
